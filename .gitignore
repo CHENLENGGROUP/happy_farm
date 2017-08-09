@@ -1,7 +1,22 @@
 
 *.xml
+<<<<<<< HEAD
+.idea/modules.xml
+*.xml
+*.xml
+*.xml
+templates/.DS_Store
+.idea/workspace.xml
+templates/.DS_Store
+templates/productlist.html
+templates/.DS_Store
+=======
 *.xml
 *.xml
 .idea/workspace.xml
 *.xml
+<<<<<<< HEAD
 *.xml
+=======
+>>>>>>> 85b12e9f58691da64d3e3136c0ecaf522b9e9299
+>>>>>>> 9f9fb6a0076547b401d1b4a163c97ab8abb8dd7c
