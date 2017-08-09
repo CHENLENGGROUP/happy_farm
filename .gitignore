@@ -1,5 +1,6 @@
 
 *.xml
+<<<<<<< HEAD
 .idea/modules.xml
 *.xml
 *.xml
@@ -9,3 +10,9 @@ templates/.DS_Store
 templates/.DS_Store
 templates/productlist.html
 templates/.DS_Store
+=======
+*.xml
+*.xml
+.idea/workspace.xml
+*.xml
+>>>>>>> 85b12e9f58691da64d3e3136c0ecaf522b9e9299
