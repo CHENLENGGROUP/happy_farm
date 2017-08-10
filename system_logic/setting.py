@@ -3,7 +3,7 @@
 #---------------mysql---------------
 host = '127.0.0.1'
 user = 'root'
-passwd = '520yyd'
+passwd = ''
 db = 'happyfarm'
 
 #---------------rule for calculating bouns---------------
@@ -50,7 +50,10 @@ profile_pic_store_address = '../../../static/img/profile_pic/'
 webpage_title = {
     '主页':'幸福农场后端管理-首页',
     '添加商品':'幸福农场后端管理-添加商品',
-    '消息列表':'幸福农场后端管理-查看信息'
+    '消息列表':'幸福农场后端管理-查看信息',
+    '用户列表':'幸福农场后端管理-查看用户',
+    '商品列表':'幸福农场后端管理-商品列表',
+
 }
 
 #---------------管理页面关系---------------
@@ -58,5 +61,7 @@ webpage_relationship = {
     '主页':{'parent':'','grandparent':''},
     '添加商品':{'parent':'商品管理','grandparent':'主页'},
     '消息列表':{'parent':'消息管理','grandparent':'主页'},
+    '用户列表':{'parent':'用户管理','grandparent':'主页'},
+    '商品列表':{'parent':'商品管理','grandparent':'主页'},
 }
 
