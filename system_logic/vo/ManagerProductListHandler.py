@@ -43,6 +43,11 @@ class BrowseProductListHandler(BaseHandler):
         except:
             sort_by = 0
 
+        try:
+            search_content = self.get_argument('search_content')
+        except:
+            search_content = ""
+
         product_list = []
 
         count = 48
@@ -82,23 +87,24 @@ class BrowseProductListHandler(BaseHandler):
                 ]
         else:
             if page_number == 1:
-                product_list = [
-                    {'product_name': 'p_name', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
-                    {'product_name': 'p_name1', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
-                    {'product_name': 'p_name5', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
-                    {'product_name': 'p_name7', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
-                    {'product_name': 'p_name2', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
-                    {'product_name': 'p_name3', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
-                    {'product_name': 'p_name4', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
-                    {'product_name': 'p_name6', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
-                     'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
-                ]
-                category_id = 0
-        self.render('productlist.html', head_info=head_info,product_list=product_list,category_list=category_list,category_id=category_id,count=count,page_number=page_number,sort_by=sort_by)
+                if search_content == "aaaa":
+                    product_list = [
+                        {'product_name': 'p_name', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
+                        {'product_name': 'p_name1', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
+                        {'product_name': 'p_name5', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
+                        {'product_name': 'p_name7', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '1'},
+                        {'product_name': 'p_name2', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
+                        {'product_name': 'p_name3', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
+                        {'product_name': 'p_name4', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
+                        {'product_name': 'p_name6', 'product_sn': '987654321', 'brief': 'yy', 'description': 'yyd',
+                         'thumb_img_url': '../static/dist/img/chair.jpg', 'shop_price': '20', 'category_id': '2'},
+                    ]
+                    category_id = 0
+        self.render('productlist.html', head_info=head_info,product_list=product_list,category_list=category_list,category_id=category_id,count=count,page_number=page_number,sort_by=sort_by,search_content=search_content)

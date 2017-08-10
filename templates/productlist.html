@@ -104,6 +104,7 @@
 			$(document).ready(function(){
 				$('#category_select').val({{category_id}});
 				$('#sortBy').val({{sort_by}});
+				$('#search_box').val("{{search_content}}")
 				var page_number = "#page_number"+"{{page_number}}";
 				$(page_number).addClass("active");
 				var pagination = $('.pagination_button');
@@ -112,6 +113,7 @@
 						alert(1)
 						var sortBy = $('#sortBy').val();
 						var category = $('#category_select').val();
+						var search_box = $('#search_box').val();
 						var page_number = this.name;
 						if(category != 0){
 							if(sortBy != 0){
@@ -121,6 +123,9 @@
 							}
 						}else{
 							window.location.href = href+"?page_number="+page_number;
+						}
+						if(search_box != ""){
+							window.location.href = href+"?search_content="+search_box+"&page_number="+ page_number
 						}
 					}
 				});
