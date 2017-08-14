@@ -1,0 +1,143 @@
+{% extends 'main.html' %}
+
+{% block additional_css %}
+<!-- jquery-steps css -->
+	<link rel="stylesheet" href="../static/vendors/bower_components/jquery.steps/demo/css/jquery.steps.css">
+
+	<!-- bootstrap-touchspin CSS -->
+	<link href="../static/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
+{% end %}
+
+{% block additional_css_after_style %}
+<style>
+input:disabled,textarea:disabled{
+    border: 1px solid #fff;
+    background-color: #fff;
+}
+#brief{
+    width: 600px;
+    height: 210px;
+}
+#editBtn{
+    float:right;
+}
+#description{
+    width: 1070px;
+    height: 165px;
+}
+
+</style>
+{% end %}
+
+{% block main_part %}
+<!-- Row -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="item-big">
+                                <img class="img-responsive" id="item-display" src="../static/dist/img/mock1.jpg" alt="product"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="product-detail-wrap">
+                                <div class="product-rating inline-block mb-10">
+                                    <a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a>
+                                </div>
+                                <div class="average-review inline-block mb-10">&nbsp;( 剩余库存： <span class="review-count">{{product_list[0]['stock']}}</span>)</div>
+                                <h3 class="mb-20"><input value ="{{product_list[0]['product_name']}}" disabled id="productName"></h3>
+                                <div class="product-price head-font mb-30" >￥ <input value="{{product_list[0]['shop_price']}}" disabled id="price"></div>
+                                <p class="mb-50"><textarea id="brief" disabled>{{product_list[0]['brief']}}</textarea></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Row -->
+
+<!-- Row -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div id="example-tabs" class="product-detail-description">
+                        <h3>商品描述</h3>
+                        <section>
+                            <p><textarea id="description" disabled>{{product_list[0]['description']}}</textarea></p>
+                        </section>
+                        <h3>Aditional information</h3>
+                        <section>
+                                <div class="table-wrap">
+                                    <div class="table-responsive">
+                                      <table class="table  mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>SIZE</td>
+                                                <td>31, 32, 33, 34, 35</td>
+                                            </tr>
+                                            <tr>
+                                                <td>COLOR</td>
+                                                <td>blue, red, rosa, white</td>
+                                            </tr>
+                                            <tr>
+                                                <td>TAGS</td>
+                                                <td>Diesel, shoe, stars</td>
+                                            </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                </div>
+                            </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-group mr-50 mb-50" id="editBtn">
+            <button class="btn btn-success btn-anim" id="edit"><i class="icon-pencil"></i><span class="btn-text" id="btnText">编辑</span></button>
+        </div>
+    </div>
+</div>
+<!-- /Row -->
+
+
+{% end %}
+
+{% block additional_script %}
+    <!-- Form Wizard JavaScript -->
+	<script src="../static/vendors/bower_components/jquery.steps/build/jquery.steps.min.js"></script>
+    <!-- Bootstrap Touchspin JavaScript -->
+	<script src="../static/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Product Detail Data JavaScript -->
+	<script src="../static/dist/js/product-detail-data.js"></script>
+    <!-- Starrr JavaScript -->
+	<script src="../static/dist/js/starrr.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#edit').click(function(){
+                if($('#btnText').html() == "保存"){
+                    $('#productName').attr("disabled",true);
+                    $('#price').attr("disabled",true);
+                    $('#brief').attr("disabled",true);
+                    $('#description').attr("disabled",true);
+                    $('#btnText').html('编辑');
+                }else{
+                    $('#productName').attr("disabled",false);
+                    $('#price').attr("disabled",false);
+                    $('#brief').attr("disabled",false);
+                    $('#description').attr("disabled",false);
+                    $('#btnText').html('保存');
+                }
+            });
+        });
+    </script>
+{% end %}

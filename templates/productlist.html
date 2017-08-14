@@ -64,7 +64,7 @@
 									<article class="col-item">
 										<div class="photo">
 											<div class="options">
-												<button class="btn btn-default btn-icon-anim btn-circle mr-5" id="edit"><i class="icon-pencil"></i></button>
+												<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['product_id']}}"><i class="icon-pencil"></i></button>
 
 												<button class="btn btn-info btn-icon-anim btn-circle" type="submit"><i class="icon-trash"></i></button>
 											</div>
@@ -110,7 +110,6 @@
 				var pagination = $('.pagination_button');
 				$.each(pagination, function() {
 					this.onclick=function(){
-						alert(1)
 						var sortBy = $('#sortBy').val();
 						var category = $('#category_select').val();
 						var search_box = $('#search_box').val();
@@ -127,6 +126,12 @@
 						if(search_box != ""){
 							window.location.href = href+"?search_content="+search_box+"&page_number="+ page_number
 						}
+					}
+				});
+				var edit = $('.edit');
+				$.each(edit, function() {
+					this.onclick = function(){
+						window.location.href = "/managerbrowseproductdetail?product_id="+this.name;
 					}
 				});
 			});
@@ -158,8 +163,6 @@
 					window.location.href = href+"?search_content="+search_box;
 				}
 			});
-			$('#edit').click(function(){
-				window.location.href = "";
-			});
+
 		</script>
 {% end %}
