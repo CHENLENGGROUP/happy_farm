@@ -101,18 +101,28 @@
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">{{ '商品第'+ str(i+1) + '分类' }}</label>
                                                     <select class="selectpicker cate_select" data-style="form-control" data-hide-disabled="true" id="{{'cate_select_'+str(i+1)}}">
+                                                        {% set _count = 0 %}
                                                         {% for category_item in category_list[i] %}
                                                             {% if i != 0 %}
-                                                                {% if category_item['parent_category_id'] == category_list[i-1][0]['category_id'] %}
-                                                                <option c_id="{{category_item['category_id']}}" p_id="{{category_item['parent_category_id']}}">
+                                                                {% if category_item['parent_category_id'] == p_id_1 %}
+                                                                    <option c_id="{{category_item['category_id']}}" p_id="{{category_item['parent_category_id']}}">
+                                                                    {% if _count== 0 %}
+                                                                        {% set p_id_temp = category_item['category_id'] %}
+                                                                        {% set _count= 1 %}
+                                                                    {% end %}
                                                                 {% else %}
-                                                                <option disabled c_id="{{category_item['category_id']}}" p_id="{{category_item['parent_category_id']}}">
+                                                                    <option disabled c_id="{{category_item['category_id']}}" p_id="{{category_item['parent_category_id']}}">
                                                                 {% end %}
                                                             {% else %}
-                                                            <option c_id="{{category_item['category_id']}}" p_id="{{category_item['parent_category_id']}}">
-                                                        {% end %}
+                                                                {% if _count== 0 %}
+                                                                    {% set p_id_temp = category_item['category_id'] %}
+                                                                    {% set _count= 1 %}
+                                                                {% end %}
+                                                                <option c_id="{{category_item['category_id']}}" p_id="{{category_item['parent_category_id']}}">
+                                                            {% end %}
                                                         {{category_item['category_content']}}</option>
                                                         {% end %}
+                                                        {% set p_id_1 = p_id_temp %}
                                                     </select>
                                                 </div>
                                             </div>
@@ -124,7 +134,18 @@
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">商品标签</label>
                                                     <div class="panel-wrapper collapse in">
-                                                        <input type="text" value="纯天然,绿色" data-role="tagsinput" placeholder="添加标签(使用回车分隔)"/>
+                                                        <input type="text" value="纯天然,绿色" data-role="tagsinput" placeholder="添加标签(确认按回车键)"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--product attributes-->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">商品属性</label>
+                                                    <div class="panel-wrapper collapse in">
+                                                        <input style="min-width: 220px" type="text" value="" data-role="tagsinput" placeholder="分隔使用冒号"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,7 +202,7 @@
                                         </div>
                                         </div>
                                         <!--Subscription Product-->
-                                        <div id="sub_product_add_info">
+                                        <div id="sub_product_add_info" style="display: none;">
                                             <div class="row">
                                                 <div class="col-md-4 ">
                                                     <div class="form-group">
@@ -290,70 +311,5 @@
 <script src="../static/vendors/bower_components/dropzone/dist/dropzone.js"></script>
 <script src="../static/vendors/bower_components/dropify/dist/js/dropify.js"></script>
 <script src="../static/dist/js/form-file-upload-data.js"></script>
-<script>
-$('.input-limit-datepicker').daterangepicker({
-		locale:{
-			format: 'YYYY-MM-DD',
-		},
-		minDate: '06/01/2015',
-		buttonClasses: ['btn', 'btn-sm'],
-		applyClass: 'btn-info',
-		cancelClass: 'btn-default',
-		dateLimit: {
-			days: 6
-		}
-	});
-</script>
-<script>
-$(document).ready(function(){
-    $(".cate_select").change(function(){
-        var select_ob = $(this);
-
-        while (true){
-            var c_id = select_ob.find("option:selected").attr("c_id");
-            var cate_id = select_ob.attr("id");
-            var str_list = cate_id.split('_');
-            var next_cate_id = str_list[0]+"_"+str_list[1]+"_"+(parseInt(str_list[2])+1).toString();
-            var op_list = $("#"+next_cate_id +" option");
-            if (op_list.length>0){
-                var count = 0;
-                op_list.each(function(){
-                    var p_id = $(this).attr("p_id");
-                    console.log($(this));
-                    if(p_id!==c_id){
-                        $(this).attr("disabled","disabled");
-                    }
-                    else{
-                        $(this).removeAttr("disabled");
-                        if(count === 0){
-                            $(this).attr("selected", true);
-                        }
-                        console.log(count);
-                        count++;
-                    }
-                });
-                $('.cate_select').selectpicker('refresh');
-            }
-            else{
-                break;
-            }
-            select_ob = $("#"+next_cate_id);
-        }
-    });
-})
-</script>
-<script>
-$(document).ready(function(){
-    $("#product_type_select").change(function(){
-        var product_type = $(this).find("option:selected").attr("product_type");
-        product_type = parseInt(product_type);
-        if(product_type==="1"){
-
-        }
-        else{
-
-        }
-    })
-})
-</script>
+<script src="../static/addtionalJS/addproduct_addjs.js"></script>
 {% end %}
