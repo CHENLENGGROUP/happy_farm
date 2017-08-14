@@ -21,3 +21,5 @@ templates/.DS_Store
 >>>>>>> 85b12e9f58691da64d3e3136c0ecaf522b9e9299
 >>>>>>> 9f9fb6a0076547b401d1b4a163c97ab8abb8dd7c
 *.pyc
+*.iml
+*.xml
