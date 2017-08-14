@@ -5,6 +5,7 @@
 <link href="../static/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
 <link href="../static/vendors/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
 <link href="../static/vendors/bower_components/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css"/>
+<link href="../static/vendors/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 {% end %}
 
 {% block additional_css_after_style %}
@@ -173,7 +174,7 @@
                                                 <div class="col-md-6 ">
                                                     <div class="form-group">
                                                         <label class="control-label mb-10">市场价格</label>
-                                                        <input name="market_price" type="text" class="form-control" placeholder="请输入商品市场价，可以为空...">
+                                                        <input name="market_price" type="text" class="form-control" placeholder="请输入商品市场价，可以为空..." required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 ">
@@ -311,6 +312,7 @@
 <script src="../static/vendors/bower_components/dropzone/dist/dropzone.js"></script>
 <script src="../static/vendors/bower_components/dropify/dist/js/dropify.js"></script>
 <script src="../static/dist/js/form-file-upload-data.js"></script>
+<script src="../static/vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 <script src="../static/addtionalJS/addproduct_addjs.js"></script>
 
 <!--Submit product infomation action-->

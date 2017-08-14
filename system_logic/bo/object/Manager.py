@@ -149,40 +149,36 @@ class Manager:
     def delete_manager(self, condition):
         pass
 
-    def add_product(self, apply_info):
+    def add_product(self, product_info, manager_id):
         '''
         此方法用以允许管理员添加商品
-        :param apply_info:                                  请求信息
-            :param session_info                             session信息
-                :param session_id                           session号
-                :param verify_code                          验证码
-            :param product_info                             商品信息
-                :param basic_info                           基本信息
-                    :param product_name                     商品名字
-                    :param brief                            简介
-                    :param description                      描述
-                    :param product_type                     商品类型 0普通商品，1认领模式的商品
-                    :param is_hot                           是否是热门商品,
-                    :param stock                            库存量（认领模式的商品，默认为1而且不能修改）
-                    :param attribute                        属性
-                :param sub_info                             补充信息(普通商品)
-                    :param  market_price                    市场价
-                    :param shop_price                       电商价
-                    :param promote_price                    折扣价
-                    :param promote_start_date               折扣开始时间
-                    :param promote_end_date                 折扣结束时间
-                :param sub_info                             补充信息（认领商品）
-                    :param first_pay                        首次所需付款
-                    :param each_month_pay                   每月所需付款
-                    :param need_to_pay_month                需付多少个月
-                :param product_category_info                商品类别信息
-                    :param category_id                      类别id
-                :param product_gallery_info                 商品图片信息
-                    :param img_url                          图片地址
-                    :param is_main                          是否是主图
-                :param product_property_info                商品特性信息
-                    :param property_name                    特性名字
-                    :param property_content                 特性内容
+        :param product_info                             商品信息
+            :param basic_info                           基本信息
+                :param product_name                     商品名字
+                :param brief                            简介
+                :param description                      描述
+                :param product_type                     商品类型 0普通商品，1认领模式的商品
+                :param is_hot                           是否是热门商品,
+                :param stock                            库存量（认领模式的商品，默认为1而且不能修改）
+                :param attribute                        属性
+            :param sub_info                             补充信息(普通商品)
+                :param  market_price                    市场价
+                :param shop_price                       电商价
+                :param promote_price                    折扣价
+                :param promote_start_date               折扣开始时间
+                :param promote_end_date                 折扣结束时间
+            :param sub_info                             补充信息（认领商品）
+                :param first_pay                        首次所需付款
+                :param each_month_pay                   每月所需付款
+                :param need_to_pay_month                需付多少个月
+            :param product_category_info                商品类别信息
+                :param category_id                      类别id
+            :param product_gallery_info                 商品图片信息
+                :param img_url                          图片地址
+                :param is_main                          是否是主图
+            :param product_property_info                商品特性信息
+                :param property_name                    特性名字
+                :param property_content                 特性内容
         ps:根据商品类型选择对应的sub_info所需要的参数
         数据结构(此次以普通商品为例)
         apply_info = {
@@ -201,60 +197,46 @@ class Manager:
         -2                                                   session失效
         1                                                    成功
         '''
-        # session_info, product_basic_info, product_sub_info, product_category_info, \
-        # product_act_log_info, product_gallery_info, product_property_info \
-        #     = self.mp.handle_product_info(apply_info)
-        #
-        # #验证session是否有效
-        # vs = VerifySession()
-        # verify_result = vs.verify_session_manager(session_info)
-        #
-        # #如果失效，返回-2
-        # if not verify_result:
-        #     return -2
-        #
-        # #存入商品基本信息
-        # product_id = Product().insert_product(product_basic_info)
-        # if product_id == -1:
-        #     return product_id
-        #
-        # product_sub_info['product_id'] = product_id
-        # product_act_log_info['product_id'] = product_id
-        # product_category_info = self.mp.handle_product_category_info(product_id, product_category_info)
-        # product_gallery_info = self.mp.handle_product_gallery_info(product_id, product_category_info)
-        # product_property_info = self.mp.handle_product_property_info(product_id, product_property_info)
-        #
-        # if product_basic_info['product_type'] == 0:
-        #     sub_table = 'hf_product_normal'
-        # else:
-        #     sub_table = 'hf_prodcut_subscription'
-        #
-        # #存入商品补充信息
-        # de = DataBaseEngine(sub_table)
-        # operate_type = 'insert'
-        # de.operate_database(operate_type=operate_type, operate_item=product_sub_info)
-        #
-        # #存入商品类别信息
-        # de = DataBaseEngine('hf_product_category')
-        # operate_type = 'insertMany'
-        # de.operate_database(operate_type=operate_type, operate_item=product_category_info)
-        #
-        # #存入商品图片信息
-        # de = DataBaseEngine('hf_product_category')
-        # operate_type = 'insertMany'
-        # de.operate_database(operate_type=operate_type, operate_item=product_gallery_info)
-        #
-        # #存入商品特性信息
-        # de = DataBaseEngine('hf_product_property')
-        # operate_type = 'insertMany'
-        # de.operate_database(operate_type=operate_type, operate_item=product_property_info)
-        #
-        # #存入商品操作信息
-        # de = DataBaseEngine('hf_product_act_log')
-        # operate_type = 'insert'
-        # de.operate_database(operate_type=operate_type, operate_item=product_act_log_info)
-        #
-        # return 1
+        product_basic_info, product_sub_info, product_category_info, \
+        product_act_log_info, product_property_info \
+            = self.mp.handle_product_info(product_info, manager_id)
+
+        #存入商品基本信息
+        product_id = Product().insert_product(product_basic_info)
+        if product_id == -1:
+            return product_id
+
+        product_sub_info['product_id'] = product_id
+        product_act_log_info['product_id'] = product_id
+        product_category_info = self.mp.handle_product_category_info(product_id, product_category_info)
+        product_property_info = self.mp.handle_product_property_info(product_id, product_property_info)
+
+        if product_basic_info['product_type'] == 0:
+            sub_table = 'hf_product_normal'
+        else:
+            sub_table = 'hf_prodcut_subscription'
+
+        #存入商品补充信息
+        de = DataBaseEngine(sub_table)
+        operate_type = 'insert'
+        de.operate_database(operate_type=operate_type, operate_item=product_sub_info)
+
+        #存入商品类别信息
+        de = DataBaseEngine('hf_product_category')
+        operate_type = 'insertMany'
+        de.operate_database(operate_type=operate_type, operate_item=product_category_info)
+
+        #存入商品特性信息
+        de = DataBaseEngine('hf_product_property')
+        operate_type = 'insertMany'
+        de.operate_database(operate_type=operate_type, operate_item=product_property_info)
+
+        #存入商品操作信息
+        de = DataBaseEngine('hf_product_act_log')
+        operate_type = 'insert'
+        de.operate_database(operate_type=operate_type, operate_item=product_act_log_info)
+
+        return 1
 
     def modify_product(self, apply_info):
         pass
