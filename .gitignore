@@ -21,9 +21,17 @@ templates/.DS_Store
 >>>>>>> 85b12e9f58691da64d3e3136c0ecaf522b9e9299
 >>>>>>> 9f9fb6a0076547b401d1b4a163c97ab8abb8dd7c
 *.pyc
+<<<<<<< HEAD
+system_logic/setting.pyc
+=======
 *.iml
 *.xml
 *.xml
 *.xml
 *.xml
+<<<<<<< HEAD
+*.xml
+=======
+>>>>>>> 9e3dbf4b088f4c29a10ac34422cce5e119126774
+>>>>>>> 13d8e2910f9bf8210628b0fb57a81f786deb83b6
 *.xml

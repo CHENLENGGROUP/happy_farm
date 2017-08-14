@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38b991f5-8003-48a1-afa5-204a041e930c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system_logic/main.py" afterPath="$PROJECT_DIR$/system_logic/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system_logic/setting.py" afterPath="$PROJECT_DIR$/system_logic/setting.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system_logic/vo/ManagerProductListHandler.py" afterPath="$PROJECT_DIR$/system_logic/vo/ManagerProductListHandler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/productlist.html" afterPath="$PROJECT_DIR$/templates/productlist.html" />
-    </list>
+    <list default="true" id="38b991f5-8003-48a1-afa5-204a041e930c" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
