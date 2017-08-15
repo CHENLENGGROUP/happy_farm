@@ -363,4 +363,14 @@ class Manager:
         :param supstring:
         :return:
         '''
-        result = "lengzhiyuan"
+        msg_start = (page_number-1)*10
+        sup_str = " LIMIT %d, 10 "%(msg_start)
+        supstring = sup_str + supstring
+
+        if condition.has_key('message_type_id'):
+            msg_type_id = condition['message_type_id']
+        else:
+            msg_type_id = 0
+
+
+

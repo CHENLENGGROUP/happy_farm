@@ -48,8 +48,22 @@ class BrowseManagerMessageHanlder(BaseHandler):
 
         box_li_id = 'box_li_'+str(box_type)
         manager_info = {'real_name':real_name, 'img_url':head_info['profile_img']}
+        supstring = 'ORDER BY is_read ASC, send_time DESC'
 
-        message_list = []
+        message_list = Manager().browse_message(condition,supstring,page_number)
+
+        message_list = [
+            {'msg_content':'测试一下','send_time':'2017-08-05','is_read':0,'message_id':8,'sender_name':'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+            {'msg_content': '测试一下', 'send_time': '2017-08-05', 'is_read': 0, 'message_id': 8, 'sender_name': 'Alice'},
+        ]
 
         self.render('message.html', head_info=head_info, message_list=message_list,
                     box_li_id=box_li_id,manager_info=manager_info, title_name=title_name)
