@@ -25,6 +25,10 @@ input:disabled,textarea:disabled{
     width: 1070px;
     height: 165px;
 }
+#stock{
+    width: 50px;
+    text-align: center;
+}
 
 </style>
 {% end %}
@@ -48,10 +52,10 @@ input:disabled,textarea:disabled{
                                 <div class="product-rating inline-block mb-10">
                                     <a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a><a href="javascript:void(0);" class="fa fa-star"></a>
                                 </div>
-                                <div class="average-review inline-block mb-10">&nbsp;( 剩余库存： <span class="review-count">{{product_list[0]['stock']}}</span>)</div>
-                                <h3 class="mb-20"><input value ="{{product_list[0]['product_name']}}" disabled id="productName"></h3>
-                                <div class="product-price head-font mb-30" >￥ <input value="{{product_list[0]['shop_price']}}" disabled id="price"></div>
-                                <p class="mb-50"><textarea id="brief" disabled>{{product_list[0]['brief']}}</textarea></p>
+                                <div class="average-review inline-block mb-10">&nbsp;( 剩余库存： <span class="review-count"><input id="stock" value="{{product_list[0]['stock']}}" disabled class="date-toggle-hide" data-placement="right" title="输入要修改的内容,点击保存修改"></span>)</div>
+                                <h3 class="mb-20"><input class="date-toggle-hide" value ="{{product_list[0]['product_name']}}" disabled id="productName" data-placement="right" title="输入要修改的内容,点击保存修改"></h3>
+                                <div class="product-price head-font mb-30" >￥ <input class="date-toggle-hide" value="{{product_list[0]['shop_price']}}" disabled id="price" data-placement="right" title="输入要修改的内容,点击保存修改"></div>
+                                <p class="mb-50"><textarea id="brief" disabled class="date-toggle-hide" data-placement="top" title="输入要修改的内容,点击保存修改">{{product_list[0]['brief']}}</textarea></p>
                             </div>
                         </div>
                     </div>
@@ -71,26 +75,20 @@ input:disabled,textarea:disabled{
                     <div id="example-tabs" class="product-detail-description">
                         <h3>商品描述</h3>
                         <section>
-                            <p><textarea id="description" disabled>{{product_list[0]['description']}}</textarea></p>
+                            <p><textarea id="description" disabled class="mt-20 date-toggle-hide" data-placement="top" title="输入要修改的内容,点击保存修改">{{product_list[0]['description']}}</textarea></p>
                         </section>
-                        <h3>Aditional information</h3>
+                        <h3>商品信息</h3>
                         <section>
                                 <div class="table-wrap">
                                     <div class="table-responsive">
                                       <table class="table  mb-0">
                                         <tbody>
+                                            {% for item in property_list %}
                                             <tr>
-                                                <td>SIZE</td>
-                                                <td>31, 32, 33, 34, 35</td>
+                                                <td>{{item['property_name']}}</td>
+                                                <td>{{item['property_content']}}</td>
                                             </tr>
-                                            <tr>
-                                                <td>COLOR</td>
-                                                <td>blue, red, rosa, white</td>
-                                            </tr>
-                                            <tr>
-                                                <td>TAGS</td>
-                                                <td>Diesel, shoe, stars</td>
-                                            </tr>
+                                            {% end %}
                                         </tbody>
                                       </table>
                                     </div>
@@ -123,19 +121,24 @@ input:disabled,textarea:disabled{
 	<script src="../static/dist/js/starrr.js"></script>
     <script>
         $(document).ready(function(){
+            $(function () { $('.date-toggle-hide').tooltip('hide');});
             $('#edit').click(function(){
                 if($('#btnText').html() == "保存"){
                     $('#productName').attr("disabled",true);
                     $('#price').attr("disabled",true);
                     $('#brief').attr("disabled",true);
                     $('#description').attr("disabled",true);
+                    $('#stock').attr("disabled",true);
                     $('#btnText').html('编辑');
+                    $(function () { $('.date-toggle-hide').tooltip('destroy');});
                 }else{
-                    $('#productName').attr("disabled",false);
+                    $('#productName').attr({"disabled":false,"data-toggle":"tooltip","data-placement":"right","title":"输入要修改的内容,点击保存修改"});
                     $('#price').attr("disabled",false);
                     $('#brief').attr("disabled",false);
                     $('#description').attr("disabled",false);
+                    $('#stock').attr("disabled",false);
                     $('#btnText').html('保存');
+                    $(function () { $('.date-toggle-hide').tooltip();});
                 }
             });
         });

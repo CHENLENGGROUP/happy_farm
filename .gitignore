@@ -30,3 +30,5 @@ system_logic/setting.pyc
 *.xml
 *.xml
 >>>>>>> 9e3dbf4b088f4c29a10ac34422cce5e119126774
+system_logic/vo/BaseHandler.pyc
+system_logic/vo/BaseHandler.pyc
