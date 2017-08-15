@@ -211,10 +211,10 @@ class Manager:
         product_category_info = self.mp.handle_product_category_info(product_id, product_category_info)
         product_property_info = self.mp.handle_product_property_info(product_id, product_property_info)
 
-        if product_basic_info['product_type'] == 0:
+        if product_basic_info['product_type'] != 1:
             sub_table = 'hf_product_normal'
         else:
-            sub_table = 'hf_prodcut_subscription'
+            sub_table = 'hf_product_subscription'
 
         #存入商品补充信息
         de = DataBaseEngine(sub_table)
@@ -229,7 +229,8 @@ class Manager:
         #存入商品特性信息
         de = DataBaseEngine('hf_product_property')
         operate_type = 'insertMany'
-        de.operate_database(operate_type=operate_type, operate_item=product_property_info)
+        if len(product_property_info)!=0:
+            de.operate_database(operate_type=operate_type, operate_item=product_property_info)
 
         #存入商品操作信息
         de = DataBaseEngine('hf_product_act_log')

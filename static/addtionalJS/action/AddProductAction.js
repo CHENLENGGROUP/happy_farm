@@ -1,33 +1,36 @@
 /**
  * Created by Administrator on 2017/8/14 0014.
  */
+var re_code = {
+    'connect_error':'000001',
+    'session_error':'000002',
+    'passwd_incorrect':'000003',
+    'username_exist':'000004',
+    'telephon_exist':'000005',
+    'verify_error':'000006',
+    'parameter_error':'000007',
+    'limit_exceeded':'000008',
+    'success':'000000'
+};
+
 $(document).ready(function () {
    $("#product_info_sub").click(function () {
+       if($(this).hasClass("disabled")){
+           return;
+       }
+       switch_button_status(this);
        var ele_result = getElementsValue("product_info_from");
        var eles = ele_result[0];
        var notnull_eles = ele_result[1];
-       // for(var i=0;i<eles.length;i++){
-       //     console.log(eles[i]);
-       // }
        eles = handle_input(eles);
        var is_ligal = is_input_empty(eles, notnull_eles);
        if(!is_ligal){
-           swal({
-			    title: "请完善必填信息",
-                confirmButtonColor: "#566FC9",
-            });
-		    return false;
+           sweet_alert("请完善必填信息","未满足要求的信息已用红框表示");
+           switch_button_status(this);
+           return false;
        }
        var json_data = handle_json_data(eles);
-       $.ajax({
-           type: "post",
-           dataType: "json",
-           url: "http://127.0.0.1:8000/manageraddproduct",
-           data: json_data,
-           success: function(Data){
-               alert("success")
-           }
-       });
+       ajax_request(json_data, this);
    })
 });
 
@@ -167,4 +170,71 @@ function handle_json_data(eles) {
         "product_property_info":product_property_info
     };
     return JSON.stringify(json_dict)
+}
+
+function sweet_alert(title, text){
+    swal({
+        title: title,
+        text:text,
+        type:"error",
+        confirmButtonColor: "#566FC9",
+        confirmButtonText:"确定",
+        closeOnConfirm:true
+    });
+}
+
+function sweet_alert_success(title, text){
+    swal({
+        title: title,
+        text: text,
+        type: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#566FC9",
+        confirmButtonText: "确定",
+        cancelButtonText:"取消",
+        closeOnConfirm: false
+    },function () {
+        window.location.href="http://www.baidu.com";
+    })
+}
+
+function switch_button_status(button_elem){
+    var btn_elem = $(button_elem);
+    var children_list = btn_elem.children();
+    if(btn_elem.hasClass("btn-anim")){
+        btn_elem.removeClass("btn-anim");
+        btn_elem.addClass("disabled");
+        $(children_list[0]).css("display","none");
+        $(children_list[1]).html("提交中...");
+        $(children_list[2]).css("display","inline-block");
+    }
+    else{
+        btn_elem.addClass("btn-anim");
+        btn_elem.removeClass("disabled");
+        $(children_list[0]).css("display","inline-block");
+        $(children_list[1]).html("提交");
+        $(children_list[2]).css("display","none");
+    }
+}
+
+function ajax_request(json_data, btn_obj){
+    $.ajax({
+       type: "post",
+       dataType: "json",
+       url: "http://127.0.0.1:8000/manageraddproduct",
+       timeout:10000,
+       data: json_data,
+       success: function(Data){
+           var ret = Data.ret;
+           if(ret !== re_code.success){
+               sweet_alert("连接失败，请稍候再试","错误代码%s"%(ret));
+           }
+           sweet_alert_success("添加成功","是否立即去给商品添加图片");
+           switch_button_status(btn_obj);
+       },
+       error: function (Data) {
+            sweet_alert("连接失败，请稍候再试","错误代码000001");
+            switch_button_status(btn_obj);
+       }
+   });
 }
