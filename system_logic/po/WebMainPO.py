@@ -41,7 +41,7 @@ class WebMainPO():
         if count_new_msg != 0:
             temp_dict = {'event_icon': 'fa fa-envelope', 'event_name': '新消息',
                          'event_des': '新收' + str(count_new_msg) + '条消息', 'event_time': self.current_date,
-                         'event_url': '#'}
+                         'event_url': '/managerbrowsemessage?box_type=1'}
             new_events.append(temp_dict)
         if count_new_order != 0:
             temp_dict = {'event_icon': 'fa fa-shopping-basket', 'event_name': '新订单',

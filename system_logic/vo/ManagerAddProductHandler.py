@@ -15,6 +15,11 @@ from system_logic.vo.method.DecodeJson import _decode_dict
 
 class AddProductHandler(BaseHandler):
 
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
@@ -37,3 +42,22 @@ class AddProductHandler(BaseHandler):
                     category_list=category_list)
 
         self.refresh_session()
+
+    def post(self, *args, **kwargs):
+
+        # 判断用户是否登录
+        if not self.get_login_status():
+            self.redirect('/managerlogin')
+            return
+
+        manager_id = self.get_secure_cookie("loginuser_id")
+        product_info = _decode_dict(json.loads(self.request.body))
+        result = Manager().add_product(product_info, manager_id)
+
+        if result == -1:
+            reMsg = {'ret':setting.re_code['connect_error']}
+        else:
+            reMsg = {'ret':setting.re_code['success'], 'product_id':result}
+
+        time.sleep(5)
+        self.write(reMsg)
