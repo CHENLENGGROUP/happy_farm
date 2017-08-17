@@ -35,4 +35,10 @@ class BrowseProductDetailHandler(BaseHandler):
                  'stock': '10', 'thumb_img_url':''},
             ]
 
-        self.render('productdetail.html', head_info=head_info,product_id=product_id,product_list=product_list)
+            property_list = [
+                {'property_content':'1.5斤','property_name':'重量'},
+                {'property_content': '高山羊', 'property_name': '品种'},
+
+            ]
+
+        self.render('productdetail.html', head_info=head_info,product_id=product_id,product_list=product_list,property_list=property_list)

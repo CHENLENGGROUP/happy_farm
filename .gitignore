@@ -33,10 +33,20 @@ system_logic/setting.pyc
 *.xml
 =======
 >>>>>>> 9e3dbf4b088f4c29a10ac34422cce5e119126774
+<<<<<<< HEAD
+system_logic/vo/BaseHandler.pyc
+system_logic/vo/BaseHandler.pyc
+=======
 >>>>>>> 13d8e2910f9bf8210628b0fb57a81f786deb83b6
 *.xml
 *.xml
 *.xml
 *.xml
 *.xml
+<<<<<<< HEAD
+*.xml
+=======
+>>>>>>> a253ac6dda615d2f59a931b418774f7bb9ed540d
+>>>>>>> 838f1f9e94886bd236be0c5bab88acf6c32d4e88
+*.pyc
 *.xml
