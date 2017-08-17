@@ -115,6 +115,15 @@ class People:
             result = m.update_message(update_item, item)
         return result
 
+    def mark_messageImportant(self, message_id_list):
+
+        condition_list = self.pp.handle_Msg_list(message_id_list)
+        update_item = {'is_important':1}
+        result =1
+        for item in condition_list:
+            result = Message().update_message(update_item, item)
+        return result
+
     def delete_message(self, message_id_list):
         '''
         此方法用以删除信息

@@ -3,6 +3,8 @@
 {% block additional_css %}
 <!-- Bootstrap Wysihtml5 css -->
 <link rel="stylesheet" href="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css" />
+<link href="../static/vendors/bower_components/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css"/>
+<link href="../static/vendors/bower_components/multiselect/css/multi-select.css" rel="stylesheet" type="text/css"/>
 {% end %}
 
 {% block additional_css_after_style %}
@@ -30,7 +32,7 @@
 
 								<div class="mb-40">
 									<a href="#myModal" data-toggle="modal"  title="Compose"    class="btn btn-success btn-block  mt-30">
-									写信
+									发送内部邮件
 									</a>
 									<!-- Modal -->
 									<div aria-hidden="true" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
@@ -38,29 +40,33 @@
 											<div class="modal-content">
 												<div class="modal-header">
 													<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-													<h4 class="modal-title">写信</h4>
+													<h4 class="modal-title">发送内部邮件</h4>
 												</div>
 												<div class="modal-body">
-													<form role="form" class="form-horizontal">
+													<form role="form" class="form-horizontal" action="/managersendmsg" method="post">
 														<div class="form-group">
 															<label class="col-lg-2 control-label">收件人</label>
 															<div class="col-lg-10">
-																<input type="text" placeholder="" id="inputEmail1" class="form-control">
+																<select name="target" class="select2 select2-multiple send_msg_info" multiple="multiple" data-placeholder="Choose" required>
+																	{% for item in manager_list %}
+																	<option value="{{item['manager_id']}}">{{item['real_name']}}</option>
+																	{% end %}
+																</select>
 															</div>
 														</div>
 														<div class="form-group">
 															<label class="col-lg-2 control-label">正文</label>
 															<div class="col-lg-10">
-																<textarea class="textarea_editor form-control" rows="15" placeholder="请输入内容 ..."></textarea>
-															</div>
-														</div>
-														<div class="form-group">
-															<div class="col-lg-offset-2 col-lg-10">
-																<button class="btn btn-success" type="submit">发送</button>
-																<button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+																<textarea name="content" class="textarea_editor form-control send_msg_info"  rows="15" placeholder="请输入内容 ..." required></textarea>
 															</div>
 														</div>
 													</form>
+													<div class="row">
+														<div class="col-lg-offset-2 col-lg-10">
+															<button id="send_msg" class="btn btn-success" type="submit">发送</button>
+															<button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+														</div>
+													</div>
 												</div>
 											</div>
 											<!-- /.modal-content -->
@@ -94,7 +100,7 @@
 										<div  class="col-sm-offset-4 col-sm-5">
 											<form role="search">
 												<div class="input-group mb-15">
-													<input type="text" id="example-input1-group21" name="example-input1-group21" class="form-control" placeholder="Search">
+													<input type="text" id="example-input1-group21" name="example-input1-group21" class="form-control" placeholder="按发送者搜索...">
 													 <span class="input-group-btn">
 														<button type="button" class="btn  btn-success"><i class="fa fa-search"></i></button>
 													</span>
@@ -124,7 +130,7 @@
 											</div>
 										</div>
 										<div class="btn-group">
-											<a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn  tooltips">
+											<a id="refresh" data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn  tooltips">
 											<i class=" fa fa-refresh"></i>
 											</a>
 										</div>
@@ -134,9 +140,13 @@
 											<i class="fa fa-angle-down "></i>
 											</a>
 											<ul class="dropdown-menu">
-												<li><a href="#"><i class="fa fa-pencil"></i> 标记为已读</a></li>
+												<li class="handle_msg" url="/managermarkreaded" title="标记" text="标记已读后无法还原">
+													<a href="#"><i class="fa fa-pencil"></i> 标记为已读</a>
+												</li>
 												<li class="divider"></li>
-												<li><a href="#"><i class="fa fa-trash-o"></i> 删除</a></li>
+												<li class="handle_msg" url="/managerdeletemsg" title="删除" text="删除后可以用最高权限恢复">
+													<a href="#"><i class="fa fa-trash-o"></i> 删除</a>
+												</li>
 											</ul>
 										</div>
 										<div class="btn-group">
@@ -145,28 +155,36 @@
 											<i class="fa fa-angle-down "></i>
 											</a>
 											<ul class="dropdown-menu">
-												<li><a href="#"><i class="fa fa-bookmark-o"></i> 重要邮件</a></li>
+												<li class="handle_msg" url="managermarkimportant" title="移动" text="移动后的信息会出现在重要邮件箱">
+													<a href="#"><i class="fa fa-bookmark-o"></i> 重要邮件</a>
+												</li>
 											</ul>
 										</div>
 									</div>
-									<div class="table-responsive">
+									<div class="table-responsive" style="min-height: 570px;">
 										<table class="table table-inbox table-hover">
 											<tbody>
 												{% for item in message_list %}
 												{% if item['is_read']==0 %}
-												<tr class="unread">
+												<tr class="unread" href="/managerbrowsemessageDetail?message_id={{item['message_id']}}
+													&sender_id={{item['sender_id']}}&sender_type={{item['sender_type']}}">
 												{% else %}
-												<tr class="">
+												<tr class="" href="/managerbrowsemessageDetail?message_id={{item['message_id']}}
+													&sender_id={{item['sender_id']}}&sender_type={{item['sender_type']}}">
 												{% end %}
 													<td class="inbox-small-cells">
 														<div class="checkbox checkbox-default">
-															<input type="checkbox" id="checkbox012"/>
-															<label for="checkbox012"></label>
+															<input type="checkbox" msg_id="{{item['message_id']}}" id="{{'checkbox'+str(item['message_id'])}}" name="msg_checkbox"/>
+															<label for="{{'checkbox'+str(item['message_id'])}}"></label>
 														</div>
 													</td>
-													<td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-													<td class="view-message  dont-show"><a href="/managerbrowsemessageDetail?message_id={{item['message_id']}}">{{item['sender_name']}}</a></td>
-													<td class="view-message ">{{item['msg_content']}}</td>
+													{% if item['is_important']==1 %}
+													<td class="inbox-small-cells"><i class="fa fa-star" style="color:#fcb03b"></i></td>
+													{% else %}
+													<td class="inbox-small-cells"><i class="fa fa-star" style="color:#adadad"></i></td>
+													{% end %}
+													<td class="view-message  dont-show">{{item['sender_name']}}</td>
+													<td class="view-message ">{{item['content']}}</td>
 													<td class="view-message  text-right">{{item['send_time']}}</td>
 												</tr>
 												{% end %}
@@ -175,15 +193,19 @@
 									</div>
 								</div>
 
-								<ul class="pagination pagination-lg mt-0 mb-0 mr-15">
-									<li class="disabled"> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
-									<li> <a href="#">1</a> </li>
-									<li class="active"> <a href="#">2</a> </li>
-									<li> <a href="#">3</a> </li>
-									<li> <a href="#">4</a> </li>
-									<li> <a href="#">5</a> </li>
-									<li> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
+								{% if page_count > 1 %}
+								<ul class="pagination pagination-lg mt-0 mb-0 mr-15" id="paging_ui">
+									<li class="disabled arrow-left"> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
+									{% for i in range(0, page_count) %}
+										{% if i==0 %}
+										<li class="active"> <a href="#">{{i+1}}</a> </li>
+										{% else %}
+										<li> <a href="#">{{i+1}}</a> </li>
+										{% end %}
+									{% end %}
+									<li class="arrow-right"> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
 								</ul>
+								{% end %}
 							</aside>
 						</div>
 					</div>
@@ -200,14 +222,33 @@
 
 <script src="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js"></script>
 <!-- Bootstrap Wysuhtml5 Init JavaScript -->
-<script src="../static/dist/js/bootstrap-wysuhtml5-data.js"></script>
+<script src="../static/vendors/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 <script>
 $(document).ready(function(){
+
+    $(".select2").select2();
+
+    /*Bootstrap wysihtml5 Init*/
+	$('.textarea_editor').wysihtml5({
+		toolbar: {
+		    fa: true,
+		  	"image":false,
+		  	"link": false,
+		  	"blockquote":false,
+		  	"lists":false,
+		  	"font-styles":false,
+		}
+	});
+
 	var box_li_id = "#"+"{{box_li_id}}";
 	$(box_li_id).addClass("active");
 	var href = $(box_li_id).children()[0].href;
 	$("#read").attr("href", href+"&is_read=1");
 	$("#unread").attr("href", href+"&is_read=0");
+	$("#all").attr("href", href);
+	$("#refresh").attr("href", href);
 });
 </script>
+<script src="../static/addtionalJS/browsemessage_addjs.js"></script>
 {% end %}

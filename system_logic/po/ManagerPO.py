@@ -188,3 +188,23 @@ class ManagerPO:
             else:
                 subtotal = subtotal + float(item['amount'])
         return subtotal
+
+    def handle_browse_message_info(self, msg_info, sender_info):
+
+        temp_dict = {}
+        for key in msg_info:
+            if key != 'reader_id' and key!='message_type_id' and key!='is_delete'\
+                    and key!='is_alert':
+                temp_dict[key] = msg_info[key]
+
+        if sender_info.has_key('real_name'):
+            temp_dict['sender_name'] = sender_info['real_name']
+            temp_dict['sender_type'] = 'manager'
+        else:
+            temp_dict['sender_name'] = sender_info['username']
+            temp_dict['sender_type'] = 'user'
+
+        if len(temp_dict['content'])>20:
+            temp_dict['content'] = temp_dict['content'][0:20]+'...'
+
+        return temp_dict

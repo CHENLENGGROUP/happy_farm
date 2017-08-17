@@ -227,7 +227,7 @@ function ajax_request(json_data, btn_obj){
        success: function(Data){
            var ret = Data.ret;
            if(ret !== re_code.success){
-               sweet_alert("连接失败，请稍候再试","错误代码%s"%(ret));
+               sweet_alert("连接失败，请稍候再试","错误代码"+ret);
            }
            sweet_alert_success("添加成功","是否立即去给商品添加图片");
            switch_button_status(btn_obj);

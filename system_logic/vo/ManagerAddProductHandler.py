@@ -38,10 +38,10 @@ class AddProductHandler(BaseHandler):
         product_type_list = Manager().get_product_type()
         category_list = Manager().get_category({'1=':1},'ORDER BY category_id ASC')
         category_list = PageAddProductPO().handle_category_list(category_list)
-        self.render('addproduct.html', head_info=head_info, product_type_list=product_type_list,
-                    category_list=category_list)
 
         self.refresh_session()
+        self.render('addproduct.html', head_info=head_info, product_type_list=product_type_list,
+                    category_list=category_list)
 
     def post(self, *args, **kwargs):
 
@@ -60,4 +60,5 @@ class AddProductHandler(BaseHandler):
             reMsg = {'ret':setting.re_code['success'], 'product_id':result}
 
         time.sleep(5)
+        self.refresh_session()
         self.write(reMsg)

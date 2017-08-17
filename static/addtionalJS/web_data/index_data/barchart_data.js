@@ -17,59 +17,63 @@ $(function() {
 });
 
 function ini_bartchart(index_data, id_name, bar_corler, total_length){
-     /*Defining Option*/
-        var barOptions = {
-            series: {
-                bars: {
-                    show: true,
-                    barWidth: 40000000
-                }
-            },
-            yaxis: {
-                min:0,
-                minTickSize: [1],
-                font: {
-                    color: '#2f2c2c'
-                }
-            },
-            xaxis: {
-                mode: "time",
-                timeformat: "%m-%d",
-                minTickSize: [1, "day"],
-                font: {
-                    color: '#2f2c2c'
-                }
-            },
-
-            legend: {
-                show: false
-            },
-            grid: {
-                color: "#eee",
-                hoverable: true,
-                borderWidth: 0,
-                backgroundColor: '#FFF'
-            },
-            tooltip: true,
-            tooltipOpts: {
-                content: "%x，销售: %y 件",
-                defaultTheme: false
+    /*Defining Option*/
+    // var fit_width = 764;
+    // var div_width = parseInt($("#bar_chart").width());
+    // var width_rate = parseFloat(div_width)/parseFloat(fit_width);
+    // alert(width_rate);
+    var barOptions = {
+        series: {
+            bars: {
+                show: true,
+                barWidth: 40000000
             }
-        };
+        },
+        yaxis: {
+            min:0,
+            minTickSize: [1],
+            font: {
+                color: '#2f2c2c'
+            }
+        },
+        xaxis: {
+            mode: "time",
+            timeformat: "%m-%d",
+            minTickSize: [1, "day"],
+            font: {
+                color: '#2f2c2c'
+            }
+        },
 
-        /*Defining Data*/
-        var data_list = [];
-        for (var i = 0; i < total_length; i++) {
-            var start = -20000000+delta_date*86400000;
-            var data_temp = [start + i * 86400000, sale_list[index_data][9-i]];
-            data_list.push(data_temp);
+        legend: {
+            show: false
+        },
+        grid: {
+            color: "#eee",
+            hoverable: true,
+            borderWidth: 0,
+            backgroundColor: '#FFF'
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "%x，销售: %y 件",
+            defaultTheme: false
         }
-        var barData = {
-            label: "bar",
-            color: bar_corler,
-            data: data_list
-        };
+    };
 
-        /*Plot*/
-        $.plot($(id_name), [barData], barOptions);
+    /*Defining Data*/
+    var data_list = [];
+    for (var i = 0; i < total_length; i++) {
+        var start = -20000000+delta_date*86400000;
+        var data_temp = [start + i * 86400000, sale_list[index_data][9-i]];
+        data_list.push(data_temp);
+    }
+    var barData = {
+        label: "bar",
+        color: bar_corler,
+        data: data_list
+    };
+
+    /*Plot*/
+    $.plot($(id_name), [barData], barOptions);
 }

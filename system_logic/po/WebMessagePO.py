@@ -37,3 +37,16 @@ class WebMessagePO:
             title_name = ''
 
         return condition, title_name
+
+    def handle_manager_list(self, manager_list):
+
+        manager_list_re = []
+
+        if manager_list == -1:
+            return manager_list_re
+
+        for item in manager_list:
+            temp_dict = {'manager_id':item['manager_id'], 'real_name':item['real_name']}
+            manager_list_re.append(temp_dict)
+
+        return manager_list_re
