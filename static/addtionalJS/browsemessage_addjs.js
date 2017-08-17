@@ -216,7 +216,7 @@ function do_ajax_nor(text){
 }
 
 function do_ajax_send_msg(reciver_id_list, content){
-    
+
 }
 
 function sweet_alert_btn(title, text, type, show_cb,succ_func){

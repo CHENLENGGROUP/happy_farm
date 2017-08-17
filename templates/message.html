@@ -55,6 +55,12 @@
 															</div>
 														</div>
 														<div class="form-group">
+															<label class="col-lg-2 control-label">标题</label>
+															<div class="col-lg-10">
+																<input type="text" placeholder="" id="cc" class="form-control send_msg_info">
+															</div>
+														</div>
+														<div class="form-group">
 															<label class="col-lg-2 control-label">正文</label>
 															<div class="col-lg-10">
 																<textarea name="content" class="textarea_editor form-control send_msg_info"  rows="15" placeholder="请输入内容 ..." required></textarea>
@@ -184,7 +190,7 @@
 													<td class="inbox-small-cells"><i class="fa fa-star" style="color:#adadad"></i></td>
 													{% end %}
 													<td class="view-message  dont-show">{{item['sender_name']}}</td>
-													<td class="view-message ">{{item['content']}}</td>
+													<td class="view-message ">{{item['title']}}</td>
 													<td class="view-message  text-right">{{item['send_time']}}</td>
 												</tr>
 												{% end %}
