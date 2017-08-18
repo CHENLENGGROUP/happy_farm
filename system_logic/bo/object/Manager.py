@@ -359,7 +359,7 @@ class Manager:
         result = People().get_category(condition, supstring)
         return result
 
-    def browse_message(self, condition, supstring, page_number):
+    def browse_message(self, condition, supstring, page_number, manager_id):
 
         '''
         获取管理员信息
@@ -385,14 +385,7 @@ class Manager:
         #获取发送者信息
         for item in result:
             message_type_id = item['message_type_id']
-            condition_s = {}
-            if message_type_id == 1:
-                table_name = 'hf_user'
-                condition_s['user_id='] = item['sender_id']
-            else:
-                table_name = 'hf_manager'
-                condition_s['manager_id='] = item['sender_id']
-
+            condition_s, table_name = self.mp.handle_message_type(message_type_id, item, manager_id)
             de_s = DataBaseEngine(table_name)
             operate_type = 'select'
             result_s = de_s.operate_database(operate_type=operate_type, operate_condition=condition_s)
@@ -400,7 +393,7 @@ class Manager:
             if result_s == -1 or len(result_s) == 0:
                 return -1,-1
 
-            temp_dict = ManagerPO().handle_browse_message_info(item, result_s[0])
+            temp_dict = ManagerPO().handle_browse_message_info(item, result_s[0], message_type_id)
             message_info.append(temp_dict)
 
         return message_info, count
@@ -410,14 +403,32 @@ class Manager:
         result = People().delete_message(message_id_list)
         return result
 
-    def mark_messageReaded(self, message_id_list):
+    def mark_messageReaded(self, message_id_list, manager_id):
 
-        result = People().mark_messageReaded(message_id_list)
+        result = People().mark_messageReaded(message_id_list, manager_id)
         return result
 
     def mark_messageImportant(self, message_id_list):
 
         result = People().mark_messageImportant(message_id_list)
+        return result
+
+    def send_message(self,message_info, manager_id):
+
+        '''
+        允许管理员发送消息
+        :param message_info:
+            :param content
+            :param title
+            :param reciver_id_list                  [id1, id2, id3]
+            :param is_important
+            :param message_type_id
+        :return:
+        '''
+        insert_item = self.mp.handle_send_message_info(message_info, manager_id)
+        de = DataBaseEngine('hf_message')
+        operate_type = 'insertMany'
+        result = de.operate_database(operate_type=operate_type, operate_item=insert_item)
         return result
 
 

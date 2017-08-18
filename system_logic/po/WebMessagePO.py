@@ -24,14 +24,20 @@ class WebMessagePO:
 
         #重要邮件
         elif box_type == 4:
-            condition['is_important='] = 1
-            condition['receiver_id='] = manager_id
-            condition['is_delete='] = 0
+            condition = [
+                {'is_delete=': {'value': 0, 'symbol': 'AND'}},
+                {'is_important=':{'value':1, 'symbol':'AND'}},
+                {'(receiver_id=': {'value': manager_id, 'symbol': 'OR'}},
+                {'receiver_id=': {'value': 0, 'symbol': ')'}}
+            ]
             title_name = '重要邮件'
         #垃圾箱
         elif box_type == 5:
-            condition['is_delete='] = 1
-            condition['receiver_id='] = manager_id
+            condition = [
+                {'is_delete=':{'value':1,'symbol':'AND'}},
+                {'(receiver_id=':{'value':manager_id,'symbol':'OR'}},
+                {'receiver_id=':{'value':0, 'symbol':')'}}
+            ]
             title_name = '垃圾箱'
         else:
             title_name = ''
