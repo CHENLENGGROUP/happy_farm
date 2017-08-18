@@ -42,8 +42,9 @@ $(document).ready(function () {
 
     //点击跳转邮件详细页
     $("table tbody tr ").on("click", ".view-message",function () {
-        var href = $(this).attr("href");
-        window.open("http://www.baidu.com");
+        var href = $(this).parent().attr("href");
+        console.log(href);
+        window.location.href=href;
     });
 
     //勾选全选
@@ -72,28 +73,20 @@ $(document).ready(function () {
             return false;
         }
         var succ_func = "do_ajax_nor(text)";
-        var a = sweet_alert_btn(title,text,"info", true, succ_func);
+        sweet_alert_btn(title,text,"info", true, succ_func);
     });
 
-    //发送信息
-    $("#send_msg").click(function () {
-        var input_list = $(this).parent().parent().parent().find(".send_msg_info");
-        for(var i=0;i<input_list.length;i++){
-            var tag_name = $(input_list[i]).context.tagName;
-            if(tag_name.toUpperCase()==="SELECT"){
-                var receiver_id_list = [];
-                var select_list = $(input_list[i]).find("option:selected");
-                for(var j=0;j<select_list.length;j++){
-                    receiver_id_list.push(parseInt($(select_list[j]).attr("value")));
-                }
-                console.log(receiver_id_list);
-            }
-            else {
-                var content = $(".wysihtml5-sandbox").contents().find("body")[0].innerHTML;
-                console.log(content)
-            }
+    //改变输入框颜色
+    $(".modal-body ul").on("blur", "input",function () {
+        var len = $(this).parent().prev().length;
+        if(len===0){
+            $(this).parent().parent().parent().parent().parent().parent().parent().addClass("has-error has-danger");
+        }
+        else {
+            $(this).parent().parent().parent().parent().parent().parent().parent().removeClass("has-error has-danger");
         }
     })
+
 });
 
 function do_ajax(page_number, box_type,is_read){
@@ -109,7 +102,7 @@ function do_ajax(page_number, box_type,is_read){
         data:JSON.stringify(json_data),
         timeout:10000,
         success:function (Data) {
-            if(Data.ret===re_code.connect_error){
+            if(Data.ret!==re_code.success){
                 sweetAlert("连接失败，请稍候再试","错误代码:"+Data.ret, "error");
                 return false;
             }
@@ -146,7 +139,7 @@ function set_html_str(item){
     var content = item.content;
     var sende_tiem = item.send_time;
     var html_str =
-        '<tr class="'+is_read_str+'" href="/managerbrowsemessageDetail?message_id='+message_id+'&sender_id='+sender_id+'&sender_type='+sender_type+'">' +
+        '<tr class="'+is_read_str+'" href="/managerbrowsemessagedetail?message_id='+message_id+'&sender_id='+sender_id+'&sender_type='+sender_type+'">' +
             '<td class="inbox-small-cells">' +
                 '<div class="checkbox checkbox-default">' +
                     '<input type="checkbox" id="checkbox'+message_id+'" name="msg_checkbox"/>' +
@@ -201,7 +194,7 @@ function do_ajax_nor(text){
         data:JSON.stringify(json_data),
         timeout:10000,
         success:function (Data) {
-            if(Data.ret===re_code.connect_error){
+            if(Data.ret!==re_code.success){
                 sweetAlert(title_e,"错误代码:"+Data.ret, "error");
                 return false;
             }
@@ -213,10 +206,6 @@ function do_ajax_nor(text){
             sweetAlert(title_e,"错误代码:000001", "error");
         }
     })
-}
-
-function do_ajax_send_msg(reciver_id_list, content){
-
 }
 
 function sweet_alert_btn(title, text, type, show_cb,succ_func){

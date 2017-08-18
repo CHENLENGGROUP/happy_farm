@@ -1,240 +1,128 @@
-{% extends 'main.html' %}
+{% extends 'messageMain.html' %}
 
-{% block additional_css %}
-<!-- Bootstrap Wysihtml5 css -->
-<link rel="stylesheet" href="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css" />
-<link href="../static/vendors/bower_components/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css"/>
-<link href="../static/vendors/bower_components/multiselect/css/multi-select.css" rel="stylesheet" type="text/css"/>
-{% end %}
+{% block message_aside %}
 
-{% block additional_css_after_style %}
-
-{% end %}
-
-{% block main_part %}
-<div class="row">
-	<div class="col-lg-12">
-		<div class="panel panel-default card-view">
-			<div class="panel-wrapper collapse in">
-				<div class="panel-body">
-					<div class="mail-box">
-						<div class="row">
-							<aside class="col-md-3">
-								<div class="user-head text-center">
-									<a class="inbox-avatar block" href="javascript:;">
-									<img  src="{{manager_info['img_url']}}" alt="user"/>
-									</a>
-									<div class="user-name">
-										<h5><a href="#">{{manager_info['real_name']}}</a></h5>
-									</div>
-								</div>
-								<div class="clearfix"></div>
-
-								<div class="mb-40">
-									<a href="#myModal" data-toggle="modal"  title="Compose"    class="btn btn-success btn-block  mt-30">
-									发送内部邮件
-									</a>
-									<!-- Modal -->
-									<div aria-hidden="true" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-													<h4 class="modal-title">发送内部邮件</h4>
-												</div>
-												<div class="modal-body">
-													<form role="form" class="form-horizontal" action="/managersendmsg" method="post">
-														<div class="form-group">
-															<label class="col-lg-2 control-label">收件人</label>
-															<div class="col-lg-10">
-																<select name="target" class="select2 select2-multiple send_msg_info" multiple="multiple" data-placeholder="Choose" required>
-																	{% for item in manager_list %}
-																	<option value="{{item['manager_id']}}">{{item['real_name']}}</option>
-																	{% end %}
-																</select>
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-lg-2 control-label">标题</label>
-															<div class="col-lg-10">
-																<input type="text" placeholder="" id="cc" class="form-control send_msg_info">
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-lg-2 control-label">正文</label>
-															<div class="col-lg-10">
-																<textarea name="content" class="textarea_editor form-control send_msg_info"  rows="15" placeholder="请输入内容 ..." required></textarea>
-															</div>
-														</div>
-													</form>
-													<div class="row">
-														<div class="col-lg-offset-2 col-lg-10">
-															<button id="send_msg" class="btn btn-success" type="submit">发送</button>
-															<button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- /.modal-content -->
-										</div>
-										<!-- /.modal-dialog -->
-									</div>
-									<!-- /.modal -->
-								</div>
-								<ul class="inbox-nav mb-30">
-									<li id="box_li_1">
-										<a href="/managerbrowsemessage?box_type=1"><i class="icon-envelope-open"></i> 用户收件箱</a>
-									</li>
-									<li id="box_li_2">
-										<a href="/managerbrowsemessage?box_type=2"><i class="icon-bell"></i> 内部收件箱</a>
-									</li>
-									<li id="box_li_3">
-										<a href="/managerbrowsemessage?box_type=3"><i class="fa fa-envelope-o"></i> 发件箱</a>
-									</li>
-									<li id="box_li_4">
-										<a href="/managerbrowsemessage?box_type=4"><i class="fa fa-bookmark-o"></i> 重要邮件</a>
-									</li>
-									<li id="box_li_5">
-										<a href="/managerbrowsemessage?box_type=5"><i class=" fa fa-trash-o"></i> 垃圾箱</a>
-									</li>
-								</ul>
-							</aside>
-							<aside class="col-md-9">
-								<div class="inbox-head  mb-30">
-									<div class="row">
-										<h3 class="col-sm-3">{{title_name}}</h3>
-										<div  class="col-sm-offset-4 col-sm-5">
-											<form role="search">
-												<div class="input-group mb-15">
-													<input type="text" id="example-input1-group21" name="example-input1-group21" class="form-control" placeholder="按发送者搜索...">
-													 <span class="input-group-btn">
-														<button type="button" class="btn  btn-success"><i class="fa fa-search"></i></button>
-													</span>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-
-								<div class="inbox-body">
-									<div class="mail-option">
-										<div class="chk-all">
-											<div class="checkbox checkbox-default inline-block">
-												<input type="checkbox" id="checkbox051"/>
-												<label for="checkbox051"></label>
-											</div>
-											<div class="btn-group">
-												<a data-toggle="dropdown" href="#" class="btn  all" aria-expanded="false">
-												分类
-												<i class="fa fa-angle-down "></i>
-												</a>
-												<ul class="dropdown-menu">
-													<li><a href="" id="all"> 全部</a></li>
-													<li><a href="" id="read"> 已读</a></li>
-													<li><a href="" id="unread"> 未读</a></li>
-												</ul>
-											</div>
-										</div>
-										<div class="btn-group">
-											<a id="refresh" data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn  tooltips">
-											<i class=" fa fa-refresh"></i>
-											</a>
-										</div>
-										<div class="btn-group hidden-phone">
-											<a data-toggle="dropdown" href="#" class="btn  blue" aria-expanded="false">
-											操作
-											<i class="fa fa-angle-down "></i>
-											</a>
-											<ul class="dropdown-menu">
-												<li class="handle_msg" url="/managermarkreaded" title="标记" text="标记已读后无法还原">
-													<a href="#"><i class="fa fa-pencil"></i> 标记为已读</a>
-												</li>
-												<li class="divider"></li>
-												<li class="handle_msg" url="/managerdeletemsg" title="删除" text="删除后可以用最高权限恢复">
-													<a href="#"><i class="fa fa-trash-o"></i> 删除</a>
-												</li>
-											</ul>
-										</div>
-										<div class="btn-group">
-											<a data-toggle="dropdown" href="#" class="btn  blue">
-											移动到
-											<i class="fa fa-angle-down "></i>
-											</a>
-											<ul class="dropdown-menu">
-												<li class="handle_msg" url="managermarkimportant" title="移动" text="移动后的信息会出现在重要邮件箱">
-													<a href="#"><i class="fa fa-bookmark-o"></i> 重要邮件</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div class="table-responsive" style="min-height: 570px;">
-										<table class="table table-inbox table-hover">
-											<tbody>
-												{% for item in message_list %}
-												{% if item['is_read']==0 %}
-												<tr class="unread" href="/managerbrowsemessageDetail?message_id={{item['message_id']}}
-													&sender_id={{item['sender_id']}}&sender_type={{item['sender_type']}}">
-												{% else %}
-												<tr class="" href="/managerbrowsemessageDetail?message_id={{item['message_id']}}
-													&sender_id={{item['sender_id']}}&sender_type={{item['sender_type']}}">
-												{% end %}
-													<td class="inbox-small-cells">
-														<div class="checkbox checkbox-default">
-															<input type="checkbox" msg_id="{{item['message_id']}}" id="{{'checkbox'+str(item['message_id'])}}" name="msg_checkbox"/>
-															<label for="{{'checkbox'+str(item['message_id'])}}"></label>
-														</div>
-													</td>
-													{% if item['is_important']==1 %}
-													<td class="inbox-small-cells"><i class="fa fa-star" style="color:#fcb03b"></i></td>
-													{% else %}
-													<td class="inbox-small-cells"><i class="fa fa-star" style="color:#adadad"></i></td>
-													{% end %}
-													<td class="view-message  dont-show">{{item['sender_name']}}</td>
-													<td class="view-message ">{{item['title']}}</td>
-													<td class="view-message  text-right">{{item['send_time']}}</td>
-												</tr>
-												{% end %}
-											</tbody>
-										</table>
-									</div>
-								</div>
-
-								{% if page_count > 1 %}
-								<ul class="pagination pagination-lg mt-0 mb-0 mr-15" id="paging_ui">
-									<li class="disabled arrow-left"> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
-									{% for i in range(0, page_count) %}
-										{% if i==0 %}
-										<li class="active"> <a href="#">{{i+1}}</a> </li>
-										{% else %}
-										<li> <a href="#">{{i+1}}</a> </li>
-										{% end %}
-									{% end %}
-									<li class="arrow-right"> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
-								</ul>
-								{% end %}
-							</aside>
-						</div>
+<aside class="col-md-9">
+	<div class="inbox-head  mb-30">
+		<div class="row">
+			<h3 class="col-sm-3">{{title_name}}</h3>
+			<div  class="col-sm-offset-4 col-sm-5">
+				<form role="search">
+					<div class="input-group mb-15">
+						<input type="text" id="example-input1-group21" name="example-input1-group21" class="form-control" placeholder="按发送者搜索...">
+						 <span class="input-group-btn">
+							<button type="button" class="btn  btn-success"><i class="fa fa-search"></i></button>
+						</span>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
-</div>
+
+	<div class="inbox-body">
+		<div class="mail-option">
+			<div class="chk-all">
+				<div class="checkbox checkbox-default inline-block">
+					<input type="checkbox" id="checkbox051"/>
+					<label for="checkbox051"></label>
+				</div>
+				<div class="btn-group">
+					<a data-toggle="dropdown" href="#" class="btn  all" aria-expanded="false">
+					分类
+					<i class="fa fa-angle-down "></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="" id="all"> 全部</a></li>
+						<li><a href="" id="read"> 已读</a></li>
+						<li><a href="" id="unread"> 未读</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="btn-group">
+				<a id="refresh" data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn  tooltips">
+				<i class=" fa fa-refresh"></i>
+				</a>
+			</div>
+			<div class="btn-group hidden-phone">
+				<a data-toggle="dropdown" href="#" class="btn  blue" aria-expanded="false">
+				操作
+				<i class="fa fa-angle-down "></i>
+				</a>
+				<ul class="dropdown-menu">
+					<li class="handle_msg" url="/managermarkreaded" title="标记" text="标记已读后无法还原">
+						<a href="#"><i class="fa fa-pencil"></i> 标记为已读</a>
+					</li>
+					<li class="divider"></li>
+					<li class="handle_msg" url="/managerdeletemsg" title="删除" text="删除后可以用最高权限恢复">
+						<a href="#"><i class="fa fa-trash-o"></i> 删除</a>
+					</li>
+				</ul>
+			</div>
+			<div class="btn-group">
+				<a data-toggle="dropdown" href="#" class="btn  blue">
+				移动到
+				<i class="fa fa-angle-down "></i>
+				</a>
+				<ul class="dropdown-menu">
+					<li class="handle_msg" url="managermarkimportant" title="移动" text="移动后的信息会出现在重要邮件箱">
+						<a href="#"><i class="fa fa-bookmark-o"></i> 重要邮件</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="table-responsive" style="min-height: 570px;">
+			<table class="table table-inbox table-hover">
+				<tbody>
+					{% for item in message_list %}
+					{% if item['is_read']==0 %}
+					<tr class="unread" href="/managerbrowsemessagedetail?message_id={{item['message_id']}}
+						&sender_id={{item['sender_id']}}&sender_type={{item['sender_type']}}">
+					{% else %}
+					<tr class="" href="/managerbrowsemessagedetail?message_id={{item['message_id']}}
+						&sender_id={{item['sender_id']}}&sender_type={{item['sender_type']}}">
+					{% end %}
+						<td class="inbox-small-cells">
+							<div class="checkbox checkbox-default">
+								<input type="checkbox" msg_id="{{item['message_id']}}" id="{{'checkbox'+str(item['message_id'])}}" name="msg_checkbox"/>
+								<label for="{{'checkbox'+str(item['message_id'])}}"></label>
+							</div>
+						</td>
+						{% if item['is_important']==1 %}
+						<td class="inbox-small-cells"><i class="fa fa-star" style="color:#fcb03b"></i></td>
+						{% else %}
+						<td class="inbox-small-cells"><i class="fa fa-star" style="color:#adadad"></i></td>
+						{% end %}
+						<td class="view-message  dont-show">{{item['show_name']}}</td>
+						<td class="view-message ">{{item['title']}}</td>
+						<td class="view-message  text-right">{{item['send_time']}}</td>
+					</tr>
+					{% end %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	{% if page_count > 1 %}
+	<ul class="pagination pagination-lg mt-0 mb-0 mr-15" id="paging_ui">
+		<li class="disabled arrow-left"> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
+		{% for i in range(0, page_count) %}
+			{% if i==0 %}
+			<li class="active"> <a href="#">{{i+1}}</a> </li>
+			{% else %}
+			<li> <a href="#">{{i+1}}</a> </li>
+			{% end %}
+		{% end %}
+		<li class="arrow-right"> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
+	</ul>
+	{% end %}
+</aside>
+
 {% end %}
 
-{% block additional_script %}
-<!-- wysuhtml5 Plugin JavaScript -->
-<script src="../static/vendors/bower_components/wysihtml5x/dist/wysihtml5x.min.js"></script>
-
-<script src="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js"></script>
-<!-- Bootstrap Wysuhtml5 Init JavaScript -->
-<script src="../static/vendors/bower_components/select2/dist/js/select2.full.min.js"></script>
-<script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+{% block additional_msg_script %}
 <script>
-$(document).ready(function(){
-
-    $(".select2").select2();
-
+$(document).ready(function () {
+	$(".select2").select2();
     /*Bootstrap wysihtml5 Init*/
 	$('.textarea_editor').wysihtml5({
 		toolbar: {
@@ -254,7 +142,8 @@ $(document).ready(function(){
 	$("#unread").attr("href", href+"&is_read=0");
 	$("#all").attr("href", href);
 	$("#refresh").attr("href", href);
-});
+})
 </script>
+
 <script src="../static/addtionalJS/browsemessage_addjs.js"></script>
 {% end %}
