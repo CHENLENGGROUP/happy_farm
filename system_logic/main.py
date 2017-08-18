@@ -27,6 +27,8 @@ from system_logic.vo import ManagerMessageDetailHandler
 from system_logic.vo import ManagerProductListHandler
 from system_logic.vo import ManagerUserList
 from system_logic.vo import ManagerProductDetailHandler
+from system_logic.vo import ManagerInfoListHandler
+from system_logic.vo import ManagerOperationHandler
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -74,6 +76,8 @@ class Application(tornado.web.Application):
             (r'/managerbrowseproductlist', ManagerProductListHandler.BrowseProductListHandler),
             (r'/managerbrowseuserlist', ManagerUserList.BrowseUserListHandler),
             (r'/managerbrowseproductdetail', ManagerProductDetailHandler.BrowseProductDetailHandler),
+            (r'/managerbrowsemanagerlist', ManagerInfoListHandler.BrowseManagerListHandler),
+            (r'/managerbrowseoperation', ManagerOperationHandler.BrowseManagerOperationHanlder),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

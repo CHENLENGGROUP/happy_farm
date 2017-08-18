@@ -44,3 +44,5 @@ system_logic/vo/BaseHandler.pyc
 *.xml
 *.xml
 >>>>>>> a253ac6dda615d2f59a931b418774f7bb9ed540d
+system_logic/setting.pyc
+system_logic/vo/MessagePartHandler.pyc
