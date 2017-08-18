@@ -242,3 +242,27 @@ class ManagerPO:
                 condition_s['manager_id='] = item['sender_id']
 
         return condition_s, table_name
+
+    def handle_product_list_info(self, product_list):
+
+        product_list_re = []
+
+        for item in product_list:
+            temp_dict = {}
+            for key in item:
+                if not item[key] is None and key!='product_id1' and key != 'product_id2':
+                    temp_dict[key] = item[key]
+            product_list_re.append(temp_dict)
+
+        product_list_fi = []
+        temp_list = []
+        if len(product_list_re) > 4:
+            for i in range(0, len(product_list_re)):
+                temp_list.append(product_list_re[i])
+                if (i+1)%4 == 0:
+                    product_list_fi.append(temp_list)
+                    temp_list = []
+        else:
+            product_list_fi = [product_list_re]
+
+        return product_list_fi

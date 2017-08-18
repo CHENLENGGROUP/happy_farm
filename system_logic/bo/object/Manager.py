@@ -431,4 +431,16 @@ class Manager:
         result = de.operate_database(operate_type=operate_type, operate_item=insert_item)
         return result
 
+    def browse_product(self, condition, page_number, supstring):
 
+        '''
+        查看商品列表
+        :param condition:
+        :param page_number:
+        :param substring:
+        :return:
+        '''
+        result, count = People().browse_product(condition,page_number,12,supstring, 1)
+        product_list = self.mp.handle_product_list_info(result)
+
+        return product_list, count

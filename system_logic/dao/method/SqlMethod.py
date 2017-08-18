@@ -29,7 +29,7 @@ class SqlMethod:
         return result
 
     def selectconnect_sql(self, table_dic, op_item, condition, supstring):
-        scs = SelectConnectSql.SelectConnectSql(table_dic, condition, supstring)
+        scs = SelectConnectSql.SelectConnectSql(table_dic, condition, supstring, op_item)
         result = scs.select_connectSql()
         return result
 

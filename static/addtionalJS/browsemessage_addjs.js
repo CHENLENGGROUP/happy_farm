@@ -73,7 +73,7 @@ $(document).ready(function () {
             return false;
         }
         var succ_func = "do_ajax_nor(text)";
-        sweet_alert_btn(title,text,"info", true, succ_func);
+        var a = sweet_alert_btn(title,text,"info", true, succ_func);
     });
 
     //改变输入框颜色
@@ -135,8 +135,8 @@ function set_html_str(item){
     var message_id = parseInt(item.message_id);
     var sender_id = parseInt(item.sender_id);
     var sender_type = item.sender_type;
-    var sender_name = item.sender_name;
-    var content = item.content;
+    var show_name = item.show_name;
+    var msg_title = item.title;
     var sende_tiem = item.send_time;
     var html_str =
         '<tr class="'+is_read_str+'" href="/managerbrowsemessagedetail?message_id='+message_id+'&sender_id='+sender_id+'&sender_type='+sender_type+'">' +
@@ -147,8 +147,8 @@ function set_html_str(item){
                 '</div>' +
             '</td>' +
             '<td class="inbox-small-cells"><i class="fa fa-star" style="color:'+star_color+'"></i></td>' +
-            '<td class="view-message  dont-show">'+sender_name+'</td>' +
-            '<td class="view-message ">'+content+'</td>' +
+            '<td class="view-message  dont-show">'+show_name+'</td>' +
+            '<td class="view-message ">'+msg_title+'</td>' +
             '<td class="view-message  text-right">'+sende_tiem+'</td>' +
         '</tr>';
     return html_str
