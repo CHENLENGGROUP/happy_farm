@@ -47,6 +47,10 @@ system_logic/vo/BaseHandler.pyc
 *.xml
 =======
 >>>>>>> a253ac6dda615d2f59a931b418774f7bb9ed540d
+<<<<<<< HEAD
+system_logic/setting.pyc
+system_logic/vo/MessagePartHandler.pyc
+=======
 >>>>>>> 838f1f9e94886bd236be0c5bab88acf6c32d4e88
 *.pyc
 *.xml
@@ -58,4 +62,28 @@ system_logic/bo/__init__.pyc
 *.pyc
 *.pyc
 *.py
+*.pyc
+>>>>>>> 850e2a4821571092f709e4f058416dde8bd27a19
+system_logic/__init__.pyc
+system_logic/bo/__init__.pyc
+system_logic/__init__.pyc
+system_logic/bo/object/__init__.pyc
+system_logic/vo/UserPartHandler.pyc
+system_logic/vo/RegisterPartHandle.pyc
+system_logic/vo/OrderPartHandler.pyc
+system_logic/vo/SendMessagePartHandler.pyc
+system_logic/vo/method/DecodeJson.pyc
+system_logic/vo/method/__init__.pyc
+system_logic/vo/MessagePartHandler.pyc
+system_logic/vo/ManagerLoginHandler.pyc
+system_logic/vo/ManageIndexHandler.pyc
+system_logic/vo/LoginPartHandler.pyc
+system_logic/vo/CommentPartHandler.pyc
+system_logic/vo/CategoryPartHandler.pyc
+system_logic/vo/CartPartHandler.pyc
+system_logic/vo/BrowseProductPartHandler.pyc
+system_logic/vo/BaseHandler.pyc
+system_logic/vo/ArticlePartHandler.pyc
+system_logic/vo/AddressPartHandler.pyc
+*.pyc
 *.pyc

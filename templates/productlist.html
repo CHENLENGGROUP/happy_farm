@@ -45,6 +45,7 @@
 									</span>
 								</div>
 							</div>
+<<<<<<< HEAD
 						</form>
 					</div>
 				</div>
@@ -84,6 +85,50 @@
 							{% end %}
 						</div>
 					</article>
+=======
+						</div>
+
+
+				<div class="row">
+					<div class="col-md-12">
+						{% for item in product_list %}
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel panel-default card-view pa-0">
+								<div class="panel-wrapper collapse in">
+									<div class="panel-body pa-0">
+										<article class="col-item">
+											<div class="photo">
+												<div class="options">
+													<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['product_id']}}"><i class="icon-pencil"></i></button>
+
+													<button class="btn btn-info btn-icon-anim btn-circle" type="submit"><i class="icon-trash"></i></button>
+												</div>
+
+												<a href="#"> <img src="{{item['thumb_img_url']}}" class="img-responsive" alt="Product Image" /> </a>
+											</div>
+											<div class="info text-center">
+												<h6>{{item['product_name']}}</h6>
+												<span class="product-spec capitalize-font block mt-5 mb-5">{{item['brief']}}</span>
+												<span class="head-font block text-warning">￥{{item['shop_price']}}</span>
+											</div>
+										</article>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% end %}
+						<div class="pull-right">
+							<ul class="pagination pagination-split">
+
+								<li> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
+								{% for i in range(0,count/12) %}
+								<li id="page_number{{i+1}}"> <a class="pagination_button" name="{{i+1}}"  >{{i+1}}</a> </li>
+								{% end %}
+								<li> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
+							</ul>
+						</div>
+					</div>
+>>>>>>> 09ca3c1856e7dcc72030fed8e2fe1b1d266e3d17
 				</div>
 			</div>
 		</div>
