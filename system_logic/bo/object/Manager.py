@@ -144,7 +144,11 @@ class Manager:
         return result
 
     def get_manager(self, condition):
-        pass
+
+        de = DataBaseEngine("hf_manager")
+        operate_type = "select"
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        return result
 
     def delete_manager(self, condition):
         pass
@@ -355,22 +359,76 @@ class Manager:
         result = People().get_category(condition, supstring)
         return result
 
-    def browse_message(self, condition, supstring, page_number):
+    def browse_message(self, condition, supstring, page_number, manager_id):
 
         '''
-        获取
+        获取管理员信息
         :param condition:
         :param supstring:
         :return:
         '''
         msg_start = (page_number-1)*10
-        sup_str = " LIMIT %d, 10 "%(msg_start)
-        supstring = sup_str + supstring
+        supstring = supstring + " LIMIT %d, 10 "%(msg_start)
 
-        if condition.has_key('message_type_id'):
-            msg_type_id = condition['message_type_id']
-        else:
-            msg_type_id = 0
+        de = DataBaseEngine('hf_message')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,supstring=supstring)
 
+        select_item = {'COUNT(*)':0}
+        count = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item)
+        count = int(count[0]['COUNT(*)'])
+
+        if result == -1:
+            return -1,-1
+
+        message_info = []
+        #获取发送者信息
+        for item in result:
+            message_type_id = item['message_type_id']
+            condition_s, table_name = self.mp.handle_message_type(message_type_id, item, manager_id)
+            de_s = DataBaseEngine(table_name)
+            operate_type = 'select'
+            result_s = de_s.operate_database(operate_type=operate_type, operate_condition=condition_s)
+
+            if result_s == -1 or len(result_s) == 0:
+                return -1,-1
+
+            temp_dict = ManagerPO().handle_browse_message_info(item, result_s[0], message_type_id)
+            message_info.append(temp_dict)
+
+        return message_info, count
+
+    def delete_message(self, message_id_list):
+
+        result = People().delete_message(message_id_list)
+        return result
+
+    def mark_messageReaded(self, message_id_list, manager_id):
+
+        result = People().mark_messageReaded(message_id_list, manager_id)
+        return result
+
+    def mark_messageImportant(self, message_id_list):
+
+        result = People().mark_messageImportant(message_id_list)
+        return result
+
+    def send_message(self,message_info, manager_id):
+
+        '''
+        允许管理员发送消息
+        :param message_info:
+            :param content
+            :param title
+            :param reciver_id_list                  [id1, id2, id3]
+            :param is_important
+            :param message_type_id
+        :return:
+        '''
+        insert_item = self.mp.handle_send_message_info(message_info, manager_id)
+        de = DataBaseEngine('hf_message')
+        operate_type = 'insertMany'
+        result = de.operate_database(operate_type=operate_type, operate_item=insert_item)
+        return result
 
 

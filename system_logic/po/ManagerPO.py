@@ -188,3 +188,57 @@ class ManagerPO:
             else:
                 subtotal = subtotal + float(item['amount'])
         return subtotal
+
+    def handle_browse_message_info(self, msg_info, sender_info, message_type_id):
+
+        temp_dict = {}
+        for key in msg_info:
+            if key != 'reader_id' and key!='message_type_id' and key!='is_delete'\
+                    and key!='is_alert':
+                temp_dict[key] = msg_info[key]
+
+        if sender_info.has_key('real_name'):
+            temp_dict['show_name'] = sender_info['real_name']
+            temp_dict['sender_type'] = 'manager'
+        else:
+            temp_dict['show_name'] = sender_info['username']
+            temp_dict['sender_type'] = 'user'
+        temp_dict['sender_pic'] = sender_info['profile_pic_url']
+
+        return temp_dict
+
+    def handle_send_message_info(self, message_info, manager_id):
+
+        message_info_list = []
+
+        reciver_id_list = message_info['receiver_id_list']
+
+        for item in reciver_id_list:
+            temp_dict = {}
+            for key in message_info:
+                if key != 'receiver_id_list':
+                    temp_dict[key] = message_info[key]
+            temp_dict['receiver_id'] = int(item)
+            temp_dict['send_time'] = self.current_time
+            temp_dict['sender_id'] = manager_id
+            message_info_list.append(temp_dict)
+
+        return message_info_list
+
+    def handle_message_type(self, message_type_id, item, manager_id):
+
+        condition_s = {}
+        if message_type_id == 1:
+            table_name = 'hf_user'
+            condition_s['user_id='] = item['sender_id']
+        elif message_type_id == 2:
+            table_name = 'hf_user'
+            condition_s['user_id='] = item['receiver_id']
+        else:
+            table_name = 'hf_manager'
+            if int(item['sender_id']) == manager_id:
+                condition_s['manager_id='] = item['receiver_id']
+            else:
+                condition_s['manager_id='] = item['sender_id']
+
+        return condition_s, table_name

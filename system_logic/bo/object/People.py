@@ -101,18 +101,27 @@ class People:
         result = de.operate_database(operate_type=operate_type, operate_item=msg_info)
         return result
 
-    def mark_messageReaded(self, message_id_list):
+    def mark_messageReaded(self, message_id_list, reader_id):
         '''
         此方法用以实现用户标记信息已读
         :param message_id_list:             信息id列表
         :return:
         '''
         condition_list = self.pp.handle_Msg_list(message_id_list)
-        update_item = {'is_read':1, 'read_time':time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}
+        update_item = {'is_read':1, 'reader_id':reader_id, 'read_time':time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}
         m = Message()
         result = 1
         for item in condition_list:
             result = m.update_message(update_item, item)
+        return result
+
+    def mark_messageImportant(self, message_id_list):
+
+        condition_list = self.pp.handle_Msg_list(message_id_list)
+        update_item = {'is_important':1}
+        result =1
+        for item in condition_list:
+            result = Message().update_message(update_item, item)
         return result
 
     def delete_message(self, message_id_list):
@@ -123,7 +132,7 @@ class People:
         '''
         condition_list = self.pp.handle_Msg_list(message_id_list)
         result = 1
-        update_item = {'is_delete':1}
+        update_item = {'is_delete':1, 'is_read':1}
         m = Message()
         for item in condition_list:
             result = m.update_message(update_item, item)

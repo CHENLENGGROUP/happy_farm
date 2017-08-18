@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/happy_farm_1.iml" filepath="$PROJECT_DIR$/.idea/happy_farm_1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/happy_farm.iml" filepath="$PROJECT_DIR$/.idea/happy_farm.iml" />
+      <module fileurl="file://C:\Users\Administrator\Documents\GitHub\happy_farm\.idea\happy_farm_1.iml" filepath="C:\Users\Administrator\Documents\GitHub\happy_farm\.idea\happy_farm_1.iml" />
     </modules>
   </component>
 </project>

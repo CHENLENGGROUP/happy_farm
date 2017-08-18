@@ -750,9 +750,10 @@ class User:
         verify_result = VerifySession().verify_session_user(session_info)
         if not verify_result:
             return -2
+        user_id = int(session_info['session_id'][1:])
 
         message_id_list = self.up.handle_message_id_str(message_id_str)
-        result = People().mark_messageReaded(message_id_list)
+        result = People().mark_messageReaded(message_id_list, user_id)
         return result
 
     def browse_article_list(self, condition, page_number):
