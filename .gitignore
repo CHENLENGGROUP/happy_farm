@@ -51,3 +51,8 @@ system_logic/vo/BaseHandler.pyc
 *.pyc
 *.xml
 *.xml
+*.py
+*.pyc
+system_logic/bo/__init__.pyc
+system_logic/bo/__init__.pyc
+*.pyc
