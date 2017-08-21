@@ -86,3 +86,6 @@ system_logic/vo/BaseHandler.pyc
 system_logic/vo/ArticlePartHandler.pyc
 system_logic/vo/AddressPartHandler.pyc
 *.pyc
+.idea/modules.xml
+.idea/misc.xml
+.idea/modules.xml
