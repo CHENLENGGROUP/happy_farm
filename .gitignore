@@ -88,3 +88,5 @@ system_logic/vo/AddressPartHandler.pyc
 *.pyc
 *.pyc
 *.pyc
+*.xml
+*.xml
