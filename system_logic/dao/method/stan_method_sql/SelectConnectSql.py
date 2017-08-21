@@ -8,7 +8,7 @@ from system_logic.dao.method.basicmethods.SqlMaking import selectConnectSheet_qu
 
 class SelectConnectSql:
 
-    def __init__(self, table_dic, condition, supstring):
+    def __init__(self, table_dic, condition, supstring, select_item):
         '''
 
         :param table_dic:           所有连表的集合
@@ -20,7 +20,10 @@ class SelectConnectSql:
         self.table_dic = table_dic
         self.condition = condition
         self.supstring = supstring
-        self.select_item = {'*': 0}
+        if select_item != None:
+            self.select_item = select_item
+        else:
+            self.select_item = {'*': 0}
         self.db = torndb.Connection(host=setting.host, database=setting.db, user=setting.user, password=setting.passwd)
 
     def select_connectSql(self):

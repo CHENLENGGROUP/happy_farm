@@ -86,6 +86,17 @@ system_logic/vo/BaseHandler.pyc
 system_logic/vo/ArticlePartHandler.pyc
 system_logic/vo/AddressPartHandler.pyc
 *.pyc
+<<<<<<< HEAD
 .idea/modules.xml
 .idea/misc.xml
 .idea/modules.xml
+=======
+*.pyc
+*.pyc
+*.xml
+*.xml
+>>>>>>> 8a3c67ab0f8fe706c2607abba190700992ef8a06
+system_logic/__init__.pyc
+system_logic/bo/__init__.pyc
+*.pyc
+*.pyc

@@ -10,161 +10,116 @@
 {% end %}
 
 {% block main_part %}
-    <!-- Product Row One sdjjj-1-->
-                <div class="row">
-						<div class="col-md-12">
-							<div class="panel panel-default card-view">
-								<div class="panel-wrapper collapse in">
-									<div class="panel-body">
-										<div class="form-wrap mt-40">
-											<form>
-												<div class="row">
-													<div class="col-md-4">
-														<div class="form-group">
-															<select class="selectpicker" data-style="form-control" id="category_select">
-																<option value="0">全部商品</option>
-																{% for item in category_list %}
-																<option value="{{item['category_id']}}">{{item['category_content']}}</option>
-																{% end %}
-															</select>
-														</div>
-													</div>
-                                                    <div class="col-md-4">
-														<div class="form-group">
-															<select class="selectpicker" data-style="form-control" id="sortBy">
-																<option value="0">请选择排序方式</option>
-																<option value="1">商品热度</option>
-																<option value="2">上架时间</option>
-																<option value="3">价格从低到高</option>
-																<option value="4">价格从高到低</option>
-															</select>
-														</div>
-													</div>
-                                                    <div class="input-group mb-15 col-md-4">
-															<span class="input-group-btn">
-																<button type="button" class="btn  btn-danger"><i class="fa fa-search"></i></button>
-															</span>
-															<input type="text" id="search_box" name="example-input1-group4" class="form-control" placeholder="请输入搜索内容">
-													</div>
-												</form>
-											</div>
-										</div>
+<!-- Product Row One-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default card-view">
+			<div class="panel-wrapper collapse in">
+				<div class="panel-body">
+					<div class="form-wrap mt-40">
+						<form action="">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<select class="selectpicker cate_select" data-style="form-control" id="category_select" name="category_id">
+											<option value="0">全部商品</option>
+											{% for item in category_list %}
+											<option value="{{item['category_id']}}">{{item['category_content']}}</option>
+											{% end %}
+										</select>
 									</div>
 								</div>
-							</div>
-						</div>
-
-
-				<div class="row">
-					<div class="col-md-12">
-						{% for item in product_list %}
-						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-							<div class="panel panel-default card-view pa-0">
-								<div class="panel-wrapper collapse in">
-									<div class="panel-body pa-0">
-										<article class="col-item">
-											<div class="photo">
-												<div class="options">
-													<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['product_id']}}"><i class="icon-pencil"></i></button>
-
-													<button class="btn btn-info btn-icon-anim btn-circle" type="submit"><i class="icon-trash"></i></button>
-												</div>
-
-												<a href="#"> <img src="{{item['thumb_img_url']}}" class="img-responsive" alt="Product Image" /> </a>
-											</div>
-											<div class="info text-center">
-												<h6>{{item['product_name']}}</h6>
-												<span class="product-spec capitalize-font block mt-5 mb-5">{{item['brief']}}</span>
-												<span class="head-font block text-warning">￥{{item['shop_price']}}</span>
-											</div>
-										</article>
+								<div class="col-md-4">
+									<div class="form-group">
+										<select class="selectpicker sort_select" data-style="form-control" id="sortBy" name="sort_rule">
+											<option value="">请选择排序方式</option>
+											<option value="is_hot desc">商品热度(正序)</option>
+											<option value="is_hot asc">商品热度(倒序)</option>
+											<option value="add_time desc">上架时间(正序)</option>
+											<option value="add_time asc">上架时间(倒序)</option>
+										</select>
 									</div>
 								</div>
+								<div class="input-group mb-15 col-md-4">
+									<input type="text" id="example-input1-group21" name="search_item" class="form-control" placeholder="按商品名字或编号搜索...">
+									 <span class="input-group-btn">
+										<button type="button" class="btn  btn-success" id="search-tbn"><i class="fa fa-search"></i></button>
+									 </span>
+								</div>
 							</div>
-						</div>
-						{% end %}
-						<div class="pull-right">
-							<ul class="pagination pagination-split">
-
-								<li> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
-								{% for i in range(0,count/12) %}
-								<li id="page_number{{i+1}}"> <a class="pagination_button" name="{{i+1}}"  >{{i+1}}</a> </li>
-								{% end %}
-								<li> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
-							</ul>
-						</div>
+						</form>
 					</div>
 				</div>
-				<!-- /Product Row One -->
+			</div>
+		</div>
+	</div>
+</div>
+
+{% for product_list in product_total %}
+<div class="row">
+	{% for item in product_list %}
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+		<div class="panel panel-default card-view pa-0">
+			<div class="panel-wrapper collapse in">
+				<div class="panel-body pa-0">
+					<article class="col-item">
+						<div class="photo">
+							<div class="options">
+								<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['product_id']}}"><i class="icon-pencil"></i></button>
+
+								<button class="btn btn-info btn-icon-anim btn-circle" type="submit"><i class="icon-trash"></i></button>
+							</div>
+
+							<a href="#"> <img src="{{item['thumb_img_url']}}" class="img-responsive" alt="Product Image" /> </a>
+						</div>
+						<div class="info text-center">
+							<h6>{{item['product_name']}}</h6>
+							{% if item['brief'] == '' %}
+							<span class="product-spec capitalize-font block mt-5 mb-5">无简介</span>
+							{% else %}
+							<span class="product-spec capitalize-font block mt-5 mb-5">{{item['brief']}}</span>
+							{% end %}
+							{% if item['product_type']==1 %}
+							<span class="head-font block text-warning">￥{{item['first_pay']}}</span>
+							{% else %}
+							<span class="head-font block text-warning">￥{{item['shop_price']}}</span>
+							{% end %}
+						</div>
+					</article>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% end %}
+</div>
+{% end %}
+{% if page_count >1 %}
+<div class="row">
+	<ul class="pagination pagination-lg mt-0 mb-20 mr-15 pull-right" id="">
+		{% if page_number == 1 %}
+		<li class="disabled left-arrow"> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
+		{% else %}
+		<li class="left-arrow"> <a href="#"><i class="fa fa-angle-left"></i></a> </li>
+		{% end %}
+		{% for i in range(0, page_count)%}
+		{% if i==page_number-1 %}
+		<li class="active"> <a href="#">{{i+1}}</a> </li>
+		{% else %}
+		<li class=""> <a href="#">{{i+1}}</a> </li>
+		{% end %}
+		{% end %}
+		{% if page_number==page_count %}
+		<li  class="disabled right-arrow"> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
+		{% else %}
+		<li class="right-arrow"> <a href="#"><i class="fa fa-angle-right"></i></a> </li>
+		{% end %}
+	</ul>
+</div>
+{% end %}
 {% end %}
 
 {% block additional_script %}
-        <!-- Bootstrap Select JavaScript -->
-		<script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-		<script>
-			var href = "/managerbrowseproductlist"
-			$(document).ready(function(){
-				$('#category_select').val({{category_id}});
-				$('#sortBy').val({{sort_by}});
-				$('#search_box').val("{{search_content}}")
-				var page_number = "#page_number"+"{{page_number}}";
-				$(page_number).addClass("active");
-				var pagination = $('.pagination_button');
-				$.each(pagination, function() {
-					this.onclick=function(){
-						var sortBy = $('#sortBy').val();
-						var category = $('#category_select').val();
-						var search_box = $('#search_box').val();
-						var page_number = this.name;
-						if(category != 0){
-							if(sortBy != 0){
-								window.location.href = href+"?category_id="+category+"&sort_by="+sortBy+"&page_number="+ page_number;
-							}else{
-								window.location.href = href+"?category_id="+category+"&page_number="+ page_number;
-							}
-						}else{
-							window.location.href = href+"?page_number="+page_number;
-						}
-						if(search_box != ""){
-							window.location.href = href+"?search_content="+search_box+"&page_number="+ page_number
-						}
-					}
-				});
-				var edit = $('.edit');
-				$.each(edit, function() {
-					this.onclick = function(){
-						window.location.href = "/managerbrowseproductdetail?product_id="+this.name;
-					}
-				});
-			});
-			$('#category_select').change(function(){
-				var category = $('#category_select').val()
-				if(category != 0){
-					window.location.href = href+"?category_id="+category;
-				}else{
-					window.location.href = href;
-				}
-			});
-			$('#sortBy').change(function(){
-				var sortBy = $('#sortBy').val();
-				var category = $('#category_select').val();
-				var sort_by;
-				if(sortBy != 0){
-					if (category != 0){
-						window.location.href = href+"?category_id="+category+"&sort_by="+sortBy;
-					}else{
-						window.location.href = href+"?sort_by="+sortBy;
-					}
-				}else{
-					window.location.href = href;
-				}
-			});
-			$('.btn-danger').click(function(){
-				var search_box = $('#search_box').val();
-				if(search_box != ""){
-					window.location.href = href+"?search_content="+search_box;
-				}
-			});
-
-		</script>
+<!-- Bootstrap Select JavaScript -->
+<script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="../static/addtionalJS/productlist_addjs.js"></script>
 {% end %}

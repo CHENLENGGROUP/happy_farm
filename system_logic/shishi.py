@@ -59,14 +59,6 @@ import memcache
 # print a
 # print b
 # print b_1
-a = '冷'
-b = '追'
-
-if a > b:
-    print 1
-else:
-    print 2
-
 
 # from system_logic.bo.object.User import User
 # login_info= {'username':'singlesjjj','passwd':'123456','login_ip':'112.10.134.125'}
