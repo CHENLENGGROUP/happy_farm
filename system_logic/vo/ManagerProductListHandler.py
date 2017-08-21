@@ -32,7 +32,8 @@ class BrowseProductListHandler(BaseHandler):
         except:
             page_number = 1
         try:
-            condition['category_id='] = int(self.get_argument('category_id'))
+            if(int(self.get_argument('category_id'))!=0):
+                condition['category_id='] = int(self.get_argument('category_id'))
         except:
             pass
         try:
@@ -43,17 +44,30 @@ class BrowseProductListHandler(BaseHandler):
             search_item = str(self.get_argument('search_item'))
         except:
             pass
-
         if search_item != '':
             try:
-                condition['product_sn='] = int(search_item)
+                search_item = int(search_item)
+                search_len = len(str(search_item))
+                if search_len == 16:
+                    condition['product_sn='] = int(search_item)
+                else:
+                    condition['product_name LIKE'] = '%%'+str(search_item)+'%%'
             except:
                 condition['product_name LIKE'] = '%%'+search_item+'%%'
+        page_number = int(page_number)
 
-        product_total, count = Manager().browse_product(condition, page_number, supstring)
+        if condition.has_key('category_id='):
+            product_total, count = Manager().browse_product_by_category(condition, page_number, supstring)
+        else:
+            product_total, count = Manager().browse_product(condition, page_number, supstring)
         category_list = Manager().get_category({'1=':1},' ORDER BY category_id ASC ')
-
+        if count%12!=0:
+            page_count = count/12+1
+        else:
+            page_count = count/12
         # reMsg = {'product_list':product_total, 'count':count}
         # self.write(reMsg)
 
-        self.render('productlist.html', head_info=head_info,product_total=product_total,category_list=category_list)
+        self.refresh_session()
+        self.render('productlist.html', head_info=head_info,product_total=product_total,
+                    category_list=category_list, page_count=page_count, page_number=page_number)

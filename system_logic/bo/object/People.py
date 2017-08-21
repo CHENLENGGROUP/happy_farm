@@ -152,7 +152,7 @@ class People:
             condition = {'1=':1}
         product_start = (page_number-1)*each_page_products
 
-        if supstring != None:
+        if supstring != None and supstring != '':
             if supstring.lower() == 'add_time asc':
                 supstring = 'ORDER BY %s LIMIT %d, %d' % (supstring, product_start, each_page_products)
             elif supstring.lower() == 'add_time desc':
@@ -179,7 +179,7 @@ class People:
 
         return result
 
-    def browse_product_by_category(self, condition, page_number, each_page_products=12, supstring=None):
+    def browse_product_by_category(self, condition, page_number, each_page_products=12, supstring=None, need_count=0):
         '''
         此方法用于通过分类查询商品
         :param condition:                       同上
@@ -190,8 +190,13 @@ class People:
         page_number = int(page_number)
         each_page_products = int(each_page_products)
         product_start = (page_number - 1) * each_page_products
-        if supstring != None:
-            supstring = 'ORDER BY %s add_time DESC LIMIT %d, %d'%(supstring, product_start, each_page_products)
+        if supstring != None and supstring != '':
+            if supstring.lower() == 'add_time asc':
+                supstring = 'ORDER BY %s LIMIT %d, %d' % (supstring, product_start, each_page_products)
+            elif supstring.lower() == 'add_time desc':
+                supstring = 'ORDER BY add_time DESC LIMIT %d, %d' % (product_start, each_page_products)
+            else:
+                supstring = 'ORDER BY %s, add_time DESC LIMIT %d, %d'%(supstring, product_start, each_page_products)
         else:
             supstring = ' ORDER BY is_hot DESC, add_time DESC LIMIT %d, %d'%(product_start, each_page_products)
 
@@ -204,6 +209,13 @@ class People:
         de = DataBaseEngine(table_name)
         operate_type = 'selectconnect'
         result = de.operate_database(operate_type=operate_type, operate_condition=condition, supstring=supstring)
+
+        if need_count == 1:
+            select_item={'COUNT(*)':0}
+            result_c = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item)
+            count = result_c[0]['COUNT(*)']
+            return result, count
+
         return result
 
     def get_product_imgs(self, condition):

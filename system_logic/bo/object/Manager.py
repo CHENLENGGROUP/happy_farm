@@ -2,6 +2,7 @@
 
 #引入高速缓存模块
 import  memcache
+import time
 #引入对象——人
 from system_logic.bo.object.People import People
 #引入数据库操作模块
@@ -20,6 +21,7 @@ from system_logic.po.SearchLocationByIP import SearchLocationByIP
 from system_logic.bo.object.static_object.Product import Product
 #引入订单对象
 from system_logic.bo.object.static_object.Order import Order
+from system_logic.bo.object.static_object.NewEvent import NewEvent
 
 class Manager:
 
@@ -429,6 +431,7 @@ class Manager:
         de = DataBaseEngine('hf_message')
         operate_type = 'insertMany'
         result = de.operate_database(operate_type=operate_type, operate_item=insert_item)
+
         return result
 
     def browse_product(self, condition, page_number, supstring):
@@ -443,4 +446,11 @@ class Manager:
         result, count = People().browse_product(condition,page_number,12,supstring, 1)
         product_list = self.mp.handle_product_list_info(result)
 
+        return product_list, count
+
+    def browse_product_by_category(self, condition, page_number, supstring):
+
+        result, count = People().browse_product_by_category(condition=condition, page_number=page_number,
+                                                            supstring=supstring, need_count=1)
+        product_list = self.mp.handle_product_list_info(result)
         return product_list, count

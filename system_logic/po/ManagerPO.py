@@ -259,7 +259,7 @@ class ManagerPO:
         if len(product_list_re) > 4:
             for i in range(0, len(product_list_re)):
                 temp_list.append(product_list_re[i])
-                if (i+1)%4 == 0:
+                if (i+1)%4 == 0 or i == len(product_list_re)-1:
                     product_list_fi.append(temp_list)
                     temp_list = []
         else:
