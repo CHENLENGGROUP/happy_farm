@@ -266,3 +266,59 @@ class ManagerPO:
             product_list_fi = [product_list_re]
 
         return product_list_fi
+
+    def handle_login_log(self, login_log):
+
+        login_log_re = []
+        for item in login_log:
+            temp_dict = {
+                'manager_id':item['manager_id'],
+                'real_name':item['real_name'],
+                'login_time':item['login_time'],
+                'login_ip':item['login_ip'],
+                'country':item['country'],
+                'province':item['province'],
+                'city':item['city']
+            }
+            login_log_re.append(temp_dict)
+        return login_log_re
+
+    def handle_orderact_log(self, orderact_log):
+
+        orderact_log_re = []
+        for item in orderact_log:
+            temp_dict = {
+                'manager_id':item['manager_id'],
+                'real_name':item['real_name'],
+                'act_name':item['act_name'],
+                'act_time':item['act_time'],
+                'order_id':item['order_id'],
+                'order_sn':item['order_sn'],
+                'product_name':item['product_name']
+            }
+            orderact_log_re.append(temp_dict)
+        return orderact_log_re
+
+    def handle_product_act_log(self, product_act_log):
+
+        product_act_log_re = []
+        for item in product_act_log:
+            temp_dict = {
+                'manager_id':item['manager_id'],
+                'real_name':item['real_name'],
+                'act_type_exp':item['act_type_exp'],
+                'act_time':item['act_time'],
+                'product_id':item['product_id'],
+                'product_sn':item['product_sn'],
+                'product_name':item['product_name']
+            }
+            if item['act_type_id'] != 3:
+                act_detail = '%s商品，商品编号为%s'\
+                             %(item['act_type_exp'], item['product_sn'])
+            else:
+                act_detail = '将%s从 "%s"修改为 "%s"'\
+                             %(item['act_data_name'], item['original_data'], item['modified_data'])
+            temp_dict['act_detail'] = act_detail
+            product_act_log_re.append(temp_dict)
+
+        return product_act_log_re

@@ -100,6 +100,7 @@ system_logic/__init__.pyc
 system_logic/bo/__init__.pyc
 *.pyc
 *.pyc
+<<<<<<< HEAD
 *.pyc
 system_logic/setting.pyc
 *.pyc
@@ -107,3 +108,6 @@ system_logic/setting.pyc
 *.pyc
 system_logic/setting.pyc
 system_logic/setting.pyc
+=======
+*.xml___jb_tmp___
+>>>>>>> 25d7681ef512d9b7cde5d8e2668980718d76f408

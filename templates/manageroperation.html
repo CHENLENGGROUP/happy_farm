@@ -2,7 +2,7 @@
 
 {% block additional_css %}
 <!-- Morris Charts CSS -->
-    <link href="../static/vendors/bower_components/morris.js/morris.css" rel="stylesheet" type="text/css"/>
+<link href="../static/vendors/bower_components/morris.js/morris.css" rel="stylesheet" type="text/css"/>
 {% end %}
 
 {% block additional_css_after_style %}
@@ -56,20 +56,21 @@
                             <table id="order_data" class="table table-hover display  pb-30" >
                                 <thead>
                                     <tr>
-                                        <th>订单号</th>
-                                        <th>订单价格</th>
+                                        <th>订单编号</th>
+                                        <th>商品名字</th>
+                                        <th>操作者名字</th>
                                         <th>操作类型</th>
                                         <th>操作时间</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for item in order_list %}
+                                    {% for item in order_act_log %}
                                     <tr>
                                         <td>{{item['order_sn']}}</td>
-                                        <td>{{item['order_subtotal']}}</td>
-                                        <td>{{item['operation_type']}}</td>
-                                        <td>{{item['operation_time']}}</td>
+                                        <td>{{item['product_name']}}</td>
+                                        <td>{{item['real_name']}}</td>
+                                        <td>{{item['act_name']}}</td>
+                                        <td>{{item['act_time']}}</td>
                                     </tr>
                                     {% end %}
                                 </tbody>
@@ -99,21 +100,23 @@
                             <table id="product_data" class="table table-hover display  pb-30" >
                                 <thead>
                                     <tr>
-                                        <th>商品号</th>
+                                        <th>商品编号</th>
+                                        <th>商品名字</th>
+                                        <th>操作者名字</th>
                                         <th>操作类型</th>
-                                        <th>原数据</th>
-                                        <th>修改数据</th>
-                                        <th>时间</th>
+                                        <th>操作明细</th>
+                                        <th>操作时间</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for item in product_list %}
+                                    {% for item in product_act_log %}
                                     <tr>
                                         <td>{{item['product_sn']}}</td>
-                                        <td>{{item['operation_type']}}</td>
-                                        <td>{{item['previous_data']}}</td>
-                                        <td>{{item['new_data']}}</td>
-                                        <td>{{item['operation_time']}}</td>
+                                        <td>{{item['product_name']}}</td>
+                                        <td>{{item['real_name']}}</td>
+                                        <td>{{item['act_type_exp']}}</td>
+                                        <td>{{item['act_detail']}}</td>
+                                        <td>{{item['act_time']}}</td>
                                     </tr>
                                     {% end %}
                                 </tbody>
@@ -143,6 +146,7 @@
                             <table id="login_data" class="table table-hover display  pb-30" >
                                 <thead>
                                     <tr>
+                                        <th>管理员名字</th>
                                         <th>登录IP</th>
                                         <th>登录国家</th>
                                         <th>登录省份</th>
@@ -151,8 +155,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for item in login_info %}
+                                    {% for item in login_log %}
                                     <tr>
+                                        <td>{{item['real_name']}}</td>
                                         <td>{{item['login_ip']}}</td>
                                         <td>{{item['country']}}</td>
                                         <td>{{item['province']}}</td>
