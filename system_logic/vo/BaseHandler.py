@@ -35,3 +35,9 @@ class BaseHandler(tornado.web.RequestHandler):
 
         real_name = self.get_secure_cookie('loginuser')
         mc.set(real_name, 1, time=1800)
+
+    def log_out(self, *args, **kwargs):
+
+        real_name = self.get_secure_cookie('loginuser')
+        self.clear_all_cookies()
+        mc.delete(real_name)

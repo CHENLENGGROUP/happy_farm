@@ -63,7 +63,8 @@ import memcache
 # from system_logic.bo.object.User import User
 # login_info= {'username':'singlesjjj','passwd':'123456','login_ip':'112.10.134.125'}
 # print User().login(login_info)
-# mc = memcache.Client(['127.0.0.1:11211'])
+mc = memcache.Client(['127.0.0.1:11211'])
+print mc.get('之轩')
 # mc.set('tn',123,5)
 # print mc.get('tn')
 # import time

@@ -80,7 +80,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a href="#"><i class="fa fa-fw fa-power-off"></i> 登出</a>
+								<a href="/Managerogout"><i class="fa fa-fw fa-power-off"></i> 登出</a>
 							</li>
 						</ul>
 					</li>
@@ -157,7 +157,7 @@
 								<a href="#">员工分析</a>
 							</li>
 							<li>
-								<a href="#">添加员工</a>
+								<a href="/manageraddmanager">添加员工</a>
 							</li>
 							<li>
 								<a href="/managerbrowsemanagerlist">员工列表</a>
@@ -172,7 +172,22 @@
 								<a href="#">消息分析</a>
 							</li>
 							<li>
-								<a href="/managerbrowsemessage?box_type=1">消息列表</a>
+								<a href="#">消息列表</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#article_menu">
+							<i class="fa fa-file-text-o mr-10"></i>文章管理<span class="pull-right"><i class="fa fa-fw fa-angle-down"></i></span></a>
+						<ul id="article_menu" class="collapse collapse-level-1">
+							<li>
+								<a href="#">文章分析</a>
+							</li>
+							<li>
+								<a href="/manageraddarticle">添加文章</a>
+							</li>
+							<li>
+								<a href="#">文章列表</a>
 							</li>
 						</ul>
 					</li>
@@ -265,6 +280,7 @@
 	{% end %}
 	<!-- Init JavaScript -->
 	<script src="../static/addtionalJS/action/recode_global.js"></script>
+	<script src="../static/addtionalJS/main_addjs.js"></script>
 	<script src="../static/dist/js/init.js"></script>
 
 

@@ -55,8 +55,8 @@ class Manager:
         location_info = SearchLocationByIP().search_location(login_ip)
         login_info, current_time = self.mp.handle_login_info(result[0]['manager_id'], location_info)
 
-        #将登录时间更新如管理员表
-        update_item = {'last_login_time':current_time}
+        #将登录时间,最后登录ip更新入管理员表
+        update_item = {'last_login_time':current_time, 'last_login_ip':login_info['login_ip']}
         condition = {'manager_id=':result[0]['manager_id']}
         operate_type = 'update'
         de.operate_database(operate_type=operate_type, operate_item=update_item, operate_condition=condition)
@@ -461,3 +461,46 @@ class Manager:
         supstring = ' ORDER BY register_time DESC'
         result = People().get_user(condition, supstring)
         return result
+
+    def get_login_log(self, condition):
+
+        table_name = [{'hf_manager-hf_login_log_manager':'manager_id'}]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        if result == -1:
+            return result
+        login_log = self.mp.handle_login_log(result)
+        return login_log
+
+    def get_order_act_log(self, condition):
+
+        table_name = [
+            {'hf_manager-hf_manager_actorder_log':'manager_id'},
+            {'hf_manager_actorder_log-hf_order':'order_id'},
+            {'hf_manager_actorder_log-hf_actorder_type':'act_type_id'}
+        ]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        if result == -1:
+            return result
+
+        order_act_log = self.mp.handle_orderact_log(result)
+        return order_act_log
+
+    def get_product_act_log(self, condition):
+
+        table_name = [
+            {'hf_manager-hf_product_act_log':'manager_id'},
+            {'hf_product_act_log-hf_product':'product_id'},
+            {'hf_product_act_log-hf_act_type':'act_type_id'}
+        ]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        if result == -1:
+            return -1
+
+        product_act_log = self.mp.handle_product_act_log(result)
+        return product_act_log
