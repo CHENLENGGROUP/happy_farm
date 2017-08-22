@@ -23,7 +23,6 @@ class BrowseManagerOperationHanlder(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        real_name = self.get_secure_cookie('loginuser')
         manager_id = int(self.get_secure_cookie('loginuser_id'))
 
         head_info = self.get_head_info('员工列表')

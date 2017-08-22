@@ -454,3 +454,10 @@ class Manager:
                                                             supstring=supstring, need_count=1)
         product_list = self.mp.handle_product_list_info(result)
         return product_list, count
+
+    def get_user(self):
+
+        condition = {'1=':1}
+        supstring = ' ORDER BY register_time DESC'
+        result = People().get_user(condition, supstring)
+        return result
