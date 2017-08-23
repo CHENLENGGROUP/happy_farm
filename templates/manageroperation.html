@@ -178,39 +178,81 @@
 {% end %}
 
 {% block additional_script %}
-    <!-- Morris Charts JavaScript -->
-    <script src="../static/vendors/bower_components/raphael/raphael.min.js"></script>
-    <script src="../static/vendors/bower_components/morris.js/morris.min.js"></script>
-    <script src="../static/addtionalJS/web_data/operationData/operation_bar_chart_data.js"></script>
-    <script>
-        var language = {
-	    "language":{
-			"sProcessing": "处理中...",
-	        "sLengthMenu": "显示 _MENU_ 项结果",
-	        "sZeroRecords": "没有匹配结果",
-	        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-	        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-	        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-	        "sInfoPostFix": "",
-	        "sSearch": "搜索:",
-	        "sUrl": "",
-	        "sEmptyTable": "表中数据为空",
-	        "sLoadingRecords": "载入中...",
-	        "sInfoThousands": ",",
-	        "oPaginate": {
-	            "sFirst": "首页",
-	            "sPrevious": "上页",
-	            "sNext": "下页",
-	            "sLast": "末页"
-	        },
-	        "oAria": {
-	            "sSortAscending": ": 以升序排列此列",
-	            "sSortDescending": ": 以降序排列此列"
-	        }
-		}
-	}
-        $('#order_data').DataTable(language);
-        $('#product_data').DataTable(language);
-        $('#login_data').DataTable(language);
-    </script>
+<!-- Morris Charts JavaScript -->
+<script src="../static/vendors/bower_components/raphael/raphael.min.js"></script>
+<script src="../static/vendors/bower_components/morris.js/morris.min.js"></script>
+<script>
+$(document).ready(function () {
+    var data_str_msg = "{{msg_chart_data_list}}"
+    var data_str_order = "{{order_chart_data_list}}"
+    var re = new RegExp("&#39;","g");
+    data_str_msg = data_str_msg.replace(re,"'")
+    data_str_order = data_str_order.replace(re, "'")
+    var data_li = eval(data_str_msg)
+    var data_li_order = eval(data_str_order)
+    if($('#morris_extra_bar_chart').length > 0){
+        // Morris bar chart
+        Morris.Bar({
+            element: 'morris_extra_bar_chart',
+            data: data_li,
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['阅读数', '回复数'],
+            barColors:['#fcb03b', '#ea65a2'],
+            hideHover: 'auto',
+            gridLineColor: '#eee',
+            resize: true,
+            gridTextColor:'#2f2c2c',
+            gridTextFamily:"Varela Round"
+        });
+    }
+    if($('#morris_bar_chart').length > 0){
+        // Morris bar chart
+        Morris.Bar({
+            element: 'morris_bar_chart',
+            data: data_li_order,
+            xkey: 'y',
+            ykeys: ['a'],
+            labels: ['操作数量'],
+            barColors:['#fcb03b',],
+            hideHover: 'auto',
+            gridLineColor: '#eee',
+            resize: true,
+            gridTextColor:'#2f2c2c',
+            gridTextFamily:"Varela Round"
+        });
+    }
+})
+</script>
+<script>
+var language = {
+"language":{
+    "sProcessing": "处理中...",
+    "sLengthMenu": "显示 _MENU_ 项结果",
+    "sZeroRecords": "没有匹配结果",
+    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+    "sInfoPostFix": "",
+    "sSearch": "搜索:",
+    "sUrl": "",
+    "sEmptyTable": "表中数据为空",
+    "sLoadingRecords": "载入中...",
+    "sInfoThousands": ",",
+    "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上页",
+        "sNext": "下页",
+        "sLast": "末页"
+    },
+    "oAria": {
+        "sSortAscending": ": 以升序排列此列",
+        "sSortDescending": ": 以降序排列此列"
+    }
+}
+}
+$('#order_data').DataTable(language);
+$('#product_data').DataTable(language);
+$('#login_data').DataTable(language);
+</script>
 {% end %}

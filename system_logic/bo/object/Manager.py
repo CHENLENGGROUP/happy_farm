@@ -376,9 +376,7 @@ class Manager:
         operate_type = 'select'
         result = de.operate_database(operate_type=operate_type,operate_condition=condition,supstring=supstring)
 
-        select_item = {'COUNT(*)':0}
-        count = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item)
-        count = int(count[0]['COUNT(*)'])
+        count = int(self.count_message(condition))
 
         if result == -1:
             return -1,-1
@@ -399,6 +397,15 @@ class Manager:
             message_info.append(temp_dict)
 
         return message_info, count
+
+    def count_message(self, condition):
+
+        de = DataBaseEngine('hf_message')
+        operate_type = 'select'
+        select_item = {'COUNT(*)': 0}
+        count = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item)
+        count = int(count[0]['COUNT(*)'])
+        return count
 
     def delete_message(self, message_id_list):
 
@@ -465,6 +472,7 @@ class Manager:
     def get_login_log(self, condition):
 
         table_name = [{'hf_manager-hf_login_log_manager':'manager_id'}]
+        condition['hf_login_log_manager.manager_id IS NOT NULL'] = ''
         de = DataBaseEngine(table_name)
         operate_type = 'selectconnect'
         result = de.operate_database(operate_type=operate_type, operate_condition=condition)
@@ -480,6 +488,8 @@ class Manager:
             {'hf_manager_actorder_log-hf_order':'order_id'},
             {'hf_manager_actorder_log-hf_actorder_type':'act_type_id'}
         ]
+        condition['hf_manager_actorder_log.manager_id IS NOT NULL']=''
+        condition['hf_order.order_id IS NOT NULL']=''
         de = DataBaseEngine(table_name)
         operate_type = 'selectconnect'
         result = de.operate_database(operate_type=operate_type, operate_condition=condition)
@@ -496,6 +506,8 @@ class Manager:
             {'hf_product_act_log-hf_product':'product_id'},
             {'hf_product_act_log-hf_act_type':'act_type_id'}
         ]
+        condition['hf_product_act_log.manager_id IS NOT NULL'] = ''
+        condition['hf_product.product_id IS NOT NULL'] = ''
         de = DataBaseEngine(table_name)
         operate_type = 'selectconnect'
         result = de.operate_database(operate_type=operate_type, operate_condition=condition)
@@ -504,3 +516,23 @@ class Manager:
 
         product_act_log = self.mp.handle_product_act_log(result)
         return product_act_log
+
+    def get_count_manager(self, delta_number, right_date, get_type, condition, time_name, table_name):
+
+        count_msg_list = []
+
+        date_list, delta_date = self.mp.handle_sale_quantity_date(right_date, delta_number, get_type)
+
+        de = DataBaseEngine(table_name)
+        operate_type = 'select'
+        operate_item = {'COUNT(*)':0}
+
+        for item in date_list:
+            condition[time_name + ' LIKE '] = item + '%%'
+            result = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=operate_item)
+            if result == -1:
+                return result
+
+            count_msg_list.append(result[0]['COUNT(*)'])
+
+        return count_msg_list, delta_date, date_list

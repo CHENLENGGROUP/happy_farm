@@ -46,7 +46,7 @@ if($('#morris_extra_bar_chart').length > 0)
 			xkey: 'y',
 			ykeys: ['a', 'b'],
 			labels: ['A', 'B'],
-			barColors:['#fcb03b', '#ea65a2'],
+			barColors:['#fcb03b', '#ea65a2','black'],
 			hideHover: 'auto',
 			gridLineColor: '#eee',
 			resize: true,

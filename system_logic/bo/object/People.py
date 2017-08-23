@@ -112,7 +112,12 @@ class People:
         m = Message()
         result = 1
         for item in condition_list:
-            result = m.update_message(update_item, item)
+            condition_se = {'message_id=':item['message_id=']}
+            msg = m.get_message(condition_se,'')
+            if msg == -1 or len(msg) == 0:
+                continue
+            if msg[0]['reader_id'] == 0:
+                result = m.update_message(update_item, item)
         return result
 
     def mark_messageImportant(self, message_id_list):
