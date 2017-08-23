@@ -22,7 +22,7 @@ class BrowseArticleListHandler(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        head_info = self.get_head_info('商品列表')
+        head_info = self.get_head_info('文章列表')
 
         condition = {}
         supstring = None
@@ -69,5 +69,5 @@ class BrowseArticleListHandler(BaseHandler):
         # self.write(reMsg)
 
         self.refresh_session()
-        self.render('productlist.html', head_info=head_info,product_total=product_total,
+        self.render('articlelist.html', head_info=head_info,product_total=product_total,
                     category_list=category_list, page_count=page_count, page_number=page_number)
