@@ -239,11 +239,39 @@ class Manager:
             de.operate_database(operate_type=operate_type, operate_item=product_property_info)
 
         #存入商品操作信息
+        self.add_product_log_act(product_act_log_info)
+        return 1
+
+    def delete_product(self, product_id, manager_id):
+
+        '''
+        删除商品
+        :param product_id:          商品id
+        :param manager_id           管理员id
+        :return:
+        '''
+        #删除商品，将商品is_delete字段修改为1
+        de = DataBaseEngine('hf_product')
+        operte_type = 'update'
+        up_item = {'is_delete':1}
+        condition = {'product_id=':product_id}
+        result = de.operate_database(operate_type=operte_type, operate_item=up_item, operate_condition=condition)
+
+        if result == -1:
+            return result
+
+        #将操作更新入操作表
+        log_info = {'product_id':product_id, 'manager_id':manager_id,
+                    'act_type_id':2, 'act_time':time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}
+        self.add_product_log_act(log_info)
+
+        return result
+
+    def add_product_log_act(self, log_info):
+
         de = DataBaseEngine('hf_product_act_log')
         operate_type = 'insert'
-        de.operate_database(operate_type=operate_type, operate_item=product_act_log_info)
-
-        return 1
+        de.operate_database(operate_type=operate_type, operate_item=log_info)
 
     def modify_product(self, apply_info):
         pass
@@ -450,6 +478,7 @@ class Manager:
         :param substring:
         :return:
         '''
+        condition['is_delete='] = 0
         result, count = People().browse_product(condition,page_number,12,supstring, 1)
         product_list = self.mp.handle_product_list_info(result)
 

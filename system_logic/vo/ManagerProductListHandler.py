@@ -71,3 +71,4 @@ class BrowseProductListHandler(BaseHandler):
         self.refresh_session()
         self.render('productlist.html', head_info=head_info,product_total=product_total,
                     category_list=category_list, page_count=page_count, page_number=page_number)
+

@@ -21,7 +21,7 @@ from system_logic.vo import MessagePartHandler
 from system_logic.vo import ArticlePartHandler
 from system_logic.vo import ManagerLoginHandler
 from system_logic.vo import ManagerIndexHandler
-from system_logic.vo import ManagerAddProductHandler
+from system_logic.vo import ManagerOperateProductHandler
 from system_logic.vo import ManagerMessageHandler
 from system_logic.vo import ManagerProductListHandler
 from system_logic.vo import ManagerUserList
@@ -74,7 +74,8 @@ class Application(tornado.web.Application):
             (r'/managerlogin', ManagerLoginHandler.ManagerLoginHandler),
             (r'/Managerogout', ManagerLogout.ManagerLogOut),
             (r'/managerindex', ManagerIndexHandler.BrowseIndexHandle),
-            (r'/manageraddproduct', ManagerAddProductHandler.AddProductHandler),
+            (r'/manageraddproduct', ManagerOperateProductHandler.AddProductHandler),
+            (r'/managerdelproduct', ManagerOperateProductHandler.DeleteProductHandler),
             (r'/managerbrowsemessage',ManagerMessageHandler.BrowseManagerMessageHanlder),
             (r'/managerbrowsemessagedetail', ManagerMessageHandler.BrowseMessgeDetailHandler),
             (r'/managerdeletemsg', ManagerMessageHandler.DeletaManagerMessageHandler),
