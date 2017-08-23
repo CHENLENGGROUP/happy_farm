@@ -208,9 +208,15 @@
 					<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 						<ol class="breadcrumb">
 							{% if head_info['web_name'] != '主页' %}
-								<li><a href="/managerindex">主页</a></li>
-								<li><a href="#"><span>{{head_info['web_parent_name']}}</span></a></li>
-								<li class="active"><span>{{head_info['web_name']}}</span></li>
+								{% for i in range(0, len(head_info['web_name_list'])) %}
+									{% if i == len(head_info['web_name_list'])-1 %}
+									<li class="active"><span>{{head_info['web_name_list'][i].keys()[0]}}</span></li>
+									{% else %}
+									<li><a href="{{head_info['web_name_list'][i][head_info['web_name_list'][i].keys()[0]]['url']}}">
+										<span>{{head_info['web_name_list'][i].keys()[0]}}</span>
+									</a></li>
+									{% end %}
+								{% end %}
 							{% end %}
 						</ol>
 					</div>

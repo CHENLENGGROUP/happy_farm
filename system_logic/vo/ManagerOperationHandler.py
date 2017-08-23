@@ -25,8 +25,8 @@ class BrowseManagerOperationHanlder(BaseHandler):
             return
 
         manager_id = int(self.get_secure_cookie('loginuser_id'))
-
-        head_info = self.get_head_info('员工列表')
+        real_name = self.get_secure_cookie('loginuser')
+        head_info = self.get_head_info('员工明细',add_info=real_name)
 
         #获取登录日志
         login_log = Manager().get_login_log({'hf_manager.manager_id=':manager_id})

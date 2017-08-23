@@ -22,7 +22,7 @@ class BrowseProductDetailHandler(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        head_info = self.get_head_info('商品列表')
+        head_info = self.get_head_info('商品详细')
 
         try:
             product_id = int(self.get_argument('product_id'))

@@ -23,12 +23,12 @@ class BaseHandler(tornado.web.RequestHandler):
             return False
         return True
 
-    def get_head_info(self, title):
+    def get_head_info(self, title, add_info=None):
         # 获取新事件
         count_new_user, count_new_msg, count_new_order = Manager().get_new_event()
         # 获取头像url
         profile_img = self.get_secure_cookie('profile_img')
-        head_info = WebMainPO().handle_head_info(count_new_user, count_new_msg, count_new_order, title, profile_img)
+        head_info = WebMainPO().handle_head_info(count_new_user, count_new_msg, count_new_order, title, profile_img, add_info)
         return head_info
 
     def refresh_session(self):

@@ -49,26 +49,34 @@ profile_pic_store_address = '../../../static/img/profile_pic/'
 #---------------管理页面title---------------
 webpage_title = {
     '主页':'幸福农场后端管理-首页',
-    '添加商品':'幸福农场后端管理-添加商品',
-    '消息列表':'幸福农场后端管理-查看信息',
-    '用户列表':'幸福农场后端管理-查看用户',
-    '商品列表':'幸福农场后端管理-商品列表',
-    '员工列表':'幸福农场后端管理-员工列表',
-    '添加文章':'幸福农场后端管理-添加文章',
-    '添加管理员':'幸福农场后端管理-添加管理员',
-    '文章列表':'幸福农场后端管理-文章列表',
+    '添加商品':'添加商品-幸福农场后端管理',
+    '消息列表':'查看信息-幸福农场后端管理',
+    '用户列表':'查看用户-幸福农场后端管理',
+    '商品列表':'商品列表-幸福农场后端管理',
+    '商品明细':'商品明细-幸福农场后端管理',
+    '员工列表':'员工列表-幸福农场后端管理',
+    '员工明细':'员工明细-幸福农场后端管理',
+    '添加文章':'添加文章-幸福农场后端管理',
+    '添加管理员':'添加管理员-幸福农场后端管理',
+    '文章列表':'文章列表-幸福农场后端管理',
 }
 
 #---------------管理页面关系---------------
 webpage_relationship = {
-    '主页':{'parent':'','grandparent':''},
-    '添加商品':{'parent':'商品管理','grandparent':'主页'},
-    '消息列表':{'parent':'消息管理','grandparent':'主页'},
-    '用户列表':{'parent':'用户管理','grandparent':'主页'},
-    '商品列表':{'parent':'商品管理','grandparent':'主页'},
-    '员工列表':{'parent':'员工管理','grandparent':'主页'},
-    '添加文章':{'parent':'文章管理','grandparent':'主页'},
-    '添加管理员':{'parent':'员工管理','grandparent':'主页'},
-    '文章列表':{'parent':'文章管理','grandparent':'主页'},
+    '主页':{'parent':'','url':'/managerindex'},
+    '商品管理':{'parent':'主页', 'url':'#'},
+    '消息管理':{'parent':'主页', 'url':'#'},
+    '用户管理':{'parent':'主页', 'url':'#'},
+    '员工管理':{'parent':'主页', 'url':'#'},
+    '文章管理':{'parent':'主页', 'url':'#'},
+    '订单管理':{'parent':'主页', 'url':'#'},
+    '添加商品':{'parent':'商品管理','url':'/manageraddproduct'},
+    '商品列表':{'parent':'商品管理','url':'/managerbrowseuserlist'},
+    '商品明细':{'parent':'商品列表','url':'/managerbrowseproductdetail'},
+    '用户列表':{'parent':'用户管理','url':'/managerbrowseuserlist'},
+    '员工列表':{'parent':'员工管理','url':'/managerbrowsemanagerlist'},
+    '员工明细':{'parent':'员工列表','url':'/managerbrowseoperation'},
+    '消息列表':{'parent':'消息管理','url':'/managerbrowsemessage'},
+    '添加文章':{'parent':'文章管理','url':'/manageraddarticle'},
+    '文章列表':{'parent':'文章管理','url':'/managerarticlelist'}
 }
-

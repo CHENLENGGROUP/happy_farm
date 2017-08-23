@@ -8,21 +8,37 @@ class WebMainPO():
     def __init__(self):
         self.current_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
-    def handle_head_info(self, count_new_user, count_new_msg, count_new_order, web_title, profile_img):
+    def handle_head_info(self, count_new_user, count_new_msg, count_new_order, web_title, profile_img, title_addinfo=None):
 
         new_events = self.handle_new_events_info(count_new_user, count_new_msg, count_new_order)
         title = setting.webpage_title[web_title]
         count_new_events = count_new_user + count_new_msg + count_new_order
         web_name = web_title
-        web_parent_name = setting.webpage_relationship[web_name]['parent']
+        web_name_1 = web_title
+        # web_parent_name = setting.webpage_relationship[web_name]['parent']
+
+        web_name_list = []
+        while True:
+            web_name_dict = setting.webpage_relationship[web_name_1]
+            temp_dict = {web_name_1:web_name_dict}
+            web_name_list.insert(0,temp_dict)
+            if web_name_dict['parent'] == '':
+                break
+            web_name_1 = web_name_dict['parent']
+        print web_name_list
+
+        if title_addinfo:
+            web_name = web_name + ' — ' + title_addinfo
+
         if profile_img == '':
             profile_img = '../static/dist/img/user.png'
+
         head_info = {
             'title':title,
             'new_events':new_events,
             'count_new_events':count_new_events,
             'web_name':web_name,
-            'web_parent_name':web_parent_name,
+            'web_name_list':web_name_list,
             'count_new_user':count_new_user,
             'count_new_msg':count_new_msg,
             'count_new_order':count_new_order,
