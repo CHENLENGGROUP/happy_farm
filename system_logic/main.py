@@ -20,7 +20,7 @@ from system_logic.vo import OrderPartHandler
 from system_logic.vo import MessagePartHandler
 from system_logic.vo import ArticlePartHandler
 from system_logic.vo import ManagerLoginHandler
-from system_logic.vo import ManageIndexHandler
+from system_logic.vo import ManagerIndexHandler
 from system_logic.vo import ManagerAddProductHandler
 from system_logic.vo import ManagerMessageHandler
 from system_logic.vo import ManagerProductListHandler
@@ -72,7 +72,7 @@ class Application(tornado.web.Application):
             #管理员
             (r'/managerlogin', ManagerLoginHandler.ManagerLoginHandler),
             (r'/Managerogout', ManagerLogout.ManagerLogOut),
-            (r'/managerindex', ManageIndexHandler.BrowseIndexHandle),
+            (r'/managerindex', ManagerIndexHandler.BrowseIndexHandle),
             (r'/manageraddproduct', ManagerAddProductHandler.AddProductHandler),
             (r'/managerbrowsemessage',ManagerMessageHandler.BrowseManagerMessageHanlder),
             (r'/managerbrowsemessagedetail', ManagerMessageHandler.BrowseMessgeDetailHandler),
