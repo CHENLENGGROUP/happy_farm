@@ -65,9 +65,14 @@
 					<article class="col-item">
 						<div class="photo">
 							<div class="options">
-								<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['product_id']}}"><i class="icon-magnifier"></i></button>
-
-								<button class="btn btn-info btn-icon-anim btn-circle" type="submit"><i class="icon-trash"></i></button>
+								<a href="/managerbrowseproductdetail?product_id={{item['product_id']}}" target="_blank">
+								<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['product_id']}}">
+									<i class="icon-magnifier"></i>
+								</button>
+								</a>
+								<button name="{{item['product_id']}}" class="btn btn-info btn-icon-anim btn-circle delete_product" type="submit">
+									<i class="icon-trash"></i>
+								</button>
 							</div>
 
 							<a href="/managerbrowseproductdetail?product_id={{item['product_id']}}">
@@ -126,4 +131,5 @@
 <!-- Bootstrap Select JavaScript -->
 <script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 <script src="../static/addtionalJS/productlist_addjs.js"></script>
+<script src="../static/addtionalJS/action/ProductListAction.js"></script>
 {% end %}
