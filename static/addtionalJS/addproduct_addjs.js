@@ -1,16 +1,16 @@
 //初始化时间插件
+var myDate = new Date();
+var current_date = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()
 $('.input-limit-datepicker').daterangepicker({
-		locale:{
-			format: 'YYYY-MM-DD'
-		},
-		minDate: '06/01/2015',
-		buttonClasses: ['btn', 'btn-sm'],
-		applyClass: 'btn-info',
-		cancelClass: 'btn-default',
-		dateLimit: {
-			days: 6
-		}
-	});
+    locale:{
+        format: 'YYYY-MM-DD'
+    },
+    minDate: current_date,
+    buttonClasses: ['btn', 'btn-sm'],
+    applyClass: 'btn-info',
+    cancelClass: 'btn-default',
+
+});
 //商品分类
 $(document).ready(function(){
     $(".cate_select").change(function(){

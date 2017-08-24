@@ -239,8 +239,7 @@ class Manager:
             de.operate_database(operate_type=operate_type, operate_item=product_property_info)
 
         #存入商品操作信息
-        self.add_product_log_act(product_act_log_info)
-        return 1
+        return 1, product_act_log_info
 
     def delete_product(self, product_id, manager_id):
 
@@ -469,7 +468,7 @@ class Manager:
 
         return result
 
-    def browse_product(self, condition, page_number, supstring):
+    def browse_product(self, condition, page_number, supstring, need_count=1):
 
         '''
         查看商品列表
@@ -479,7 +478,11 @@ class Manager:
         :return:
         '''
         condition['is_delete='] = 0
-        result, count = People().browse_product(condition,page_number,12,supstring, 1)
+        if need_count==1:
+            result, count = People().browse_product(condition,page_number,12,supstring, need_count)
+        else:
+            count = 1
+            result = People().browse_product(condition,page_number,12,supstring, need_count)
         product_list = self.mp.handle_product_list_info(result)
 
         return product_list, count
@@ -548,6 +551,7 @@ class Manager:
 
     def get_count_manager(self, delta_number, right_date, get_type, condition, time_name, table_name):
 
+        #get_type           1-days, 2-month, 3-years
         count_msg_list = []
 
         date_list, delta_date = self.mp.handle_sale_quantity_date(right_date, delta_number, get_type)
@@ -562,6 +566,49 @@ class Manager:
             if result == -1:
                 return result
 
-            count_msg_list.append(result[0]['COUNT(*)'])
+            count_msg_list.append(int(result[0]['COUNT(*)']))
 
         return count_msg_list, delta_date, date_list
+
+    def get_count_quantity(self, delta_number, right_date, get_type, condition, time_name, table_name, feild_name):
+
+        count_msg_list = []
+
+        date_list, delta_date = self.mp.handle_sale_quantity_date(right_date, delta_number, get_type)
+
+        de = DataBaseEngine(table_name)
+        operate_type = 'select'
+
+
+        for item in date_list:
+            count_total = 0
+            condition[time_name + ' LIKE '] = item + '%%'
+            result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+            if result == -1:
+                return result
+            for item in result:
+                count_total = count_total + int(item[feild_name])
+            count_msg_list.append(count_total)
+
+        return count_msg_list, delta_date, date_list
+
+    def get_sales_total(self,condition):
+
+        de = DataBaseEngine('hf_order')
+        operate_item = {'COUNT(*)':0}
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type, operate_item=operate_item, operate_condition=condition)
+        return int(result[0]['COUNT(*)'])
+
+    def get_income_total(self, condition):
+
+        table_list = [{'hf_order-hf_order_sub_payment_log': 'order_id'}]
+        de = DataBaseEngine(table_list)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        if result == -1:
+            return -1
+
+        subtotal = self.mp.handle_income_total(result)
+        return subtotal
+
