@@ -570,6 +570,28 @@ class Manager:
 
         return count_msg_list, delta_date, date_list
 
+    def get_count_quantity(self, delta_number, right_date, get_type, condition, time_name, table_name, feild_name):
+
+        count_msg_list = []
+
+        date_list, delta_date = self.mp.handle_sale_quantity_date(right_date, delta_number, get_type)
+
+        de = DataBaseEngine(table_name)
+        operate_type = 'select'
+
+
+        for item in date_list:
+            count_total = 0
+            condition[time_name + ' LIKE '] = item + '%%'
+            result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+            if result == -1:
+                return result
+            for item in result:
+                count_total = count_total + int(item[feild_name])
+            count_msg_list.append(count_total)
+
+        return count_msg_list, delta_date, date_list
+
     def get_sales_total(self,condition):
 
         de = DataBaseEngine('hf_order')

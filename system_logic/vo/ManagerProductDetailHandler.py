@@ -28,8 +28,8 @@ class BrowseProductDetailHandler(BaseHandler):
 
         #获取近10天的销售量
         current_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        count_sales_list, delta_date, date_list = Manager().get_count_manager(10,current_date,1,
-                                                  {'product_id=':product_id},'create_time','hf_order')
+        count_sales_list, delta_date, date_list = Manager().get_count_quantity(10,current_date,1,{'product_id=':product_id},
+                                                                               'create_time','hf_order', 'product_quantity')
         #获取近10天的点击量
         count_click_list, delta_date, date_list = Manager().get_count_manager(10,current_date,1,
                                                   {'product_id=':product_id},'click_time','hf_product_click_log')
