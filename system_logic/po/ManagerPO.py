@@ -322,3 +322,14 @@ class ManagerPO:
             product_act_log_re.append(temp_dict)
 
         return product_act_log_re
+
+    def handle_income_total(self, order_info):
+
+        subtotal = 0
+        for item in order_info:
+            if item['amount']:
+                subtotal = subtotal + float(item['amount'])
+            else:
+                subtotal = subtotal + float(item['order_subtotal'])
+
+        return subtotal

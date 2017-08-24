@@ -52,14 +52,14 @@ class AddProductHandler(BaseHandler):
 
         manager_id = self.get_secure_cookie("loginuser_id")
         product_info = _decode_dict(json.loads(self.request.body))
-        result = Manager().add_product(product_info, manager_id)
+        result, product_act_log_info = Manager().add_product(product_info, manager_id)
+        Manager().add_product_log_act(product_act_log_info)
 
         if result == -1:
             reMsg = {'ret':setting.re_code['connect_error']}
         else:
             reMsg = {'ret':setting.re_code['success'], 'product_id':result}
 
-        time.sleep(5)
         self.refresh_session()
         self.write(reMsg)
 

@@ -11,6 +11,7 @@ from system_logic import setting
 from system_logic.vo.BaseHandler import BaseHandler
 from system_logic.bo.object.Manager import Manager
 from system_logic.vo.method.DecodeJson import _decode_dict
+from system_logic.po.ManagerProductDetailPO import ManagerProductDetailPO
 
 class BrowseProductDetailHandler(BaseHandler):
 
@@ -22,23 +23,45 @@ class BrowseProductDetailHandler(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        head_info = self.get_head_info('商品明细')
 
-        try:
-            product_id = int(self.get_argument('product_id'))
-        except:
-            product_id = None
+        product_id = int(self.get_argument('product_id'))
 
-        if product_id == 2:
-            product_list = [
-                {'product_id':'2','product_name': 'p_name2', 'shop_price':'123', 'brief': 'lallalalkklsdfjklsdf', 'description': 'Activist, criteria planned giving dignity, committed democratizing the global financial system progressive. Nelson Mandela equal opportunity change accelerate pathway to a better life invest our ambitions catalyst. Making progress contribution compassion Ford Foundation, cross-agency coordination Bill and Melinda Gates development. Overcome injustice tackling activism, promising development equality hack meaningful working families. Foundation; open source; organization volunteer, replicable think tank carbon emissions reductions.',
-                 'stock': '10', 'thumb_img_url':''},
-            ]
+        #获取近10天的销售量
+        current_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        count_sales_list, delta_date, date_list = Manager().get_count_manager(10,current_date,1,
+                                                  {'product_id=':product_id},'create_time','hf_order')
+        #获取近10天的点击量
+        count_click_list, delta_date, date_list = Manager().get_count_manager(10,current_date,1,
+                                                  {'product_id=':product_id},'click_time','hf_product_click_log')
+        #获取此商品总共的销售量
+        sales_product = Manager().get_sales_total({'product_id=':product_id})
+        #获取全部商品的销售量
+        sales_all = Manager().get_sales_total({'1=':1})
+        #获取此商品的营业额
+        income_product = Manager().get_income_total({'product_id=':product_id})
+        #获取所有商品的营业额
+        income_all = Manager().get_income_total({'1=':1})
 
-            property_list = [
-                {'property_content':'1.5斤','property_name':'重量'},
-                {'property_content': '高山羊', 'property_name': '品种'},
+        sales_data_list = [sales_product, sales_all-sales_product]
+        income_data_list = [income_product, income_all-income_product]
+        areachart_data = ManagerProductDetailPO().handle_areachart_data(count_sales_list,count_click_list, date_list)
 
-            ]
+        #获取昨日浏览量以及涨幅
+        yesteday_visit, visit_increase = ManagerProductDetailPO().handle_box_data(count_click_list[1], count_click_list[2])
+        visit_info = {'yesteday_visit':yesteday_visit,'visit_increase':visit_increase}
 
-        self.render('productdetail.html', head_info=head_info)
+        # 获取昨日销售量以及涨幅
+        yesteday_sales, sales_increase = ManagerProductDetailPO().handle_box_data(count_sales_list[1], count_sales_list[2])
+        sales_info = {'yesteday_sales':yesteday_visit, 'sales_increase':sales_increase}
+
+        #获取商品信息
+        product_info, count = Manager().browse_product({'hf_product.product_id=':product_id},1,None,0)
+        product_info = product_info[0][0]
+
+        head_info = self.get_head_info('商品明细',str(product_info['product_name']))
+        for key in product_info:
+            print key + ':' + str(product_info[key])
+        self.refresh_session()
+        self.render('productdetail.html', head_info=head_info, sales_data_list=sales_data_list,
+                    income_data_list=income_data_list, areachart_data=areachart_data, visit_info=visit_info,
+                    sales_info=sales_info, product_info=product_info)

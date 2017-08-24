@@ -183,6 +183,14 @@ class User:
         product_info = self.up.handle_browse_product_info(result)
         return product_info
 
+    def update_click_count(self, product_id):
+
+        operate_item = {'product_id':product_id,
+                   'click_time':time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}
+        operate_type = 'insert'
+        de = DataBaseEngine('hf_product_click_log')
+        de.operate_database(operate_type=operate_type, operate_item=operate_item)
+
     def add_product_to_cart(self, apply_info):
         '''
         此方法用以允许用户将商品添加至
