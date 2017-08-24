@@ -25,7 +25,6 @@ class WebMainPO():
             if web_name_dict['parent'] == '':
                 break
             web_name_1 = web_name_dict['parent']
-        print web_name_list
 
         if title_addinfo:
             web_name = web_name + ' — ' + title_addinfo
