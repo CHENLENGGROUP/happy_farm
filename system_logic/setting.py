@@ -60,6 +60,8 @@ webpage_title = {
     '添加管理员':'添加管理员-幸福农场后端管理',
     '文章列表':'文章列表-幸福农场后端管理',
     '商品分析':'商品分析-幸福农场后端管理',
+    '文章详细':'文章详细-幸福农场后端管理',
+    '添加员工':'员工列表-幸福农场后端管理',
 }
 
 #---------------管理页面关系---------------
@@ -80,5 +82,8 @@ webpage_relationship = {
     '消息列表':{'parent':'消息管理','url':'/managerbrowsemessage'},
     '添加文章':{'parent':'文章管理','url':'/manageraddarticle'},
     '文章列表':{'parent':'文章管理','url':'/managerarticlelist'},
-    '商品分析':{'parent':'商品管理','url':'//managerproductanalysis'}
+    '商品分析':{'parent':'商品管理','url':'//managerproductanalysis'},
+    '文章详细':{'parent':'文章管理','url':'/managerbrowsearticledetail'},
+    '添加员工':{'parent':'员工管理','url':'/manageraddmanager'},
+
 }

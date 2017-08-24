@@ -1,0 +1,100 @@
+{% extends 'main.html' %}
+
+{% block additional_css %}
+<!-- Bootstrap Wysihtml5 css -->
+	<link rel="stylesheet" href="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css" />
+<link href="../static/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
+{% end %}
+
+{% block additional_css_after_style %}
+
+{% end %}
+
+{% block main_part %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">添加员工</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+
+                            <div class="form-wrap">
+                                <form action="#" data-toggle="validator" id="product_info_from">
+                                    <div class="form-body">
+                                        <h6 class="txt-dark capitalize-font"><i class="icon-note mr-10"></i>员工信息</h6>
+                                        <hr>
+                                        <!--product name, product brief-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">用户名</label>
+                                                    <input type="text" name="username" class="form-control" placeholder="请输入用户名..." required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">真实姓名</label>
+                                                    <input type="text" name="real_name" class="form-control" placeholder="请输入真实姓名..." required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">密码</label>
+                                                    <input type="password" name="password" class="form-control" placeholder="请输入密码..." required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">确认密码</label>
+                                                    <input type="password" name="confirmPassword" class="form-control" placeholder="请再次输入密码..." required>                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">手机号码</label>
+                                                    <input type="text" name="telephone" class="form-control" placeholder="请输入手机号码..." required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">管理员权限</label>
+                                                    <select name="is_hot" class="selectpicker" data-style="form-control" id="is_hot_select">
+                                                        <option >请选择管理员权限</option>
+                                                        <option db_id="0">root</option>
+                                                        <option db_id="1">一级管理员</option>
+                                                        <option db_id="2">二级管理员</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions mt-10">
+                                        <button type="submit" id="manager_info_sub" class="btn btn-success btn-anim"><i class="icon-rocket">
+                                        </i><span class="btn-text">提交</span><i style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i></button>
+                                        <button type="button" class="btn btn-default">取消</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block additional_script %}
+<script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+{% end %}

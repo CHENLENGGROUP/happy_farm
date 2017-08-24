@@ -30,7 +30,7 @@ from system_logic.vo import ManagerInfoListHandler
 from system_logic.vo import ManagerOperationHandler
 from system_logic.vo import ManagerLogout
 from system_logic.vo import ManagerAddArticleHandler
-from system_logic.vo import ManagerArticleListHandler
+from system_logic.vo import ManagerArticleHandler
 from system_logic.vo import ManagerProductAnalysisHandler
 
 class Application(tornado.web.Application):
@@ -90,8 +90,9 @@ class Application(tornado.web.Application):
             (r'/managerbrowseoperation', ManagerOperationHandler.BrowseManagerOperationHanlder),
             (r'/manageraddmanager', ManagerOperationHandler.AddManagerHandler),
             (r'/manageraddarticle', ManagerAddArticleHandler.addArticletHandler),
-            (r'/managerarticlelist', ManagerArticleListHandler.BrowseArticleListHandler),
+            (r'/managerarticlelist', ManagerArticleHandler.BrowseArticleListHandler),
             (r'/managerproductanalysis', ManagerProductAnalysisHandler.BrowseProductAnalysisHandler),
+            (r'/managerbrowsearticledetail', ManagerArticleHandler.BrowseArticleDetailHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

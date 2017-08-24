@@ -67,3 +67,7 @@ class AddManagerHandler(BaseHandler):
         if not self.get_login_status():
             self.redirect('/managerlogin')
             return
+
+        head_info = self.get_head_info('添加员工')
+
+        self.render('addmanager.html', head_info=head_info)
