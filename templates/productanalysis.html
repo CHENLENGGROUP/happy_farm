@@ -1,0 +1,418 @@
+{% extends 'main.html' %}
+
+{% block additional_css %}
+<!-- Morris Charts CSS -->
+    <link href="../static/vendors/bower_components/morris.js/morris.css" rel="stylesheet" type="text/css"/>
+{% end %}
+
+{% block additional_css_after_style %}
+
+{% end %}
+
+{% block main_part %}
+<div class="row">
+    <div class="col-lg-6">
+         <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>各类型销售占比</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <canvas id="proportion_of_sales" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+         <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>各类型点击占比</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <canvas id="proportion_of_click" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-share mr-10"></i>产品销售总量</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div id="total_product_sales" class="morris-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-share mr-10"></i>各类销量</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div id="type_product_sales" class="morris-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+         <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-plus mr-10"></i>产品销量/用户量</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <canvas id="users" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block additional_script %}
+<!-- ChartJS JavaScript -->
+	<script src="../static/vendors/chart.js/Chart.min.js"></script>
+<!-- Morris Charts JavaScript -->
+    <script src="../static/vendors/bower_components/raphael/raphael.min.js"></script>
+    <script src="../static/vendors/bower_components/morris.js/morris.min.js"></script>
+    <script>
+    if( $('#proportion_of_sales').length > 0 ){
+		var ctx6 = document.getElementById("proportion_of_sales").getContext("2d");
+		var data6 = {
+			 labels: [
+			"lab 1",
+			"lab 2",
+			"lab 3",
+		],
+		datasets: [
+			{
+				data: [300, 50, 100],
+				backgroundColor: [
+					"rgba(234,101,162,.8)",
+					"rgba(241,91,38,.8)",
+					"rgba(252,176,59,.8)"
+				],
+				hoverBackgroundColor: [
+					"rgba(234,101,162,.8)",
+					"rgba(241,91,38,.8)",
+					"rgba(252,176,59,.8)"
+				]
+			}]
+		};
+
+		var pieChart  = new Chart(ctx6,{
+			type: 'pie',
+			data: data6,
+			options: {
+				animation: {
+					duration:	3000
+				},
+				responsive: true,
+				legend: {
+					labels: {
+					fontFamily: "Varela Round",
+					fontColor:"#2f2c2c"
+					}
+				},
+				tooltips: {
+					backgroundColor:'rgba(47,44,44,.9)',
+					cornerRadius:0,
+					footerFontFamily:"'Varela Round'"
+				}
+			}
+		});
+	}
+	if( $('#proportion_of_click').length > 0 ){
+		var ctx6 = document.getElementById("proportion_of_click").getContext("2d");
+		var data6 = {
+			 labels: [
+			"lab 1",
+			"lab 2",
+			"lab 3"
+		],
+		datasets: [
+			{
+				data: [300, 50, 100],
+				backgroundColor: [
+					"rgba(234,101,162,.8)",
+					"rgba(241,91,38,.8)",
+					"rgba(252,176,59,.8)"
+				],
+				hoverBackgroundColor: [
+					"rgba(234,101,162,.8)",
+					"rgba(241,91,38,.8)",
+					"rgba(252,176,59,.8)"
+				]
+			}]
+		};
+
+		var pieChart  = new Chart(ctx6,{
+			type: 'pie',
+			data: data6,
+			options: {
+				animation: {
+					duration:	3000
+				},
+				responsive: true,
+				legend: {
+					labels: {
+					fontFamily: "Varela Round",
+					fontColor:"#2f2c2c"
+					}
+				},
+				tooltips: {
+					backgroundColor:'rgba(47,44,44,.9)',
+					cornerRadius:0,
+					footerFontFamily:"'Varela Round'"
+				}
+			}
+		});
+	}
+	if($('#total_product_sales').length > 0)
+		Morris.Area({
+        element: 'total_product_sales',
+        data: [{
+            period: '2010',
+            iphone: 50,
+            ipad: 80,
+            itouch: 20
+        }, {
+            period: '2011',
+            iphone: 130,
+            ipad: 100,
+            itouch: 80
+        }, {
+            period: '2012',
+            iphone: 80,
+            ipad: 60,
+            itouch: 70
+        }, {
+            period: '2013',
+            iphone: 70,
+            ipad: 200,
+            itouch: 140
+        }, {
+            period: '2014',
+            iphone: 180,
+            ipad: 150,
+            itouch: 140
+        }, {
+            period: '2015',
+            iphone: 105,
+            ipad: 100,
+            itouch: 80
+        },
+         {
+            period: '2016',
+            iphone: 250,
+            ipad: 150,
+            itouch: 200
+        }],
+        xkey: 'period',
+        ykeys: ['iphone'],
+        labels: ['iPhone'],
+        pointSize: 2,
+        fillOpacity: 0,
+		lineWidth:2,
+		pointStrokeColors:['#fcb03b', '#ea65a2', '#566FC9'],
+		behaveLikeLine: true,
+		gridLineColor: '#eee',
+		hideHover: 'auto',
+		lineColors: ['#fcb03b', '#ea65a2', '#566FC9'],
+		resize: true,
+		gridTextColor:'#2f2c2c',
+		gridTextFamily:"Varela Round"
+
+    });
+    if($('#type_product_sales').length > 0)
+		Morris.Area({
+        element: 'type_product_sales',
+        data: [{
+            period: '2010',
+            iphone: 50,
+            ipad: 80,
+            itouch: 20
+        }, {
+            period: '2011',
+            iphone: 130,
+            ipad: 100,
+            itouch: 80
+        }, {
+            period: '2012',
+            iphone: 80,
+            ipad: 60,
+            itouch: 70
+        }, {
+            period: '2013',
+            iphone: 70,
+            ipad: 200,
+            itouch: 140
+        }, {
+            period: '2014',
+            iphone: 180,
+            ipad: 150,
+            itouch: 140
+        }, {
+            period: '2015',
+            iphone: 105,
+            ipad: 100,
+            itouch: 80
+        },
+         {
+            period: '2016',
+            iphone: 250,
+            ipad: 150,
+            itouch: 200
+        }],
+        xkey: 'period',
+        ykeys: ['iphone','ipad'],
+        labels: ['iPhone','ipad'],
+        pointSize: 2,
+        fillOpacity: 0,
+		lineWidth:2,
+		pointStrokeColors:['#fcb03b', '#ea65a2', '#566FC9'],
+		behaveLikeLine: true,
+		gridLineColor: '#eee',
+		hideHover: 'auto',
+		lineColors: ['#fcb03b', '#ea65a2', '#566FC9'],
+		resize: true,
+		gridTextColor:'#2f2c2c',
+		gridTextFamily:"Varela Round"
+
+    });
+    if( $('#users').length > 0 ){
+		var ctx5 = document.getElementById("users").getContext("2d");
+		var data5 = {
+			datasets: [
+				{
+					label: '产品销量',
+					data: [
+						{
+							x: 80,
+							y: 60,
+							r: 10
+						},
+						{
+							x: 40,
+							y: 40,
+							r: 10
+						},
+						{
+							x: 30,
+							y: 40,
+							r: 20
+						},
+						{
+							x: 20,
+							y: 10,
+							r: 10
+						},
+						{
+							x: 50,
+							y: 30,
+							r: 10
+						}
+					],
+					backgroundColor:"rgba(86,111,201,.8)",
+					hoverBackgroundColor: "rgba(86,111,201,.8)",
+				},
+				{
+					label: '用户量',
+					data: [
+						{
+							x: 40,
+							y: 30,
+							r: 10
+						},
+						{
+							x: 25,
+							y: 20,
+							r: 10
+						},
+						{
+							x: 35,
+							y: 30,
+							r: 10
+						}
+					],
+					backgroundColor:"rgba(60,184,120,.8)",
+					hoverBackgroundColor: "rgba(60,184,120,.8)",
+				}]
+		};
+
+		var bubbleChart = new Chart(ctx5,{
+			type:"bubble",
+			data:data5,
+			options: {
+				elements: {
+					points: {
+						borderWidth: 1,
+						borderColor: 'rgb(0, 0, 0)'
+					}
+				},
+				scales: {
+					xAxes: [
+					{
+						ticks: {
+							min: -10,
+							max: 100,
+							fontFamily: "Varela Round",
+							fontColor:"#2f2c2c"
+						},
+						gridLines: {
+							color: "#eee",
+						}
+					}],
+					yAxes: [
+					{
+						ticks: {
+							fontFamily: "Varela Round",
+							fontColor:"#2f2c2c"
+						},
+						gridLines: {
+							color: "#eee",
+						}
+					}]
+				},
+				animation: {
+					duration:	3000
+				},
+				responsive: true,
+				legend: {
+					labels: {
+					fontFamily: "Varela Round",
+					fontColor:"#2f2c2c"
+					}
+				},
+				tooltips: {
+					backgroundColor:'rgba(47,44,44,.9)',
+					cornerRadius:0,
+					footerFontFamily:"'Varela Round'"
+				}
+			}
+		});
+	}
+    </script>
+{% end %}

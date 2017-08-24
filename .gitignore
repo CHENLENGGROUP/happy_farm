@@ -2,3 +2,7 @@
 *.iml
 *.xml
 *.pyc
+*.pyc
+system_logic/setting.pyc
+*.pyc
+system_logic/vo/BaseHandler.pyc
