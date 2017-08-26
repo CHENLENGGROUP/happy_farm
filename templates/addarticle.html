@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
                             <div class="form-wrap">
-                                <form action="#" data-toggle="validator" id="product_info_from">
+                                <form action="#" data-toggle="validator" id="article_info_form" onsubmit="return false">
                                     <div class="form-body">
                                         <h6 class="txt-dark capitalize-font"><i class="icon-note mr-10"></i>文章信息</h6>
                                         <hr>
@@ -33,7 +33,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">文章标题</label>
-                                                    <input type="text" name="product_name" class="form-control" placeholder="请输入文章标题..." required>
+                                                    <input type="text" id="title" name="title" class="form-control" placeholder="请输入文章标题..." required>
                                                 </div>
                                             </div>
                                         </div>
@@ -41,7 +41,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">文章子标题</label>
-                                                    <input type="text" name="product_name" class="form-control" placeholder="请输入文章子标题..." required>
+                                                    <input type="text" id="subtitle" name="subtitle" class="form-control" placeholder="请输入文章子标题..." required>
                                                 </div>
                                             </div>
                                         </div>
@@ -49,7 +49,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">文章摘要</label>
-                                                    <input type="text" name="product_name" class="form-control" placeholder="请输入文章摘要..." required>
+                                                    <input type="text" id="brief" name="brief" class="form-control" placeholder="请输入文章摘要..." required>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,12 +57,12 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">文章内容</label>
-                                                    <textarea class="textarea_editor form-control" rows="15" placeholder="请输入文章内容..."></textarea>                                                </div>
+                                                    <textarea class="textarea_editor form-control" id="content" rows="15" placeholder="请输入文章内容..."></textarea>                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-actions mt-10">
-                                        <button type="submit" id="product_info_sub" class="btn btn-success btn-anim"><i class="icon-rocket">
+                                        <button type="submit" id="article_info_sub" class="btn btn-success btn-anim"><i class="icon-rocket">
                                         </i><span class="btn-text">提交</span><i style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i></button>
                                         <button type="button" class="btn btn-default">取消</button>
                                     </div>
@@ -84,4 +84,5 @@
 	<script src="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js"></script>
 <!-- Bootstrap Wysuhtml5 Init JavaScript -->
 	<script src="../static/dist/js/bootstrap-wysuhtml5-data.js"></script>
+<script src="../static/addtionalJS/action/AddArticleAction.js"></script>
 {% end %}

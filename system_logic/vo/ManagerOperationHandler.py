@@ -95,6 +95,6 @@ class AddManagerHandler(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        argus = _decode_dict(json.loads(self.request.body()))
+        argus = _decode_dict(json.loads(self.request.body))
         reMsg = {'ret':setting.re_code['success']}
         self.write(reMsg)
