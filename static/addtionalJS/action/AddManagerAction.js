@@ -5,7 +5,6 @@ $('#manager_info_form').submit(function(){
     var password = $('#password').val();
     var confirmpassword = $('#confirmPassword').val();
     var authority = $('#authority').find("option:selected").attr("db_id")
-    alert(authority)
 
     var data = {
         "username":username,
