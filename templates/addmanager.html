@@ -26,7 +26,7 @@
                         <div class="col-sm-12 col-xs-12">
 
                             <div class="form-wrap">
-                                <form action="#" data-toggle="validator" id="product_info_from">
+                                <form action="#" data-toggle="validator" onsubmit="return false" id="manager_info_form">
                                     <div class="form-body">
                                         <h6 class="txt-dark capitalize-font"><i class="icon-note mr-10"></i>员工信息</h6>
                                         <hr>
@@ -35,13 +35,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">用户名</label>
-                                                    <input type="text" name="username" class="form-control" placeholder="请输入用户名..." required>
+                                                    <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名..." required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">真实姓名</label>
-                                                    <input type="text" name="real_name" class="form-control" placeholder="请输入真实姓名..." required>
+                                                    <input type="text" id="real_name" name="real_name" class="form-control" placeholder="请输入真实姓名..." required>
                                                 </div>
                                             </div>
                                         </div>
@@ -49,26 +49,26 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">密码</label>
-                                                    <input type="password" name="password" class="form-control" placeholder="请输入密码..." required>
+                                                    <input type="password"id="password"  name="password" class="form-control" placeholder="请输入密码..." required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">确认密码</label>
-                                                    <input type="password" name="confirmPassword" class="form-control" placeholder="请再次输入密码..." required>                                                </div>
+                                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="请再次输入密码..." required>                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">手机号码</label>
-                                                    <input type="text" name="telephone" class="form-control" placeholder="请输入手机号码..." required>
+                                                    <input type="text" id="telephone" name="telephone" class="form-control" placeholder="请输入手机号码..." required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">管理员权限</label>
-                                                    <select name="is_hot" class="selectpicker" data-style="form-control" id="is_hot_select">
+                                                    <select id="authority" name="authority" class="selectpicker" data-style="form-control">
                                                         <option >请选择管理员权限</option>
                                                         <option db_id="0">root</option>
                                                         <option db_id="1">一级管理员</option>
@@ -79,12 +79,11 @@
                                         </div>
                                     </div>
                                     <div class="form-actions mt-10">
-                                        <button type="submit" id="manager_info_sub" class="btn btn-success btn-anim"><i class="icon-rocket">
+                                        <button type="submit" id="manager_info_sub" class="btn btn-success btn-anim" ><i class="icon-rocket">
                                         </i><span class="btn-text">提交</span><i style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i></button>
                                         <button type="button" class="btn btn-default">取消</button>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -97,4 +96,5 @@
 
 {% block additional_script %}
 <script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="../static/addtionalJS/action/AddManagerAction.js"></script>
 {% end %}

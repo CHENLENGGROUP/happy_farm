@@ -71,3 +71,4 @@ class AddManagerHandler(BaseHandler):
         head_info = self.get_head_info('添加员工')
 
         self.render('addmanager.html', head_info=head_info)
+
