@@ -33,12 +33,32 @@ class PageAddProductPO:
 
         return cate_sperate_list
 
-# test_list = [{'is_delete': 0L, 'category_id': 1L, 'category_content': u'\u52a8\u7269', 'parent_category_id': 0L},
-#              {'is_delete': 0L, 'category_id': 2L, 'category_content': u'\u690d\u7269', 'parent_category_id': 0L},
-#              {'is_delete': 0L, 'category_id': 3L, 'category_content': u'\u852c\u83dc', 'parent_category_id': 2L},
-#              {'is_delete': 0L, 'category_id': 4L, 'category_content': u'\u6c34\u679c', 'parent_category_id': 2L},
-#              {'is_delete': 0L, 'category_id': 5L, 'category_content': u'\u5bb6\u79bd', 'parent_category_id': 1L},
-#              {'is_delete': 0L, 'category_id': 6L, 'category_content': u'\u5bb6\u755c', 'parent_category_id': 1L}]
-# a= PageAddProductPO().handle_category_list(test_list)
-# print a[0]
-# print a[1]
+    def handle_category_list_disabled(self, category_list, product_category_list):
+
+        p_id = 0
+        for i in range(0, len(category_list)):
+            temp_p_id = -1
+            track = 0
+            for j in range(0, len(category_list[i])):
+
+                try:
+                    s_id = product_category_list[i][0]['category_id']
+                except:
+                    s_id = -1
+
+                if category_list[i][j]['parent_category_id'] == p_id:
+                    if track == 0:
+                        temp_p_id = category_list[i][j]['category_id']
+                        track = 1
+                    if category_list[i][j]['category_id'] == s_id:
+                        temp_p_id = category_list[i][j]['category_id']
+                        category_list[i][j]['selected'] = 'true'
+                    else:
+                        category_list[i][j]['selected'] = 'false'
+                    category_list[i][j]['disabled'] = 'false'
+                else:
+                    category_list[i][j]['disabled'] = 'true'
+                    category_list[i][j]['selected'] = 'false'
+
+            p_id = temp_p_id
+        return category_list

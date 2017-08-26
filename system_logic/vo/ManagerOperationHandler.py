@@ -60,6 +60,11 @@ class BrowseManagerOperationHanlder(BaseHandler):
 
 class AddManagerHandler(BaseHandler):
 
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
@@ -72,3 +77,24 @@ class AddManagerHandler(BaseHandler):
 
         self.render('addmanager.html', head_info=head_info)
 
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self, *args, **kwargs):
+
+        '''
+        :param body
+            :param username
+            :param real_name
+            :param password
+            :param password_com
+            :param telephone
+            :param authority
+        :return:
+        '''
+        if not self.get_login_status():
+            self.redirect('/managerlogin')
+            return
+
+        argus = _decode_dict(json.loads(self.request.body()))
+        reMsg = {'ret':setting.re_code['success']}
+        self.write(reMsg)

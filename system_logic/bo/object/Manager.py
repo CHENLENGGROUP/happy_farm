@@ -376,10 +376,12 @@ class Manager:
             subtotal_list.insert(0,subtotal)
         return subtotal_list, date_list
 
-    def get_product_type(self):
+    def get_product_type(self, condition = None):
 
+        if condition == None:
+            condition = {'1=':1}
         de = DataBaseEngine('hf_product_type')
-        result = de.operate_database(operate_type='select',operate_condition={'1=':1})
+        result = de.operate_database(operate_type='select',operate_condition=condition)
         return result
 
     def get_category(self, condition, supstring):
@@ -611,4 +613,17 @@ class Manager:
 
         subtotal = self.mp.handle_income_total(result)
         return subtotal
+
+    def get_product_category(self, condition):
+
+        table_name = [{'hf_product_category-hf_category':'category_id'}]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        return result
+
+    def get_product_property(self, condition):
+
+        property_info = People().get_product_property(condition)
+        return property_info
 

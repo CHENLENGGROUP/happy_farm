@@ -14333,8 +14333,7 @@ var bsWysihtml5 = function($, wysihtml5) {
       options = $.extend(true, {}, options);
       options.toolbar = this.toolbar[0];
 
-      var editor = new wysihtml5.Editor(this.el[0], options);
-
+      var editor = new wysihtml5.Editor(this.el[0], options)
       // #30 - body is in IE 10 not created by default, which leads to nullpointer
       // 2014/02/13 - adapted to wysihtml5-0.4, does not work in IE
       if(editor.composer.editableArea.contentDocument) {
