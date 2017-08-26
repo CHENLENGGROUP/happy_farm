@@ -22,6 +22,7 @@ $(document).ready(function () {
         }
         var title = $((input_list[1])).val();
         var is_important = $(input_list[2]).find("option:selected").attr("db_id");
+        //获取富文本内容
         var content = $(".wysihtml5-sandbox").contents().find("body")[0].innerHTML;
 
         if(receiver_id_list.length===0&&title!=""){

@@ -24,3 +24,12 @@ class ManagerProductDetailPO:
             data_increase = float(data1-data2)/float(data2)*100
 
         return data1, data_increase
+
+    def handle_property_info(self, property_info):
+
+        property_str = ''
+
+        for item in property_info:
+            property_str = '%s,%s:%s'%(property_str,item['property_name'], item['property_content'])
+
+        return property_str

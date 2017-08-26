@@ -1,0 +1,9 @@
+.label.label-info, .label-info.jvectormap-tip{
+    background:#3cb879;
+}
+
+.form-control[disabled], fieldset[disabled] .form-control{
+    background-color: white;
+    color: #c0c0c0;
+    cursor: default;
+}

@@ -12,6 +12,7 @@ from system_logic.vo.BaseHandler import BaseHandler
 from system_logic.bo.object.Manager import Manager
 from system_logic.vo.method.DecodeJson import _decode_dict
 from system_logic.po.ManagerProductDetailPO import ManagerProductDetailPO
+from system_logic.po.PageAddProductPO import PageAddProductPO
 
 class BrowseProductDetailHandler(BaseHandler):
 
@@ -58,10 +59,22 @@ class BrowseProductDetailHandler(BaseHandler):
         product_info, count = Manager().browse_product({'hf_product.product_id=':product_id},1,None,0)
         product_info = product_info[0][0]
 
+        #获取商品类型信息
+        product_type = Manager().get_product_type({'product_type=':product_info['product_type']})[0]
+
+        product_info['type_name'] = product_type['type_name']
+
+        #获取分类信息
+        product_category = Manager().get_product_category({'product_id=':product_info['product_id']})
+
+        #获取商品特性
+        property_info = Manager().get_product_property({'product_id=':product_id,'is_delete=':0})
+        property_str = ManagerProductDetailPO().handle_property_info(property_info)
+        product_info['property_str'] = property_str
+
         head_info = self.get_head_info('商品明细',str(product_info['product_name']))
-        for key in product_info:
-            print key + ':' + str(product_info[key])
+
         self.refresh_session()
         self.render('productdetail.html', head_info=head_info, sales_data_list=sales_data_list,
                     income_data_list=income_data_list, areachart_data=areachart_data, visit_info=visit_info,
-                    sales_info=sales_info, product_info=product_info)
+                    sales_info=sales_info, product_info=product_info, product_category = product_category)

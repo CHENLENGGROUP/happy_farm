@@ -32,6 +32,7 @@ from system_logic.vo import ManagerLogout
 from system_logic.vo import ManagerAddArticleHandler
 from system_logic.vo import ManagerArticleHandler
 from system_logic.vo import ManagerProductAnalysisHandler
+from system_logic.vo.ManagerModifyProduct import ModifyProductHandler
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -86,6 +87,7 @@ class Application(tornado.web.Application):
             (r'/managerbrowseproductlist', ManagerProductListHandler.BrowseProductListHandler),
             (r'/managerbrowseuserlist', ManagerUserList.BrowseUserListHandler),
             (r'/managerbrowseproductdetail', ManagerProductDetailHandler.BrowseProductDetailHandler),
+            (r'/managermodiproduct', ModifyProductHandler),
             (r'/managerbrowsemanagerlist', ManagerInfoListHandler.BrowseManagerListHandler),
             (r'/managerbrowseoperation', ManagerOperationHandler.BrowseManagerOperationHanlder),
             (r'/manageraddmanager', ManagerOperationHandler.AddManagerHandler),
