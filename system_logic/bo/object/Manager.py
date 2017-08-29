@@ -641,5 +641,6 @@ class Manager:
         return order_list
 
     def get_payment_log(self, condition, supstring):
+        pass
 
-        
+

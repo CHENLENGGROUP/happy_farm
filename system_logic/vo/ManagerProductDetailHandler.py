@@ -86,8 +86,6 @@ class BrowseProductDetailHandler(BaseHandler):
 
         head_info = self.get_head_info('商品明细',str(product_info['product_name']))
 
-        payment_log = Manager().get_
-
         self.refresh_session()
         self.render('productdetail.html', head_info=head_info, sales_data_list=sales_data_list,
                     income_data_list=income_data_list, areachart_data=areachart_data, visit_info=visit_info,
