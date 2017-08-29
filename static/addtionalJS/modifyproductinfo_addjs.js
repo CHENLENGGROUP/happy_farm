@@ -3,45 +3,9 @@ var input = $('input');
 var select = $('select');
 var textarea = $('textarea');
 $(document).ready(function () {
-    input.each(function(){
-        $(this).change(function(){
-            for(var i=0;i<ele_val_arr.length;i++){
-                var arr = new Array();
-                var str = ele_val_arr[i].toString();
-                var arr = str.split(",");
-                if(arr[0] == $(this).attr("name")){
-                    ele_val_arr.splice(i,1);
-                }
-            }
-            ele_val_arr.push([$(this).attr("name"), $(this).val()]);
-        })
-    })
-    select.each(function(){
-        $(this).change(function(){
-            for(var i=0;i<ele_val_arr.length;i++){
-                var arr = new Array();
-                var str = ele_val_arr[i].toString();
-                var arr = str.split(",");
-                if(arr[0] == $(this).attr("name")){
-                    ele_val_arr.splice(i,1);
-                }
-            }
-            ele_val_arr.push([$(this).attr("name"), $(this).val()]);
-        })
-    })
-    textarea.each(function(){
-        $(this).change(function(){
-            for(var i=0;i<ele_val_arr.length;i++){
-                var arr = new Array();
-                var str = ele_val_arr[i].toString();
-                var arr = str.split(",");
-                if(arr[0] == $(this).attr("name")){
-                    ele_val_arr.splice(i,1);
-                }
-            }
-            ele_val_arr.push([$(this).attr("name"), $(this).val()]);
-        })
-    })
+    change(input);
+    change(select);
+    change(textarea);
 });
 $('#product_info_modify').click(function(){
     if($('.btn-text').html() == "修改"){
@@ -77,6 +41,7 @@ $('#product_info_modify').click(function(){
         select.attr("disabled",true);
         select.selectpicker('refresh');
         textarea.attr("disabled",true);
+        $('.btn-text').html("修改");
     }
 });
 function handle_json_data(eles) {
@@ -124,4 +89,19 @@ function handle_json_data(eles) {
         "product_property_info":product_property_info
     };
     return JSON.stringify(json_dict)
+}
+function change(tag){
+    tag.each(function(){
+        $(this).change(function(){
+            for(var i=0;i<ele_val_arr.length;i++){
+                var arr = new Array();
+                var str = ele_val_arr[i].toString();
+                var arr = str.split(",");
+                if(arr[0] == $(this).attr("name")){
+                    ele_val_arr.splice(i,1);
+                }
+            }
+            ele_val_arr.push([$(this).attr("name"), $(this).val()]);
+        })
+    })
 }
