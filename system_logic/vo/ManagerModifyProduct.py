@@ -15,7 +15,10 @@ from system_logic.po.ManagerProductDetailPO import ManagerProductDetailPO
 from system_logic.po.PageAddProductPO import PageAddProductPO
 
 class ModifyProductHandler(BaseHandler):
-
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
@@ -53,3 +56,25 @@ class ModifyProductHandler(BaseHandler):
         self.refresh_session()
         self.render('product_modify.html', head_info=head_info, product_info=product_info,
                     category_list=category_list, product_category = product_category)
+
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self, *args, **kwargs):
+
+        '''
+        :param body
+            :param username
+            :param real_name
+            :param password
+            :param password_com
+            :param telephone
+            :param authority
+        :return:
+        '''
+        if not self.get_login_status():
+            self.redirect('/managerlogin')
+            return
+
+        argus = _decode_dict(json.loads(self.request.body))
+        reMsg = {'ret': setting.re_code['success']}
+        self.write(reMsg)
