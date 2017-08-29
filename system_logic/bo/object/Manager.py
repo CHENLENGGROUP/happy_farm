@@ -589,7 +589,7 @@ class Manager:
             if result == -1:
                 return result
             for item in result:
-                count_total = count_total + int(item[feild_name])
+                count_total = count_total + float(item[feild_name])
             count_msg_list.append(count_total)
 
         return count_msg_list, delta_date, date_list
@@ -627,3 +627,19 @@ class Manager:
         property_info = People().get_product_property(condition)
         return property_info
 
+    def get_product_order(self, condition, supstring):
+
+        table_name = [{'hf_order-hf_user':'user_id'}]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,supstring=supstring)
+
+        if result == -1:
+            return result
+
+        order_list = self.mp.handle_product_order(result)
+        return order_list
+
+    def get_payment_log(self, condition, supstring):
+
+        

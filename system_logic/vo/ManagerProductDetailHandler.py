@@ -34,6 +34,15 @@ class BrowseProductDetailHandler(BaseHandler):
         #获取近10天的点击量
         count_click_list, delta_date, date_list = Manager().get_count_manager(10,current_date,1,
                                                   {'product_id=':product_id},'click_time','hf_product_click_log')
+        #获取此前每月销售量
+        c_date = current_date[0:5]+'12-01'
+        count_sales_list_m, delta_date_m, date_list_m = Manager().get_count_quantity(12,c_date,2,{'product_id=':product_id},
+                                                                                     'create_time', 'hf_order', 'product_quantity')
+        count_sales_list_m.reverse()
+        #获取此前每月营业额
+        count_income_m, delta_date_m, date_list_m = Manager().get_count_quantity(12,c_date, 2,{'product_id=':product_id},
+                                                                                 'create_time','hf_order', 'order_subtotal')
+        count_income_m.reverse()
         #获取此商品总共的销售量
         sales_product = Manager().get_sales_total({'product_id=':product_id})
         #获取全部商品的销售量
@@ -72,9 +81,16 @@ class BrowseProductDetailHandler(BaseHandler):
         property_str = ManagerProductDetailPO().handle_property_info(property_info)
         product_info['property_str'] = property_str
 
+        #获取商品订单信息
+        order_list = Manager().get_product_order({'product_id=':product_id},None)
+
         head_info = self.get_head_info('商品明细',str(product_info['product_name']))
+
+        payment_log = Manager().get_
 
         self.refresh_session()
         self.render('productdetail.html', head_info=head_info, sales_data_list=sales_data_list,
                     income_data_list=income_data_list, areachart_data=areachart_data, visit_info=visit_info,
-                    sales_info=sales_info, product_info=product_info, product_category = product_category)
+                    sales_info=sales_info, product_info=product_info, product_category = product_category,
+                    count_sales_list_m=count_sales_list_m, count_income_m=count_income_m, order_list=order_list,
+                    payment_logs=[1,2,3,4,5,6,7])

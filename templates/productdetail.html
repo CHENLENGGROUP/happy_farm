@@ -319,6 +319,175 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">商品订单</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <table id="datable_1" class="table table-hover display  pb-30" >
+                                <thead>
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>商品名字</th>
+                                        <th>商品类型</th>
+                                        <th>订单状态</th>
+                                        <th>发货状态</th>
+                                        <th>付款状态</th>
+                                        <th>收货地址</th>
+                                        <th>订单数量</th>
+                                        <th>订单总和</th>
+                                        <th>下单账号</th>
+                                        <th>下单时间</th>
+                                        <th>确认时间</th>
+                                        <th>发货时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order_list %}
+                                    <tr>
+                                        <td>{{item['order_sn']}}</td>
+                                        <td>{{item['product_name']}}</td>
+                                        {% if item['product_type']==0 %}
+                                        <td>普通商品</td>
+                                        {% elif item['product_type']==1 %}
+                                        <td>领养商品</td>
+                                        {% else %}
+                                        <td>虚拟商品</td>
+                                        {% end %}
+                                        {% if item['order_status'] == 0 %}
+                                        <td><div class="label label-table label-danger">未确认</div></td>
+                                        {% else %}
+                                        <td><div class="label label-table label-success">已确认</div></td>
+                                        {% end %}
+                                        {% if item['shipping_status'] == 0 %}
+                                        <td><div class="label label-table label-danger">未发货</div></td>
+                                        {% elif item['shipping_status'] == 1 %}
+                                        <td><div class="label label-table label-info">已发货</div></td>
+                                        {% else %}
+                                        <td><div class="label label-table label-succe">已收货</div></td>
+                                        {% end %}
+                                        {% if item['payment_status']==0 %}
+                                        <td><div class="label label-table label-danger">未付款</div></td>
+                                        {% elif item['payment_status']==1 %}
+                                        <td><div class="label label-table label-success">已付款</div></td>
+                                        {% else %}
+                                        <td><div class="label label-table label-danger">退款</div></td>
+                                        {% end %}
+                                        <td>{{item['country']+item['province']+item['city']+item['district']}}
+                                            <br>{{item['address_detail']}}
+                                        </td>
+                                        <td>{{item['product_quantity']}}</td>
+                                        <td>{{item['order_subtotal']}}</td>
+                                        <td>{{item['username']}}</td>
+                                        <td>{{item['create_time'][0:10]}}<br>{{item['create_time'][10:]}}</td>
+                                        <td>{{item['confirm_time'][0:10]}}<br>{{item['confirm_time'][10:]}}</td>
+                                        <td>{{item['shipping_time'][0:10]}}<br>{{item['shipping_time'][10:]}}</td>
+                                        <td>
+                                            <button class="btn btn-warning btn-icon-anim btn-circle" data-toggle="modal" data-target="#mymodal">
+                                                <i class="icon-magnifier"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% end %}
+                                </tbody>
+                            </table>
+                            <div class="modal fade bs-example-modal-lg" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body" style="padding-right: 0;">
+                                            {% if len(payment_logs) > 6 %}
+                                            <div class="hiddend_scroll_bar pull-right" style="background-color:red;width:17px;height:450px;position: relative; left: -17px;"></div>
+                                            {% end %}
+                                            <div class="panel-wrapper collapse in" style="overflow-y:scroll; max-height: 453px;">
+                                                <div class="panel-body">
+                                                    <h4 class="text-muted">支付明细</h4>
+                                                    <div class="table-wrap mt-40">
+                                                        <div class="table-responsive">
+                                                            <table class="table mb-0">
+                                                                <thead>
+                                                                  <tr>
+                                                                    <th>#</th>
+                                                                    <th>First Name</th>
+                                                                    <th>Last Name</th>
+                                                                    <th>Username</th>
+                                                                    <th>Role</th>
+                                                                  </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                  <tr>
+                                                                    <td>1</td>
+                                                                    <td>Jens</td>
+                                                                    <td>Brincker</td>
+                                                                    <td>Brincker123</td>
+                                                                    <td><span class="label label-danger">admin</span> </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                    <td>2</td>
+                                                                    <td>Mark</td>
+                                                                    <td>Hay</td>
+                                                                    <td>Hay123</td>
+                                                                    <td><span class="label label-info">member</span> </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                    <td>3</td>
+                                                                    <td>Anthony</td>
+                                                                    <td>Davie</td>
+                                                                    <td>Davie123</td>
+                                                                    <td><span class="label label-warning">developer</span> </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                    <td>4</td>
+                                                                    <td>David</td>
+                                                                    <td>Perry</td>
+                                                                    <td>Perry123</td>
+                                                                    <td><span class="label label-success">supporter</span> </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                    <td>5</td>
+                                                                    <td>Anthony</td>
+                                                                    <td>Davie</td>
+                                                                    <td>Davie123</td>
+                                                                    <td><span class="label label-info">member</span> </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                    <td>6</td>
+                                                                    <td>Alan</td>
+                                                                    <td>Gilchrist</td>
+                                                                    <td>Gilchrist123</td>
+                                                                    <td><span class="label label-success">supporter</span> </td>
+                                                                  </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger text-left" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% end %}
 
 {% block additional_script %}
@@ -363,8 +532,13 @@ $(document).ready(function () {
 
     var income_data_list = eval("{{income_data_list}}");
     var sales_data_list = eval("{{sales_data_list}}");
-    var lable_1 = ["此商品", "全部商品"];
-    var labe_2 = ["此商品","全部商品"]
+    var sales_m = eval("{{count_sales_list_m}}");
+    var income_m = eval("{{count_income_m}}");
+    for(var i=0;i<income_m.length;i++){
+        income_m[i] = parseFloat(income_m[i])/1000
+    }
+    var lable_1 = ["此商品", "其余商品"];
+    var labe_2 = ["此商品","其余商品"]
     if( $('#chart_sales').length > 0 ){
 		draw_chart("chart_sales", income_data_list, lable_1)
 	}
@@ -374,19 +548,19 @@ $(document).ready(function () {
     if( $('#chart_2').length > 0 ){
 		var ctx2 = document.getElementById("chart_2").getContext("2d");
 		var data2 = {
-			labels: ["January", "February", "March", "April", "May", "June", "July"],
+			labels: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月","9月","10月","11月","12月"],
 			datasets: [
 				{
-					label: "My First dataset",
+					label: "月销售量",
 					backgroundColor: "rgba(60,184,120,.8)",
 					borderColor: "rgba(60,184,120,.8)",
-					data: [10, 30, 80, 61, 26, 75, 40]
+					data: sales_m
 				},
 				{
-					label: "My Second dataset",
+					label: "月营业额(单位:千)",
 					backgroundColor: "rgba(252,176,59,.8)",
 					borderColor: "rgba(252,176,59,.8)",
-					data: [28, 48, 40, 19, 86, 27, 90]
+					data: income_m
 				}
 			]
 		};

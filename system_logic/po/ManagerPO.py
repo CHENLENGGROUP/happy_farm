@@ -333,3 +333,23 @@ class ManagerPO:
                 subtotal = subtotal + float(item['order_subtotal'])
 
         return subtotal
+
+    def handle_product_order(self, order_list):
+
+        order_list_re = []
+
+        for item in order_list:
+
+            del item['order_id']
+            del item['address_id']
+            del item['thumb_img_url']
+            del item['product_price']
+            del item['is_alert']
+            del item['zipcode']
+            del item['contact_name']
+            del item['contact_number']
+            del item['user_id1']
+
+            order_list_re.append(item)
+
+        return order_list_re
