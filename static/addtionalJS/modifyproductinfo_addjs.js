@@ -14,7 +14,6 @@ $(document).ready(function () {
                 }
             }
             ele_val_arr.push([$(this).attr("name"), $(this).val()]);
-            alert(ele_val_arr);
         })
     })
     select.each(function(){
@@ -28,7 +27,6 @@ $(document).ready(function () {
                 }
             }
             ele_val_arr.push([$(this).attr("name"), $(this).val()]);
-            alert(ele_val_arr);
         })
     })
     textarea.each(function(){
@@ -42,7 +40,6 @@ $(document).ready(function () {
                 }
             }
             ele_val_arr.push([$(this).attr("name"), $(this).val()]);
-            alert(ele_val_arr);
         })
     })
 });
