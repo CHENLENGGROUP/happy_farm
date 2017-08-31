@@ -37,8 +37,7 @@ function ajax_get_info(url, json_data, data_name,thead_list, key_list){
                 $(".modal-body").html("<h4>连接出错,请稍后再试</h4>");
             }
             else{
-                var h5_str = make_html_str(data.payment_log,data_name,thead_list,key_list);
-                console.log(h5_str);
+                var h5_str = make_html_str(data.response_info,data_name,thead_list,key_list);
                 $(".modal-body").html(h5_str);
             }
         },
@@ -58,7 +57,14 @@ function make_html_str(data_list, data_name, thead_list, key_list){
                         '</div>' +
                     '</div>' +
                 '</div>';
-    h5_head = '<div class="hiddend_scroll_bar pull-right" style="background-color:white;width:17px;height:450px;position: relative; left: -17px;"></div>'
+    var hidden_bar_h = 0
+    if(data_list.length<6){
+        hidden_bar_h = 30+30+40+50*(data_list.length+1)
+    }
+    else{
+        hidden_bar_h = 450
+    }
+    h5_head = '<div class="hiddend_scroll_bar pull-right" style="background-color:white;width:17px;height:'+ hidden_bar_h +'px;position: relative; left: -17px;"></div>'
     h5_head = h5_head + '<div class="panel-wrapper collapse in">' +
                             '<div class="panel-body">' +
                                 '<h4 class="text-muted">'+ data_name +'</h4>' +
@@ -70,7 +76,18 @@ function make_html_str(data_list, data_name, thead_list, key_list){
     for(var i=0;i<thead_list.length;i++){
         h5_head = h5_head+'<th>'+thead_list[i]+'</th>'
     }
+
+
+
     h5_head = h5_head + '</tr></thead><tbody>'
+
+    for(var i=0;i<data_list.length;i++){
+        h5_body = h5_body + '<tr>'
+        for(var j=0;j<key_list.length;j++){
+            h5_body = h5_body + '<td>' + data_list[i][key_list[j]] + '</td>'
+        }
+        h5_body = h5_body + '</tr>'
+    }
 
     return h5_head + h5_body + h5_footer
 }

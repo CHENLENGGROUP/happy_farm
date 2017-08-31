@@ -33,6 +33,6 @@ class BrowsePaymentLogHandler(BaseHandler):
         if payment_log == -1:
             reMsg = {'ret':setting.re_code['connect_error']}
         else:
-            reMsg = {'ret':setting.re_code['success'], 'payment_log':payment_log}
+            reMsg = {'ret':setting.re_code['success'], 'response_info':payment_log}
 
         self.write(reMsg)

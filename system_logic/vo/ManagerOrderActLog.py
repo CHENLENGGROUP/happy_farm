@@ -35,7 +35,7 @@ class BrowseOrderActLog(BaseHandler):
 
         if act_log_list_m != -1 and act_log_list_u != -1:
             act_log_list = WebOrderActLogPO().merge_two_order_act_log(act_log_list_m, act_log_list_u)
-            reMsg = {'ret':setting.re_code['success'], 'act_log_list':act_log_list}
+            reMsg = {'ret':setting.re_code['success'], 'response_info':act_log_list}
         else:
             reMsg = {'ret': setting.re_code['connect_error']}
 
