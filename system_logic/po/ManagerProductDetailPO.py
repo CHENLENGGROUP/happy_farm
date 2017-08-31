@@ -30,6 +30,6 @@ class ManagerProductDetailPO:
         property_str = ''
 
         for item in property_info:
-            property_str = '%s,%s:%s'%(property_str,item['property_name'], item['property_content'])
+            property_str = '%s,%s：%s'%(property_str,item['property_name'], item['property_content'])
 
         return property_str

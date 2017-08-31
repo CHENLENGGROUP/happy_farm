@@ -32,7 +32,9 @@ from system_logic.vo import ManagerLogout
 from system_logic.vo import ManagerAddArticleHandler
 from system_logic.vo import ManagerArticleHandler
 from system_logic.vo import ManagerProductAnalysisHandler
-from system_logic.vo.ManagerModifyProduct import ModifyProductHandler
+from system_logic.vo import ManagerModifyProduct
+from system_logic.vo import ManagerPaymentLogHandler
+from system_logic.vo import ManagerOrderActLog
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -87,7 +89,7 @@ class Application(tornado.web.Application):
             (r'/managerbrowseproductlist', ManagerProductListHandler.BrowseProductListHandler),
             (r'/managerbrowseuserlist', ManagerUserList.BrowseUserListHandler),
             (r'/managerbrowseproductdetail', ManagerProductDetailHandler.BrowseProductDetailHandler),
-            (r'/managermodiproduct', ModifyProductHandler),
+            (r'/managermodiproduct', ManagerModifyProduct.ModifyProductHandler),
             (r'/managerbrowsemanagerlist', ManagerInfoListHandler.BrowseManagerListHandler),
             (r'/managerbrowseoperation', ManagerOperationHandler.BrowseManagerOperationHanlder),
             (r'/manageraddmanager', ManagerOperationHandler.AddManagerHandler),
@@ -95,6 +97,8 @@ class Application(tornado.web.Application):
             (r'/managerarticlelist', ManagerArticleHandler.BrowseArticleListHandler),
             (r'/managerproductanalysis', ManagerProductAnalysisHandler.BrowseProductAnalysisHandler),
             (r'/managerbrowsearticledetail', ManagerArticleHandler.BrowseArticleDetailHandler),
+            (r'/managerbrowsepaymentlog', ManagerPaymentLogHandler.BrowsePaymentLogHandler),
+            (r'/managerbrowseorderactlog', ManagerOrderActLog.BrowseOrderActLog),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

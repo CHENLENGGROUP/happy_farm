@@ -299,6 +299,23 @@ class ManagerPO:
             orderact_log_re.append(temp_dict)
         return orderact_log_re
 
+    def handle_orderact_log_user(self, orderact_log):
+
+        orderact_log_re = []
+        for item in orderact_log:
+            temp_dict = {
+                'user_id':item['user_id'],
+                'username':item['username'],
+                'act_name':item['act_name'],
+                'act_time':item['act_time'],
+                'order_id':item['order_id'],
+                'order_sn':item['order_sn'],
+                'product_name':item['product_name']
+            }
+            orderact_log_re.append(temp_dict)
+
+        return orderact_log_re
+
     def handle_product_act_log(self, product_act_log):
 
         product_act_log_re = []
@@ -340,7 +357,6 @@ class ManagerPO:
 
         for item in order_list:
 
-            del item['order_id']
             del item['address_id']
             del item['thumb_img_url']
             del item['product_price']

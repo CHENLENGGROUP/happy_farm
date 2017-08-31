@@ -120,7 +120,7 @@
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h6 class="panel-title txt-dark"><i class="icon-chart mr-10"></i>bar Chart</h6>
+                    <h6 class="panel-title txt-dark"><i class="icon-chart mr-10"></i>每月销售量/营业额</h6>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -345,16 +345,12 @@
                                         <th>收货地址</th>
                                         <th>订单数量</th>
                                         <th>订单总和</th>
-                                        <th>下单账号</th>
-                                        <th>下单时间</th>
-                                        <th>确认时间</th>
-                                        <th>发货时间</th>
                                         <th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for item in order_list %}
-                                    <tr>
+                                    <tr order_id="{{item['order_id']}}">
                                         <td>{{item['order_sn']}}</td>
                                         <td>{{item['product_name']}}</td>
                                         {% if item['product_type']==0 %}
@@ -388,14 +384,16 @@
                                         </td>
                                         <td>{{item['product_quantity']}}</td>
                                         <td>{{item['order_subtotal']}}</td>
-                                        <td>{{item['username']}}</td>
-                                        <td>{{item['create_time'][0:10]}}<br>{{item['create_time'][10:]}}</td>
-                                        <td>{{item['confirm_time'][0:10]}}<br>{{item['confirm_time'][10:]}}</td>
-                                        <td>{{item['shipping_time'][0:10]}}<br>{{item['shipping_time'][10:]}}</td>
                                         <td>
-                                            <button class="btn btn-warning btn-icon-anim btn-circle" data-toggle="modal" data-target="#mymodal">
-                                                <i class="icon-magnifier"></i>
-                                            </button>
+                                            {% if item['product_type'] == 1 %}
+                                            <a data-toggle="modal" data-target="#mymodal" id="payment_log">
+                                                支付日志
+                                            </a>
+                                            <br>
+                                            {% end %}
+                                            <a data-toggle="modal" data-target="#mymodal" id="order_log">
+                                                订单日志
+                                            </a>
                                         </td>
                                     </tr>
                                     {% end %}
@@ -405,76 +403,10 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-body" style="padding-right: 0;">
-                                            {% if len(payment_logs) > 6 %}
-                                            <div class="hiddend_scroll_bar pull-right" style="background-color:red;width:17px;height:450px;position: relative; left: -17px;"></div>
-                                            {% end %}
-                                            <div class="panel-wrapper collapse in" style="overflow-y:scroll; max-height: 453px;">
-                                                <div class="panel-body">
-                                                    <h4 class="text-muted">支付明细</h4>
-                                                    <div class="table-wrap mt-40">
-                                                        <div class="table-responsive">
-                                                            <table class="table mb-0">
-                                                                <thead>
-                                                                  <tr>
-                                                                    <th>#</th>
-                                                                    <th>First Name</th>
-                                                                    <th>Last Name</th>
-                                                                    <th>Username</th>
-                                                                    <th>Role</th>
-                                                                  </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                  <tr>
-                                                                    <td>1</td>
-                                                                    <td>Jens</td>
-                                                                    <td>Brincker</td>
-                                                                    <td>Brincker123</td>
-                                                                    <td><span class="label label-danger">admin</span> </td>
-                                                                  </tr>
-                                                                  <tr>
-                                                                    <td>2</td>
-                                                                    <td>Mark</td>
-                                                                    <td>Hay</td>
-                                                                    <td>Hay123</td>
-                                                                    <td><span class="label label-info">member</span> </td>
-                                                                  </tr>
-                                                                  <tr>
-                                                                    <td>3</td>
-                                                                    <td>Anthony</td>
-                                                                    <td>Davie</td>
-                                                                    <td>Davie123</td>
-                                                                    <td><span class="label label-warning">developer</span> </td>
-                                                                  </tr>
-                                                                  <tr>
-                                                                    <td>4</td>
-                                                                    <td>David</td>
-                                                                    <td>Perry</td>
-                                                                    <td>Perry123</td>
-                                                                    <td><span class="label label-success">supporter</span> </td>
-                                                                  </tr>
-                                                                  <tr>
-                                                                    <td>5</td>
-                                                                    <td>Anthony</td>
-                                                                    <td>Davie</td>
-                                                                    <td>Davie123</td>
-                                                                    <td><span class="label label-info">member</span> </td>
-                                                                  </tr>
-                                                                  <tr>
-                                                                    <td>6</td>
-                                                                    <td>Alan</td>
-                                                                    <td>Gilchrist</td>
-                                                                    <td>Gilchrist123</td>
-                                                                    <td><span class="label label-success">supporter</span> </td>
-                                                                  </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger text-left" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-danger text-left" id="close_modal" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                     <!-- /.modal-content -->
@@ -660,4 +592,5 @@ function draw_chart(chart_id, data, lables) {
 }
 </script>
 <script src="../static/addtionalJS/productDetail_addjs.js"></script>
+<script src="../static/addtionalJS/action/ProductDetailAction.js"></script>
 {% end %}

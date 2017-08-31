@@ -533,6 +533,25 @@ class Manager:
         order_act_log = self.mp.handle_orderact_log(result)
         return order_act_log
 
+    def get_order_act_log_user(self, condition):
+
+        table_name = [
+            {'hf_user-hf_user_actorder_log':'user_id'},
+            {'hf_user_actorder_log-hf_order':'order_id'},
+            {'hf_user_actorder_log-hf_actorder_type':'act_type_id'}
+        ]
+        condition['hf_user_actorder_log.user_id IS NOT NULL'] = ''
+        condition['hf_order.order_id IS NOT NULL'] = ''
+        de  = DataBaseEngine(table_name)
+        operate_type='selectconnect'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        if result ==-1:
+            return result
+
+        order_act_log_user = self.mp.handle_orderact_log_user(result)
+        return order_act_log_user
+
+
     def get_product_act_log(self, condition):
 
         table_name = [
@@ -641,6 +660,11 @@ class Manager:
         return order_list
 
     def get_payment_log(self, condition, supstring):
-        pass
+
+        table_name = [{'hf_order_sub_payment_log-hf_user':'user_id'}]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, supstring=supstring)
+        return result
 
 

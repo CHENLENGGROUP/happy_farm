@@ -73,18 +73,8 @@ Project:	KENNY
 /****************************/
 /** Imports **/
 /****************************/
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Varela+Round);
 @import "../../vendors/bower_components/bootstrap/dist/css/bootstrap.min.css";
-@import "font-awesome.min.css";	
-@import "themify-icons.css";	
-@import "animate.css";	
-@import "simple-line-icons.css";	
-@import "linea-icon.css";	
-@import "pe-icon-7-stroke.css";	
-@import "pe-icon-7-styles.css";	
-@import "filter.css";	
-@import "lightgallery.css";	
-@import "../../vendors/bower_components/bourbon/app/assets/stylesheets/_bourbon.scss";	
+@import "../../vendors/bower_components/bourbon/app/assets/stylesheets/_bourbon.scss";
 @import "../../vendors/bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css";	
 @import "mixins.scss";	
 
@@ -3181,7 +3171,7 @@ table.footable > tbody > tr.footable-empty > td {
 
 .ct-chart-bar .ct-label.ct-horizontal.ct-end {
 	font-family:$font_main;
-	color:#black;
+	color:$black;
 }
 /*Easy pie chart*/
 .easypiechart {
@@ -3932,7 +3922,6 @@ a.compose-mail {
 .irs-bar, 
 .irs-bar-edge,
 .irs-slider {
-	 background:url("../img/range/sprite-skin-modern.png");
 }
 .irs-slider {
 	background-position: 0 -120px;
@@ -4764,7 +4753,6 @@ a.compose-mail {
 .profile-box {
 	.profile-info-wrap {
 		position:relative;
-		background-image:url("../img/gallery/mock6.jpg");
 		.profile-info {
 			position:relative;
 			z-index:1;
@@ -5004,7 +4992,7 @@ a.compose-mail {
 }
 button.fc-agendaDay-button,
 button.fc-month-button,
-button.fc-agendaWeek-button,
+button.fc-agendaWeek-button
  {
 	@extend .btn;
 	@extend .btn-success;
