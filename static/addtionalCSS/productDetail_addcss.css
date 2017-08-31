@@ -7,3 +7,10 @@
     color: #c0c0c0;
     cursor: default;
 }
+
+tbody a{
+    cursor: pointer;
+}
+tbody a:hover{
+    opacity: 0.5;
+}
