@@ -84,6 +84,9 @@ class BrowseProductDetailHandler(BaseHandler):
         #获取商品订单信息
         order_list = Manager().get_product_order({'product_id=':product_id},None)
 
+        #获取商品操作信息
+        product_act_log = Manager().get_product_act_log({'hf_product_act_log.product_id=':product_id})
+
         head_info = self.get_head_info('商品明细',str(product_info['product_name']))
 
         self.refresh_session()
@@ -91,4 +94,4 @@ class BrowseProductDetailHandler(BaseHandler):
                     income_data_list=income_data_list, areachart_data=areachart_data, visit_info=visit_info,
                     sales_info=sales_info, product_info=product_info, product_category = product_category,
                     count_sales_list_m=count_sales_list_m, count_income_m=count_income_m, order_list=order_list,
-                    payment_logs=[1,2,3,4,5,6,7])
+                    payment_logs=[1,2,3,4,5,6,7], product_act_log=product_act_log)

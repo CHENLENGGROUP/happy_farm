@@ -420,6 +420,51 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">商品操作日志</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <table id="product_data" class="table table-hover display  pb-30" >
+                                <thead>
+                                    <tr>
+                                        <th>商品编号</th>
+                                        <th>商品名字</th>
+                                        <th>操作者名字</th>
+                                        <th>操作类型</th>
+                                        <th>操作明细</th>
+                                        <th>操作时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in product_act_log %}
+                                    <tr>
+                                        <td>{{item['product_sn']}}</td>
+                                        <td>{{item['product_name']}}</td>
+                                        <td>{{item['real_name']}}</td>
+                                        <td>{{item['act_type_exp']}}</td>
+                                        <td>{{item['act_detail']}}</td>
+                                        <td>{{item['act_time']}}</td>
+                                    </tr>
+                                    {% end %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% end %}
 
 {% block additional_script %}
