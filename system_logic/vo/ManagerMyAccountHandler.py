@@ -25,6 +25,6 @@ class BrowseMyAccountHandler(BaseHandler):
         head_info = self.get_head_info('个人信息')
 
         manager_info = [
-            {'username':'singlesjjj','password':'*******','real_name':'之轩','telephone':'13000001111','authority':'1','register_time':'2017-06-26 17:43:12'},
+            {'username':'singlesjjj','password':'*******','real_name':'之轩','telephone':'13000001111','authority':'1','register_time':'2017-06-26 17:43:12','profile_pic_url':'../static/img/timg.jpg','last_login_time':'2017-08-31 20:25:03','last_login_ip':'127.0.0,1','country':'中国','province':'浙江','city':'杭州'},
         ]
         self.render('myaccount.html', head_info=head_info,manager_info=manager_info)

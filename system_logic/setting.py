@@ -63,6 +63,7 @@ webpage_title = {
     '文章详细':'文章详细-幸福农场后端管理',
     '添加员工':'添加员工-幸福农场后端管理',
     '个人信息':'个人信息-幸福农场后端管理',
+    '修改密码':'修改密码-幸福农场后端管理',
 }
 
 #---------------管理页面关系---------------
@@ -87,5 +88,6 @@ webpage_relationship = {
     '文章详细':{'parent':'文章管理','url':'/managerbrowsearticledetail'},
     '添加员工':{'parent':'员工管理','url':'/manageraddmanager'},
     '个人信息':{'parent':'主页', 'url':'/managerbrowsemyaccount'},
+    '修改密码':{'parent':'主页', 'url':'/managerresetpassword'},
 
 }

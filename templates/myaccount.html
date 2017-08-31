@@ -1,11 +1,27 @@
 {% extends 'main.html' %}
 
 {% block additional_css %}
-
+<!-- Bootstrap Dropify CSS -->
+<link href="../static/vendors/bower_components/dropify/dist/css/dropify.css" rel="stylesheet" type="text/css"/>
 {% end %}
 
 {% block additional_css_after_style %}
-
+<style>
+.dropify-wrapper{
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-image:url("../static/img/user1.png")
+}
+#edit-message {
+    margin-top: 25px;
+    background: #000;
+    width: 80px;
+    margin-left: -10px;
+}
+</style>
 {% end %}
 
 {% block main_part %}
@@ -21,6 +37,9 @@
             </div>
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
+                    <div class="row">
+                            <input type="file" class="dropify" data-max-file-size="500k">
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-wrap">
@@ -41,8 +60,11 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">密码</label>
-                                                    <div class="col-md-9">
-                                                        <p class="form-control-static"> {{manager_info[0]['password']}} </p>
+                                                    <div class="col-md-4">
+                                                        <p class="form-control-static">{{manager_info[0]['password']}}</p>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <a href="/managerresetpassword"><i class="icon-pencil"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,28 +122,25 @@
                                             <div class="col-md-12">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Address:</label>
+                                                        <label class="control-label col-md-3">地点:</label>
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"> 827 Deerfield Ave.
-                                                            Greenwood</p>
+                                                            <p class="form-control-static"> {{manager_info[0]['country']}}&nbsp;{{manager_info[0]['province']}}&nbsp;{{manager_info[0]['city']}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Address:</label>
+                                                        <label class="control-label col-md-3">IP:</label>
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"> 827 Deerfield Ave.
-                                                            Greenwood</p>
+                                                            <p class="form-control-static"> {{manager_info[0]['last_login_ip']}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Address:</label>
+                                                        <label class="control-label col-md-3">时间:</label>
                                                         <div class="col-md-9">
-                                                            <p class="form-control-static"> 827 Deerfield Ave.
-                                                            Greenwood</p>
+                                                            <p class="form-control-static"> {{manager_info[0]['last_login_time']}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -141,5 +160,13 @@
 {% end %}
 
 {% block additional_script %}
-
+<script src="../static/vendors/bower_components/dropify/dist/js/dropify.js"></script>
+<script src="../static/addtionalJS/myaccount_addjs.js"></script>
+<script>
+    $(document).ready(function () {
+        var img_url = "{{manager_info[0]['profile_pic_url']}}";
+        var background_image_value = 'url("' +img_url + '")';
+        $('.dropify-wrapper').css('background-image',background_image_value);
+    });
+</script>
 {% end %}
