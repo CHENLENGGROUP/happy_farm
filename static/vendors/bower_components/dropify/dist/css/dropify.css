@@ -389,7 +389,10 @@
     -webkit-transform: rotateZ(0deg);
             transform: rotateZ(0deg); } }
 .dropify-wrapper{
-    background-image:url(../../imgs/default.png);
+    background-image: url("../../../../../img/ceshi2.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 #edit-message{
     background: black;
