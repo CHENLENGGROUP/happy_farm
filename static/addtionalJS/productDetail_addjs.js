@@ -143,8 +143,6 @@ function resize_bar_chart(){
 
 	var height = $("#sale_line_chart").height();
 	var width = $("#sale_line_chart").width();
-	console.log(height);
-	console.log(width);
 	var cal_height = height-30-10-30;
 	$("#chart_2").height(cal_height);
 }

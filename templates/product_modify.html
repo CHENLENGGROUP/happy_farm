@@ -5,8 +5,6 @@
 <link href="../static/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
 <link href="../static/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
 <link href="../static/vendors/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
-<link href="../static/vendors/bower_components/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css"/>
-<link href="../static/vendors/bower_components/morris.js/morris.css" rel="stylesheet" type="text/css"/>
 <!-- Bootstrap Dropify CSS -->
 <link href="../static/vendors/bower_components/dropify/dist/css/dropify.css" rel="stylesheet" type="text/css"/>
 {% end %}
@@ -425,9 +423,10 @@
         cancelClass: 'btn-default',
     });
     $(document).ready(function () {
-        $('#main .dropify-wrapper').css('background-image','url("{{product_info['thumb_img_url']}}")');
+        var img_url = "{{product_info['thumb_img_url']}}";
+        var background_image_value = 'url("' +img_url + '")';
+        $('#main .dropify-wrapper').css('background-image',background_image_value);
     });
 </script>
 {% end %}
-<script src="../static/addtionalJS/productDetail_addjs.js"></script>
 {% end %}
