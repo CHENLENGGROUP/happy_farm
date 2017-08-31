@@ -304,6 +304,31 @@ Dropify.prototype.setPreview = function(previewable, src)
         $('<span class="dropify-extension" />').html(this.getFileType()).appendTo(render);
     }
     this.preview.fadeIn();
+    var arr = src.split(",");
+    var base64_str = arr[1];
+    var data = {
+        "session_info":{
+            "session_id":session_id,
+            "verify_code":verify_code
+        },
+        "pic_info":{
+            "base64_str":base64_str,
+        }
+    };
+    $.ajax({
+            type:"POST",
+            url:"http://127.0.0.1:8000/uploadprofilepic",
+            dataType:"JSON",
+            data:JSON.stringify(data),
+            success: function (reMsg){
+                alert('成功');
+            },  
+            error: function(reMsg){
+                alert('shibai');
+                alert('1');
+                swal('请求服务器错误');
+            }
+     });
 };
 
 /**

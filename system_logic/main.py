@@ -35,7 +35,7 @@ from system_logic.vo import ManagerProductAnalysisHandler
 from system_logic.vo import ManagerModifyProduct
 from system_logic.vo import ManagerPaymentLogHandler
 from system_logic.vo import ManagerOrderActLog
-
+from system_logic.vo import ManagerMyAccountHandler
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
@@ -99,6 +99,7 @@ class Application(tornado.web.Application):
             (r'/managerbrowsearticledetail', ManagerArticleHandler.BrowseArticleDetailHandler),
             (r'/managerbrowsepaymentlog', ManagerPaymentLogHandler.BrowsePaymentLogHandler),
             (r'/managerbrowseorderactlog', ManagerOrderActLog.BrowseOrderActLog),
+            (r'/managerbrowsemyaccount', ManagerMyAccountHandler.BrowseMyAccountHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

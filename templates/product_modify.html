@@ -7,6 +7,8 @@
 <link href="../static/vendors/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
 <link href="../static/vendors/bower_components/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css"/>
 <link href="../static/vendors/bower_components/morris.js/morris.css" rel="stylesheet" type="text/css"/>
+<!-- Bootstrap Dropify CSS -->
+<link href="../static/vendors/bower_components/dropify/dist/css/dropify.css" rel="stylesheet" type="text/css"/>
 {% end %}
 
 {% block additional_css_after_style %}
@@ -14,7 +16,80 @@
 {% end %}
 
 {% block main_part %}
-
+<div class="row">
+    <div class="col-sm-3 ol-md-3 col-xs-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">商品主图片</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <p class="text-muted">添加商品主图片</p>
+                    <div id="main" class="mt-40">
+                        <input type="file" id="input-file-now" class="dropify" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <div class="col-sm-3 ol-md-3 col-xs-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">商品图片2</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <p class="text-muted">添加商品详细列表图片</p>
+                    <div class="mt-40">
+                        <input type="file" id="input-file-now2" class="dropify" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 ol-md-3 col-xs-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">商品图片3</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <p class="text-muted">添加商品详细列表图片</p>
+                    <div class="mt-40">
+                        <input type="file" id="input-file-now3" class="dropify" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 ol-md-3 col-xs-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">商品图片4</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <p class="text-muted">添加商品详细列表图片</p>
+                    <div class="mt-40">
+                        <input type="file" id="input-file-now4" class="dropify" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default card-view">
@@ -330,7 +405,6 @@
 <script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 <script src="../static/vendors/bower_components/dropzone/dist/dropzone.js"></script>
 <script src="../static/vendors/bower_components/dropify/dist/js/dropify.js"></script>
-<script src="../static/dist/js/form-file-upload-data.js"></script>
 <script src="../static/vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 <script src="../static/addtionalJS/modifyproductinfo_addjs.js"></script>
 {% if product_info['product_type']!=1 %}
@@ -349,6 +423,9 @@
         buttonClasses: ['btn', 'btn-sm'],
         applyClass: 'btn-info',
         cancelClass: 'btn-default',
+    });
+    $(document).ready(function () {
+        $('#main .dropify-wrapper').css('background-image','url("{{product_info['thumb_img_url']}}")');
     });
 </script>
 {% end %}

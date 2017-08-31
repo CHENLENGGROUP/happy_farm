@@ -2,10 +2,33 @@ var ele_val_arr = new Array();
 var input = $('input');
 var select = $('select');
 var textarea = $('textarea');
+
 $(document).ready(function () {
     change(input);
     change(select);
     change(textarea);
+    /* Basic Init*/
+	$('.dropify').dropify({
+        messages:{
+          'default': '编辑商品图片',
+          'replace': '',
+          'remove':  '移除',
+          'error':   '商品图片上传失败'
+        },
+        error:{
+          'fileSize': '图片文件大于500KB，上传失败',
+        },
+        tpl: {
+                wrap:            '<div class="dropify-wrapper"></div>',
+                loader:          '<div class="dropify-loader"></div>',
+                message:         '<div class="dropify-message"><p id = "edit-message" style="color: #eee; display:none;">{{ default }}</p></div>',
+                preview:         '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">{{ replace }}</p></div></div></div>',
+                filename:        '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
+                clearButton:     '<button type="button" class="dropify-clear">{{ remove }}</button>',
+                errorLine:       '<p class="dropify-error">{{ error }}</p>',
+                errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+            }
+      });
 });
 $('#product_info_modify').click(function(){
     if($('.btn-text').html() == "修改"){

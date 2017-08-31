@@ -1,0 +1,145 @@
+{% extends 'main.html' %}
+
+{% block additional_css %}
+
+{% end %}
+
+{% block additional_css_after_style %}
+
+{% end %}
+
+{% block main_part %}
+<!-- Row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">修改个人信息</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-wrap">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-body">
+                                        <h6 class="txt-dark capitalize-font"><i class="icon-user mr-10"></i>个人信息</h6>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">用户名</label>
+                                                    <div class="col-md-9">
+                                                        <p class="form-control-static"> {{manager_info[0]['username']}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">密码</label>
+                                                    <div class="col-md-9">
+                                                        <p class="form-control-static"> {{manager_info[0]['password']}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!-- /Row -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">真实姓名</label>
+                                                    <div class="col-md-9">
+                                                        <p class="form-control-static"> {{manager_info[0]['real_name']}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">手机号码</label>
+                                                    <div class="col-md-9">
+                                                        <p class="form-control-static"> {{manager_info[0]['telephone']}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!-- /Row -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">管理权限</label>
+                                                    <div class="col-md-9">
+                                                        <p class="form-control-static"> {{manager_info[0]['authority']}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">入职时间</label>
+                                                    <div class="col-md-9">
+                                                        <p class="form-control-static"> {{manager_info[0]['register_time']}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!-- /Row -->
+
+                                        <div class="seprator-block"></div>
+
+                                        <h6 class="txt-dark capitalize-font"><i class="icon-notebook mr-10"></i>最后登录</h6>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Address:</label>
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"> 827 Deerfield Ave.
+                                                            Greenwood</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Address:</label>
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"> 827 Deerfield Ave.
+                                                            Greenwood</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Address:</label>
+                                                        <div class="col-md-9">
+                                                            <p class="form-control-static"> 827 Deerfield Ave.
+                                                            Greenwood</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Row -->
+{% end %}
+
+{% block additional_script %}
+
+{% end %}
