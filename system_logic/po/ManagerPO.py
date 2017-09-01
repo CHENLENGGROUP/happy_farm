@@ -272,6 +272,11 @@ class ManagerPO:
         login_log_re = []
         for item in login_log:
             temp_dict = {
+                'username':item['username'],
+                'telephone':item['telephone'],
+                'authority':item['authority'],
+                'register_time':item['register_time'],
+                'profile_pic_url':item['profile_pic_url'],
                 'manager_id':item['manager_id'],
                 'real_name':item['real_name'],
                 'login_time':item['login_time'],

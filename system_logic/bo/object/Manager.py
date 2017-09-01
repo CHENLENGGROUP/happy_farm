@@ -503,13 +503,13 @@ class Manager:
         result = People().get_user(condition, supstring)
         return result
 
-    def get_login_log(self, condition):
+    def get_login_log(self, condition, supstring=None):
 
         table_name = [{'hf_manager-hf_login_log_manager':'manager_id'}]
         condition['hf_login_log_manager.manager_id IS NOT NULL'] = ''
         de = DataBaseEngine(table_name)
         operate_type = 'selectconnect'
-        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, supstring=supstring)
         if result == -1:
             return result
         login_log = self.mp.handle_login_log(result)
