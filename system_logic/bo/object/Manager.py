@@ -239,7 +239,7 @@ class Manager:
             de.operate_database(operate_type=operate_type, operate_item=product_property_info)
 
         #存入商品操作信息
-        return 1, product_act_log_info
+        return product_id, product_act_log_info
 
     def delete_product(self, product_id, manager_id):
 

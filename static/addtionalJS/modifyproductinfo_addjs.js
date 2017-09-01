@@ -43,6 +43,8 @@ $('#product_info_modify').click(function(){
         $('.btn-text').html("保存");
     }else{
         var data = handle_json_data(ele_val_arr);
+        $('.btn-text').html("保存中...");
+
         $.ajax({
            type: "post",
            dataType: "json",
@@ -54,17 +56,20 @@ $('#product_info_modify').click(function(){
                if(ret !== re_code.success){
                    swal("连接失败，请稍候再试","错误代码"+ret,"error");
                }
-               swal("修改成功","","success");
+               else{
+                   input.attr("disabled",true);
+                   select.attr("disabled",true);
+                   select.selectpicker('refresh');
+                   textarea.attr("disabled",true);
+                   $('.btn-text').html("修改");
+                   swal("修改成功","","success");
+               }
            },
            error: function (Data) {
                 swal("连接失败，请稍候再试","错误代码000001","error");
            }
         });
-        input.attr("disabled",true);
-        select.attr("disabled",true);
-        select.selectpicker('refresh');
-        textarea.attr("disabled",true);
-        $('.btn-text').html("修改");
+
     }
 });
 function handle_json_data(eles) {

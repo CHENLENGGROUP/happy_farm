@@ -183,7 +183,7 @@ function sweet_alert(title, text){
     });
 }
 
-function sweet_alert_success(title, text){
+function sweet_alert_success(title, text, modi_url){
     swal({
         title: title,
         text: text,
@@ -194,7 +194,7 @@ function sweet_alert_success(title, text){
         cancelButtonText:"取消",
         closeOnConfirm: false
     },function () {
-        window.location.href="http://www.baidu.com";
+        window.location.href=modi_url;
     })
 }
 
@@ -229,7 +229,8 @@ function ajax_request(json_data, btn_obj){
            if(ret !== re_code.success){
                sweet_alert("连接失败，请稍候再试","错误代码"+ret);
            }
-           sweet_alert_success("添加成功","是否立即去给商品添加图片");
+           var modi_url = "/managermodiproduct?product_id="+Data.product_id
+           sweet_alert_success("添加成功","是否立即去给商品添加图片",modi_url);
            switch_button_status(btn_obj);
        },
        error: function (Data) {
