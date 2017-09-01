@@ -76,7 +76,11 @@
 							</div>
 
 							<a href="/managerbrowseproductdetail?product_id={{item['product_id']}}" target="_blank">
-								<img src="{{item['thumb_img_url']}}" class="img-responsive" alt="Product Image" />
+								{% if item['thumb_img_url'] != '' %}
+								<img src="{{item['thumb_img_url']}}" class="img-responsive" alt="Product Image" style="width: 100%"/>
+								{% else %}
+								<img src="../static/img/ceshi2.png" class="img-responsive" alt="Product Image" style="width: 100%"/>
+								{% end %}
 							</a>
 						</div>
 						<div class="info text-center">
