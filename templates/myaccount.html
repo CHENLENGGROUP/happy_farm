@@ -61,7 +61,7 @@
                                                     <div class="col-md-9">
                                                         <p class="form-control-static">
                                                             ******
-                                                            <button class="btn btn-default btn-icon-anim btn-square btn-sm modify_btn"
+                                                            <button type="button" class="btn btn-default btn-icon-anim btn-square btn-sm modify_btn"
                                                                     style="padding: 2.5px !important;width:20px;height: 20px;margin:0 0 5px 5px;">
                                                                 <i class="fa fa-pencil"></i>
                                                             </button>
@@ -168,6 +168,10 @@
         var img_url = "{{manager_info['profile_pic_url']}}";
         var background_image_value = 'url("' +img_url + '")';
         $('.dropify-wrapper').css('background-image',background_image_value);
+
+        $(".modify_btn").click(function () {
+            window.location.href="/managerresetpassword";
+        })
     });
 </script>
 {% end %}

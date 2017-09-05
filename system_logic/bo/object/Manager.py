@@ -3,6 +3,7 @@
 #引入高速缓存模块
 import  memcache
 import time
+import tornado.gen
 #引入对象——人
 from system_logic.bo.object.People import People
 #引入数据库操作模块
@@ -22,6 +23,8 @@ from system_logic.bo.object.static_object.Product import Product
 #引入订单对象
 from system_logic.bo.object.static_object.Order import Order
 from system_logic.bo.object.static_object.NewEvent import NewEvent
+import os
+
 
 class Manager:
 
@@ -272,8 +275,57 @@ class Manager:
         operate_type = 'insert'
         de.operate_database(operate_type=operate_type, operate_item=log_info)
 
-    def modify_product(self, apply_info):
-        pass
+    def modify_product(self, product_info, manager_id):
+
+        product_info_old, product_info_new = self.mp.handle_modify_product_info(product_info)
+        product_id = int(product_info_new['product_id'])
+        product_type = int(product_info_new['product_type'])
+        basic_info = product_info_new['basic_info']
+        sub_info = product_info_new['sub_info']
+        product_property_info = product_info_new['product_property_info']
+        condition = {'product_id=':product_id}
+
+        if basic_info.has_key('is_hot'):
+            if basic_info['is_hot'] == '热门商品':
+                basic_info['is_hot'] = 1
+            else:
+                basic_info['is_hot'] = 0
+
+        #更新基本信息
+        if len(basic_info) !=0:
+            de = DataBaseEngine('hf_product')
+            operate_type = 'update'
+            de.operate_database(operate_type=operate_type, operate_item=basic_info, operate_condition=condition)
+
+        #更细补充信息
+        if len(sub_info) !=0:
+            if product_type != 1:
+                table_name = 'hf_product_normal'
+            else:
+                table_name = 'hf_product_subscription'
+            de = DataBaseEngine(table_name)
+            operate_type = 'update'
+            de.operate_database(operate_type=operate_type,operate_item=sub_info,operate_condition=condition)
+
+        #更新商品特性信息
+        if len(product_property_info) !=0:
+            #删除旧特性信息
+            de = DataBaseEngine('hf_product_property')
+            operate_type = 'delete'
+            de.operate_database(operate_type=operate_type, operate_condition=condition)
+            #写入新特性信息
+            product_property_info = self.mp.handle_product_property_info(product_id, product_property_info['product_property'])
+            operate_type = 'insertMany'
+            de.operate_database(operate_type=operate_type, operate_item=product_property_info)
+
+        #将改动日志写入日志表
+        act_log_list = self.mp.handle_update_info_diff(product_info,manager_id)
+        if len(act_log_list) != 0:
+            de = DataBaseEngine('hf_product_act_log')
+            operate_type = 'insertMany'
+            de.operate_database(operate_type=operate_type, operate_item=act_log_list)
+
+        return 1
 
     def get_new_event(self):
 
@@ -550,7 +602,6 @@ class Manager:
 
         order_act_log_user = self.mp.handle_orderact_log_user(result)
         return order_act_log_user
-
 
     def get_product_act_log(self, condition):
 

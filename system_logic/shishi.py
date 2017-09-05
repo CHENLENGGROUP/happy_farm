@@ -31,13 +31,32 @@ product_info = {
         'product_category_info':[1]
     }
 }
+
+
+
 # result = Manager().add_product(product_info)
 # print result
 
 import memcache
 
-# from system_logic.dao.DataBaseEngine import DataBaseEngine
-#
+from system_logic.dao.DataBaseEngine import DataBaseEngine
+# de = DataBaseEngine('hf_manager')
+# u_list = []
+# for i in range(400000, 500000):
+#     username = 'singlesjjj'+str(i)
+#     temp_dict = {
+#         'username':username,
+#         'passwd':'lalaland',
+#         'real_name':'冷志远',
+#         'telephone':'15281952388',
+#         'authority':1,
+#     }
+#     u_list.append(temp_dict)
+# operate_type = 'insertMany'
+# de.operate_database(operate_type=operate_type, operate_item=u_list)
+
+
+
 # list_1 = []
 # for a in range(0,10000):
 #     for b in [1,4,5,6,7,8]:
@@ -63,8 +82,8 @@ import memcache
 # from system_logic.bo.object.User import User
 # login_info= {'username':'singlesjjj','passwd':'123456','login_ip':'112.10.134.125'}
 # print User().login(login_info)
-mc = memcache.Client(['127.0.0.1:11211'])
-print mc.get('之轩')
+# mc = memcache.Client(['127.0.0.1:11211'])
+# print mc.get('之轩')
 # mc.set('tn',123,5)
 # print mc.get('tn')
 # import time

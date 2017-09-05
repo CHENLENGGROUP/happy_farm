@@ -2,6 +2,7 @@
 
 import json
 import time
+import types
 import tornado
 import memcache
 import tornado.web
@@ -15,10 +16,12 @@ from system_logic.po.ManagerProductDetailPO import ManagerProductDetailPO
 from system_logic.po.PageAddProductPO import PageAddProductPO
 
 class ModifyProductHandler(BaseHandler):
+
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header("Access-Control-Allow-Headers", "x-requested-with")
         self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
@@ -26,7 +29,6 @@ class ModifyProductHandler(BaseHandler):
         if not self.get_login_status():
             self.redirect('/managerlogin')
             return
-
 
         product_id = int(self.get_argument('product_id'))
 
@@ -76,5 +78,10 @@ class ModifyProductHandler(BaseHandler):
             return
 
         argus = _decode_dict(json.loads(self.request.body))
-        reMsg = {'ret': setting.re_code['success']}
+        manager_id = self.get_secure_cookie('loginuser_id')
+        result = Manager().modify_product(argus, manager_id)
+        if result == -1:
+            reMsg = {'ret':setting.re_code['connect_error']}
+        else:
+            reMsg = {'ret':setting.re_code['success']}
         self.write(reMsg)

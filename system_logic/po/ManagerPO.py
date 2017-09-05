@@ -374,3 +374,86 @@ class ManagerPO:
             order_list_re.append(item)
 
         return order_list_re
+
+    def handle_modify_product_info(self, product_info):
+
+        product_type = product_info['product_type']
+        product_id = product_info['product_id']
+        basic_info = product_info['basic_info']
+        sub_info = product_info['sub_info']
+        product_property_info = product_info['product_property_info']
+
+        basic_info_new, basic_info_old = self.split_old_new_value(basic_info)
+        sub_info_new, sub_info_old = self.split_old_new_value(sub_info)
+        product_property_info_new, product_property_info_old = self.split_old_new_value(product_property_info)
+
+        product_info_old = {
+            'product_type':product_type,
+            'product_id':product_id,
+            'basic_info':basic_info_old,
+            'sub_info':sub_info_old,
+            'product_property_info':product_property_info_old
+        }
+        product_info_new = {
+            'product_type':product_type,
+            'product_id':product_id,
+            'basic_info':basic_info_new,
+            'sub_info':sub_info_new,
+            'product_property_info':product_property_info_new
+        }
+        return product_info_old, product_info_new
+
+    def split_old_new_value(self, target_dict):
+
+        temp_new = {}
+        temp_old = {}
+        for key in target_dict:
+            temp_new[key] = target_dict[key]['new_value']
+            temp_old[key] = target_dict[key]['old_value']
+
+        return temp_new, temp_old
+
+    def handle_update_info_diff(self, target_dict, manager_id):
+
+        product_act_log = []
+        product_id = target_dict['product_id']
+        del target_dict['product_id']
+        del target_dict['product_type']
+        for key in target_dict:
+            for key1 in target_dict[key]:
+                temp_dict = {
+                    'product_id': int(product_id),
+                    'manager_id': int(manager_id),
+                    'act_type_id': 3,
+                    'act_time': self.current_time,
+                }
+                if key == 'product_property_info':
+                    old_v = ''
+                    new_v = ''
+                    for key2 in target_dict[key][key1]:
+                        for item in target_dict[key][key1][key2]:
+                            for key3 in item:
+                                if key2 == 'new_value':
+                                    new_v = new_v + ',' + str(key3) + '：' + item[key3]
+                                else:
+                                    old_v = old_v + ',' + str(key3) + '：' + item[key3]
+                    temp_dict['original_data'] = old_v
+                    temp_dict['modified_data'] = new_v
+                    temp_dict['act_data_name'] = key1
+
+                elif key1 == 'is_hot':
+                    if int(target_dict[key][key1]['old_value']) == 0 :
+                        old_v = '非热门商品'
+                    else:
+                        old_v = '热门商品'
+                    temp_dict['original_data'] = old_v
+                    temp_dict['modified_data'] = target_dict[key][key1]['new_value']
+                    temp_dict['act_data_name'] = key1
+                else:
+                    temp_dict['original_data'] = target_dict[key][key1]['old_value']
+                    temp_dict['modified_data'] = target_dict[key][key1]['new_value']
+                    temp_dict['act_data_name'] = key1
+
+                product_act_log.append(temp_dict)
+
+        return product_act_log

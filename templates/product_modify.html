@@ -15,7 +15,7 @@
 
 {% block main_part %}
 <div class="row">
-    <div class="col-sm-3 ol-md-3 col-xs-12">
+    <div class="col-sm-6 col-lg-3 col-md-6 ol-md-3 col-xs-12">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -33,7 +33,7 @@
             </div>
         </div>
     </div>
-   <div class="col-sm-3 ol-md-3 col-xs-12">
+    <div class="col-sm-6 col-lg-3 col-md-6 ol-md-3 col-xs-12">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3 ol-md-3 col-xs-12">
+    <div class="col-sm-6 col-lg-3 col-md-6 ol-md-3 col-xs-12">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3 ol-md-3 col-xs-12">
+    <div class="col-sm-6 col-lg-3 col-md-6 ol-md-3 col-xs-12">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -134,13 +134,13 @@
                                                     {% set product_type=product_info['product_type'] %}
                                                     {% if product_type == 0 %}
                                                     <input name="product_type" type="text" value="普通商品"
-                                                           class="form-control" required disabled readonly>
+                                                           class="form-control" product_type="0" required disabled readonly>
                                                     {% elif product_type == 1 %}
                                                     <input name="product_type" type="text" value="领养商品"
-                                                           class="form-control" required disabled readonly>
+                                                           class="form-control" product_type="1" required disabled readonly>
                                                     {% else %}
                                                     <input name="product_type" type="text" value="虚拟商品"
-                                                           class="form-control" required disabled readonly>
+                                                           class="form-control" product_type="2" required disabled readonly>
                                                     {% end %}
                                                 </div>
                                             </div>
@@ -322,9 +322,9 @@
                                     </div>
                                 </form>
                                 <div class="form-actions mt-10">
-                                    <button type="submit" id="product_info_modify" class="btn btn-success btn-anim"><i class="icon-pencil">
+                                    <button type="submit" id="product_info_modify" class="btn btn-success btn-anim"><i class="icon-rocket">
                                     </i><span class="btn-text">修改</span><i style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i></button>
-                                    <button type="button" class="btn btn-default">取消</button>
+                                    <button type="button" class="btn btn-default" id="cancel_modify">取消</button>
                                 </div>
                                 <div class="row" style="display: none;">
                                     <div class="col-md-12">
@@ -404,6 +404,18 @@
 <script src="../static/vendors/bower_components/dropzone/dist/dropzone.js"></script>
 <script src="../static/vendors/bower_components/dropify/dist/js/dropify.js"></script>
 <script src="../static/vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    var product_info = '{{product_info}}';
+    var re = new RegExp("&#39;","g");
+    product_info = product_info.replace(re,'"');
+    var re1 = new RegExp('u"',"g");
+    product_info = product_info.replace(re1,'"');
+    var re2 = new RegExp("L,","g");
+    product_info = product_info.replace(re2,',');
+    product_info = jQuery.parseJSON(product_info);
+    console.log(product_info);
+
+</script>
 <script src="../static/addtionalJS/modifyproductinfo_addjs.js"></script>
 {% if product_info['product_type']!=1 %}
 <script>
