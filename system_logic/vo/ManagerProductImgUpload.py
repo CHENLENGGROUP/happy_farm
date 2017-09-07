@@ -12,6 +12,7 @@ from system_logic.vo.BaseHandler import BaseHandler
 from system_logic.bo.object.Manager import Manager
 from system_logic.vo.method.DecodeJson import _decode_dict
 from system_logic.po.UploadImg import UploadImg
+from system_logic.po.EncryptString import EncryptString
 
 class UploadProductImg(BaseHandler):
 
@@ -30,10 +31,9 @@ class UploadProductImg(BaseHandler):
         product_id = argus['product_id']
         try:
             base64str = argus['base64_str']
-            # 获取时间戳
-            tstamp = int(time.time())
             # 储存图片
-            file_name = 'pimg_' + str(product_id) + '_' + str(sequence_num) + '_' + str(tstamp) + '.jpg'
+            en_base64 = EncryptString().encrypt_string(base64str)
+            file_name = en_base64+ '.jpg'
             store_address = '../static/img/product_img/' + file_name
             s_add = UploadImg().create_img(base64str, store_address)
         except:
