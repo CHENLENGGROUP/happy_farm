@@ -241,7 +241,17 @@ class Manager:
         if len(product_property_info)!=0:
             de.operate_database(operate_type=operate_type, operate_item=product_property_info)
 
-        #存入商品操作信息
+        #出入商品图片信息（空字符）
+        de = DataBaseEngine('hf_product_gallery')
+        insert_item = [
+            {'product_id':product_id,'img_url':'','img_description':'','sequence_num':1,'is_main':1},
+            {'product_id': product_id, 'img_url': '', 'img_description': '', 'sequence_num': 2, 'is_main':0},
+            {'product_id': product_id, 'img_url': '', 'img_description': '', 'sequence_num': 3, 'is_main':0},
+            {'product_id': product_id, 'img_url': '', 'img_description': '', 'sequence_num': 4, 'is_main':0},
+        ]
+        operate_type = 'insertMany'
+        de.operate_database(operate_type=operate_type,operate_item=insert_item)
+
         return product_id, product_act_log_info
 
     def delete_product(self, product_id, manager_id):
@@ -717,5 +727,30 @@ class Manager:
         operate_type = 'selectconnect'
         result = de.operate_database(operate_type=operate_type, operate_condition=condition, supstring=supstring)
         return result
+
+    def get_product_img(self, condition):
+
+        supstring = ' ORDER BY sequence_num ASC '
+        de = DataBaseEngine('hf_product_gallery')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, supstring=supstring)
+        return result
+
+    def update_product_img(self, condition, up_item):
+
+        de = DataBaseEngine('hf_product_gallery')
+        operate_type = 'update'
+        result = de.operate_database(operate_type=operate_type, operate_item=up_item, operate_condition=condition)
+        if result == -1:
+            return -1
+        if condition['sequence_num='] == 1:
+            de = DataBaseEngine('hf_product')
+            condition_1 = {'product_id=':condition['product_id=']}
+            up_item_1 = {'thumb_img_url':up_item['img_url']}
+            result_1 = de.operate_database(operate_type=operate_type, operate_item=up_item_1, operate_condition=condition_1)
+            if result_1 == -1:
+                return -1
+        return result
+
 
 

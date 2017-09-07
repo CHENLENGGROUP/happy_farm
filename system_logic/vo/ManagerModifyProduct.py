@@ -53,11 +53,15 @@ class ModifyProductHandler(BaseHandler):
         property_str = ManagerProductDetailPO().handle_property_info(property_info)
         product_info['property_str'] = property_str
 
+        #获取商品图片信息
+        product_img_list = Manager().get_product_img({'product_id=':product_id})
+        product_img_info = ManagerProductDetailPO().handle_product_img_info(product_img_list)
+
         head_info = self.get_head_info('商品明细',str(product_info['product_name']))
 
         self.refresh_session()
         self.render('product_modify.html', head_info=head_info, product_info=product_info,
-                    category_list=category_list, product_category = product_category)
+                    category_list=category_list, product_category = product_category, product_img_info=product_img_info)
 
     @tornado.web.asynchronous
     @tornado.gen.coroutine

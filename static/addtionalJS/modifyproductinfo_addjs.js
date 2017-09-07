@@ -16,7 +16,8 @@ $(document).ready(function () {
     change(select);
     change(textarea);
     /* Basic Init*/
-	$('.dropify').dropify({
+	$('.dropify').dropify(
+	    {
         messages:{
           'default': '点击上传图片',
           'replace': '',
@@ -36,7 +37,8 @@ $(document).ready(function () {
                 errorLine:       '<p class="dropify-error">{{ error }}</p>',
                 errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
             }
-      });
+      }
+      );
 
 	$('#cancel_modify').click(function () {
         input.attr("disabled",true);
@@ -58,9 +60,7 @@ $('#product_info_modify').click(function(){
         select.selectpicker('refresh');
         $('.btn-text').html("保存");
     }else{
-        // console.log(ele_val_arr)
         var data = handle_json_data(ele_val_arr);
-        console.log(data)
         swal({
             title: "确认保存？",
             text: "是否确认保存做出的修改",

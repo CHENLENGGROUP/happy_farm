@@ -288,7 +288,6 @@ Dropify.prototype.setPreview = function(previewable, src)
     this.wrapper.removeClass('has-error').addClass('has-preview');
     this.filenameWrapper.children('.dropify-filename-inner').html(this.file.name);
     var render = this.preview.children('.dropify-render');
-
     this.hideLoader();
 
     if (previewable === true) {
@@ -306,28 +305,26 @@ Dropify.prototype.setPreview = function(previewable, src)
     this.preview.fadeIn();
     var arr = src.split(",");
     var base64_str = arr[1];
+    var id_str = $(this.element).parent().parent().attr("id");
+    var sequence_num = id_str.split("-")[1];
+    var product_id = $.getUrlParam("product_id");
     var data = {
-        "session_info":{
-            "session_id":session_id,
-            "verify_code":verify_code
-        },
-        "pic_info":{
-            "base64_str":base64_str,
-        }
+        "base64_str":base64_str,
+        "sequence_num" :sequence_num,
+        "product_id":product_id,
     };
     $.ajax({
-            type:"POST",
-            url:"http://127.0.0.1:8000/uploadprofilepic",
-            dataType:"JSON",
-            data:JSON.stringify(data),
-            success: function (reMsg){
-                alert('成功');
-            },  
-            error: function(reMsg){
-                alert('shibai');
-                alert('1');
-                swal('请求服务器错误');
-            }
+        type:"POST",
+        url:"http://127.0.0.1:8000/manageruploadproductimg",
+        dataType:"JSON",
+        data:JSON.stringify(data),
+        timeout:10000,
+        success: function (reMsg){
+            swal('成功','若误传，可点击移除返回上一张图片');
+        },
+        error: function(reMsg){
+            swal('请求服务器错误','请稍后尝试重新上传');
+        }
      });
 };
 
@@ -383,6 +380,7 @@ Dropify.prototype.clearElement = function()
         this.input.val('');
         this.resetPreview();
     }
+
 };
 
 /**

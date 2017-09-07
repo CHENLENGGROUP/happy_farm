@@ -37,6 +37,7 @@ from system_logic.vo import ManagerPaymentLogHandler
 from system_logic.vo import ManagerOrderActLog
 from system_logic.vo import ManagerMyAccountHandler
 from system_logic.vo import ManagerModifyPasswordHandler
+from system_logic.vo import ManagerProductImgUpload
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -103,6 +104,7 @@ class Application(tornado.web.Application):
             (r'/managerbrowseorderactlog', ManagerOrderActLog.BrowseOrderActLog),
             (r'/managerbrowsemyaccount', ManagerMyAccountHandler.BrowseMyAccountHandler),
             (r'/managerresetpassword', ManagerModifyPasswordHandler.ModifyPasswordHandler),
+            (r'/manageruploadproductimg', ManagerProductImgUpload.UploadProductImg),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

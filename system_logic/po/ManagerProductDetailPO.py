@@ -33,3 +33,17 @@ class ManagerProductDetailPO:
             property_str = '%s,%s：%s'%(property_str,item['property_name'], item['property_content'])
 
         return property_str[1:]
+
+    def handle_product_img_info(self, img_list):
+
+        img_info = {
+            'se-1':'',
+            'se-2':'',
+            'se-3':'',
+            'se-4':''
+        }
+        for item in img_list:
+            key = 'se-' + str(item['sequence_num'])
+            img_info[key] = item['img_url']
+
+        return img_info

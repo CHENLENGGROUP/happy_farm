@@ -26,7 +26,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <p class="text-muted">添加商品主图片</p>
-                    <div id="main" class="mt-40">
+                    <div id="se-1" class="mt-40">
                         <input type="file" id="input-file-now" class="dropify" />
                     </div>
                 </div>
@@ -44,7 +44,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <p class="text-muted">添加商品详细列表图片</p>
-                    <div class="mt-40">
+                    <div class="mt-40" id="se-2">
                         <input type="file" id="input-file-now2" class="dropify" />
                     </div>
                 </div>
@@ -62,7 +62,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <p class="text-muted">添加商品详细列表图片</p>
-                    <div class="mt-40">
+                    <div class="mt-40" id="se-3">
                         <input type="file" id="input-file-now3" class="dropify" />
                     </div>
                 </div>
@@ -80,7 +80,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <p class="text-muted">添加商品详细列表图片</p>
-                    <div class="mt-40">
+                    <div class="mt-40" id="se-4">
                         <input type="file" id="input-file-now4" class="dropify" />
                     </div>
                 </div>
@@ -413,8 +413,6 @@
     var re2 = new RegExp("L,","g");
     product_info = product_info.replace(re2,',');
     product_info = jQuery.parseJSON(product_info);
-    console.log(product_info);
-
 </script>
 <script src="../static/addtionalJS/modifyproductinfo_addjs.js"></script>
 {% if product_info['product_type']!=1 %}
@@ -435,10 +433,46 @@
         cancelClass: 'btn-default',
     });
     $(document).ready(function () {
-        var img_url = "{{product_info['thumb_img_url']}}";
-        var background_image_value = 'url("' +img_url + '")';
-        $('#main .dropify-wrapper').css('background-image',background_image_value);
+        var img_url_1 = "{{product_img_info['se-1']}}";
+        var img_url_2 = "{{product_img_info['se-2']}}";
+        var img_url_3 = "{{product_img_info['se-3']}}";
+        var img_url_4 = "{{product_img_info['se-4']}}";
+        if(img_url_1!==""){
+            var background_image_value = 'url("' +img_url_1 + '")';
+            $('#se-1 .dropify-wrapper').css('background-image',background_image_value);
+        }
+        if(img_url_2!==""){
+            var background_image_value = 'url("' +img_url_2 + '")';
+            $('#se-2 .dropify-wrapper').css('background-image',background_image_value);
+        }
+        if(img_url_3!==""){
+            var background_image_value = 'url("' +img_url_3 + '")';
+            $('#se-3 .dropify-wrapper').css('background-image',background_image_value);
+        }
+        if(img_url_4!==""){
+            var background_image_value = 'url("' +img_url_4 + '")';
+            $('#se-4 .dropify-wrapper').css('background-image',background_image_value);
+        }
+        $('.dropify-clear').on('click', function () {
+            var id_str = $(this).parent().parent().attr("id");
+            var sequence_num = id_str.split("-")[1];
+            var product_id = $.getUrlParam("product_id");
+            var img_url = eval("img_url_"+sequence_num);
+            var data = {
+                "sequence_num":sequence_num,
+                "product_id":product_id,
+                "img_url":img_url,
+            }
+            $.ajax({
+                type:"POST",
+                url:"http://127.0.0.1:8000/manageruploadproductimg",
+                dataType:"JSON",
+                data:JSON.stringify(data),
+                timeout:10000,
+             });
+        });
     });
+
 </script>
 {% end %}
 {% end %}
