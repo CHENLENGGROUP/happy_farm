@@ -49,7 +49,16 @@ class addArticletHandler(BaseHandler):
             return
 
         author = self.get_secure_cookie('loginuser')
+        manager_id = self.get_secure_cookie('loginuser_id')
+        article_info = _decode_dict(json.loads(self.request.body))
+        article_info['author'] = author
+        article_info['manager_id'] = manager_id
+        article_info['add_time'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        result = Manager().add_article(article_info)
+        if result == -1:
+            reMsg = {'ret':setting.re_code['connect_error']}
+        else:
+            reMsg = {'ret':setting.re_code['success']}
 
-        argus = _decode_dict(json.loads(self.request.body))
-        reMsg = {'ret':setting.re_code['success']}
+        self.refresh_session()
         self.write(reMsg)

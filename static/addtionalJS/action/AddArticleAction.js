@@ -9,6 +9,22 @@ $('#article_info_form').submit(function(){
         "brief":brief,
         "content":content,
     };
+    swal({
+        title: '确定提交？',
+        text: '提交后，可在文章列表查看',
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonColor: "#566FC9",
+        confirmButtonText: "确定",
+        cancelButtonText:"取消",
+        closeOnConfirm: false
+    },function () {
+        switch_button_status($('#article_info_sub'));
+        do_ajax(data);
+    })
+});
+
+function do_ajax(data){
     $.ajax({
        type: "post",
        dataType: "json",
@@ -19,12 +35,35 @@ $('#article_info_form').submit(function(){
            var ret = Data.ret;
            if(ret !== re_code.success){
                swal("连接失败，请稍候再试","错误代码"+ret,'error');
+               switch_button_status($('#article_info_sub'));
            }
-           swal("添加成功","","success");
+           else{
+               swal("添加成功","","success");
+               switch_button_status($('#article_info_sub'));
+           }
        },
        error: function (Data) {
             swal("连接失败","错误代码000001","error");
-            sweet_alert("连接失败，请稍候再试","错误代码000001");
+            switch_button_status($('#article_info_sub'));
        }
    });
-});
+}
+
+function switch_button_status(button_elem){
+    var btn_elem = $(button_elem);
+    var children_list = btn_elem.children();
+    if(btn_elem.hasClass("btn-anim")){
+        btn_elem.removeClass("btn-anim");
+        btn_elem.addClass("disabled");
+        $(children_list[0]).css("display","none");
+        $(children_list[1]).html("提交中...");
+        $(children_list[2]).css("display","inline-block");
+    }
+    else{
+        btn_elem.addClass("btn-anim");
+        btn_elem.removeClass("disabled");
+        $(children_list[0]).css("display","inline-block");
+        $(children_list[1]).html("提交");
+        $(children_list[2]).css("display","none");
+    }
+}

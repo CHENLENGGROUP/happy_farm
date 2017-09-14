@@ -148,11 +148,11 @@ class Manager:
         result = de.operate_database(operate_type=operate_type, operate_item=manager_menu_list)
         return result
 
-    def get_manager(self, condition):
+    def get_manager(self, condition, supstring=None):
 
         de = DataBaseEngine("hf_manager")
         operate_type = "select"
-        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, supstring=supstring)
         return result
 
     def delete_manager(self, condition):
@@ -752,5 +752,38 @@ class Manager:
                 return -1
         return result
 
+    def get_article(self, condition, page_number, supstring):
 
+        start_n = 12*(page_number-1)
+        sups = ' LIMIT %d, %d'%(start_n, 12)
+        supstring = supstring + sups
 
+        result = People().browse_article(condition, supstring)
+
+        if result == -1:
+            return -1, -1
+
+        article_total = self.mp.handle_article_list(result)
+
+        de = DataBaseEngine('hf_article')
+        select_item = {'COUNT(*)':0}
+        operate_type = 'select'
+        count = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition)
+        if count == -1:
+            return article_total, -1
+        return article_total, count[0]['COUNT(*)']
+
+    def delete_article(self, condition):
+
+        de = DataBaseEngine('hf_article')
+        operate_type = 'update'
+        update_item = {'is_delete':1}
+        result = de.operate_database(operate_type=operate_type, operate_item=update_item, operate_condition=condition)
+        return result
+
+    def add_article(self, article_info):
+
+        de = DataBaseEngine('hf_article')
+        operate_type = 'insert'
+        result = de.operate_database(operate_type=operate_type, operate_item=article_info)
+        return result

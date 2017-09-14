@@ -85,7 +85,7 @@ webpage_relationship = {
     '添加文章':{'parent':'文章管理','url':'/manageraddarticle'},
     '文章列表':{'parent':'文章管理','url':'/managerarticlelist'},
     '商品分析':{'parent':'商品管理','url':'//managerproductanalysis'},
-    '文章详细':{'parent':'文章管理','url':'/managerbrowsearticledetail'},
+    '文章详细':{'parent':'文章列表','url':'/managerarticlelist'},
     '添加员工':{'parent':'员工管理','url':'/manageraddmanager'},
     '个人信息':{'parent':'主页', 'url':'/managerbrowsemyaccount'},
     '修改密码':{'parent':'主页', 'url':'/managerresetpassword'},

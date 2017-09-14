@@ -40,20 +40,18 @@ product_info = {
 import memcache
 
 from system_logic.dao.DataBaseEngine import DataBaseEngine
-# de = DataBaseEngine('hf_manager')
-# u_list = []
-# for i in range(400000, 500000):
-#     username = 'singlesjjj'+str(i)
-#     temp_dict = {
-#         'username':username,
-#         'passwd':'lalaland',
-#         'real_name':'冷志远',
-#         'telephone':'15281952388',
-#         'authority':1,
-#     }
-#     u_list.append(temp_dict)
-# operate_type = 'insertMany'
-# de.operate_database(operate_type=operate_type, operate_item=u_list)
+de = DataBaseEngine('hf_user')
+u_list = []
+for i in range(0, 1000):
+    username = 'singlesjjj'+str(i)
+    temp_dict = {
+        'username':username,
+        'passwd':'lalaland',
+        'telephone':'15281952388',
+    }
+    u_list.append(temp_dict)
+operate_type = 'insertMany'
+de.operate_database(operate_type=operate_type, operate_item=u_list)
 
 
 

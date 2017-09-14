@@ -457,3 +457,18 @@ class ManagerPO:
                 product_act_log.append(temp_dict)
 
         return product_act_log
+
+    def handle_article_list(self, article_list):
+
+        article_total = []
+
+        temp_list = []
+        for i in range(0, len(article_list)):
+            if (i!=0 and i%4 == 0):
+                article_total.append(temp_list)
+                temp_list = []
+            temp_list.append(article_list[i])
+            if i == len(article_list)-1:
+                article_total.append(temp_list)
+
+        return article_total

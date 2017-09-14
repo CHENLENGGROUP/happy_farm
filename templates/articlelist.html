@@ -15,7 +15,7 @@
 {% end %}
 
 {% block main_part %}
-<!-- Product Row One-->
+<!-- Article Row One-->
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default card-view">
@@ -24,29 +24,17 @@
 					<div class="form-wrap mt-40">
 						<form action="">
 							<div class="row">
-								<div class="col-md-4">
-									<div class="form-group">
-										<select class="selectpicker cate_select" data-style="form-control" id="category_select" name="category_id">
-											<option value="0">全部商品</option>
-											{% for item in category_list %}
-											<option value="{{item['category_id']}}">{{item['category_content']}}</option>
-											{% end %}
-										</select>
-									</div>
-								</div>
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<div class="form-group">
 										<select class="selectpicker sort_select" data-style="form-control" id="sortBy" name="sort_rule">
 											<option value="">请选择排序方式</option>
-											<option value="is_hot desc">商品热度(正序)</option>
-											<option value="is_hot asc">商品热度(倒序)</option>
 											<option value="add_time desc">上架时间(正序)</option>
 											<option value="add_time asc">上架时间(倒序)</option>
 										</select>
 									</div>
 								</div>
-								<div class="input-group mb-15 col-md-4">
-									<input type="text" id="example-input1-group21" name="search_item" class="form-control" placeholder="按商品名字或编号搜索...">
+								<div class="input-group mb-15 col-md-6">
+									<input type="text" id="example-input1-group21" name="search_item" class="form-control" placeholder="按文章名字搜索...">
 									 <span class="input-group-btn">
 										<button type="button" class="btn  btn-success" id="search-tbn"><i class="fa fa-search"></i></button>
 									 </span>
@@ -60,9 +48,9 @@
 	</div>
 </div>
 
-{% for product_list in product_total %}
+{% for article_list in article_total %}
 <div class="row">
-	{% for item in product_list %}
+	{% for item in article_list %}
 	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 		<div class="panel panel-default card-view pa-0">
 			<div class="panel-wrapper collapse in">
@@ -70,29 +58,34 @@
 					<article class="col-item">
 						<div class="photo">
 							<div class="options">
-								<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['product_id']}}"><i class="icon-magnifier"></i></button>
-
-								<button class="btn btn-info btn-icon-anim btn-circle" type="submit"><i class="icon-trash"></i></button>
+								<a href="/managerbrowsearticledetail?article_id={{item['article_id']}}">
+									<button class="btn btn-default btn-icon-anim btn-circle mr-5 edit" name="{{item['article_id']}}">
+										<i class="icon-magnifier"></i>
+									</button>
+								</a>
+								<button class="btn btn-info btn-icon-anim btn-circle delete_article" name="{{item['article_id']}}" type="submit">
+									<i class="icon-trash"></i>
+								</button>
 							</div>
 
-							<a href="/managerbrowseproductdetail?product_id={{item['product_id']}}">
-								<img src="{{item['thumb_img_url']}}" class="img-responsive" alt="Product Image" />
+							<a href="/managerbrowsearticledetail?article_id={{item['article_id']}}">
+								{% if item['thumb_img_url'] != '' %}
+								<img src="{{item['thumb_img_url']}}" class="img-responsive" alt="Article Image" />
+								{% else %}
+								<img src="../static/img/default_img_a.jpg" class="img-responsive" alt="Article Image" />
+								{% end %}
 							</a>
 						</div>
 						<div class="info text-center">
-							<a href="/managerbrowseproductdetail?product_id={{item['product_id']}}">
-								<h6>{{item['product_name']}}</h6>
+							<a href="/managerbrowsearticledetail?article_id={{item['article_id']}}">
+								<h6>{{item['title']}}</h6>
 							</a>
 							{% if item['brief'] == '' %}
 							<span class="product-spec capitalize-font block mt-5 mb-5">无简介</span>
 							{% else %}
 							<span class="product-spec capitalize-font block mt-5 mb-5">{{item['brief']}}</span>
 							{% end %}
-							{% if item['product_type']==1 %}
-							<span class="head-font block text-warning">￥{{item['first_pay']}}</span>
-							{% else %}
-							<span class="head-font block text-warning">￥{{item['shop_price']}}</span>
-							{% end %}
+							<span class="head-font block text-warning">{{item['author']}}</span>
 						</div>
 					</article>
 				</div>
@@ -130,5 +123,6 @@
 {% block additional_script %}
 <!-- Bootstrap Select JavaScript -->
 <script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-<script src="../static/addtionalJS/productlist_addjs.js"></script>
+<script src="../static/addtionalJS/articlelist_addjs.js"></script>
+<script src="../static/addtionalJS/action/ArticleListAction.js"></script>
 {% end %}
