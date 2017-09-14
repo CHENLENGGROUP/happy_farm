@@ -119,6 +119,17 @@ $(function() {
 				}
 			}
 		});
-	}	
+	}
+	if( $('#cn').length > 0 ){
+		$('#cn').vectorMap({
+			map : 'cn_mill',
+			backgroundColor : 'transparent',
+			regionStyle : {
+				initial : {
+					fill : 'rgba(86,111,201,.4)'
+				}
+			}
+		});
+	}
 });
  
