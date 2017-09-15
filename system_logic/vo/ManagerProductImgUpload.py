@@ -50,3 +50,41 @@ class UploadProductImg(BaseHandler):
             reMsg = {'ret':setting.re_code['success']}
 
         self.write(reMsg)
+
+class UploadManagerProfileImg(BaseHandler):
+
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+
+    def post(self, *args, **kwargs):
+
+        '''
+
+        base64_str
+        :return:
+        '''
+        argus = _decode_dict(json.loads(self.request.body))
+        base64_str = argus['base64_str']
+        manager_id = self.get_secure_cookie('loginuser_id')
+
+        #将base64码转为图片并储存
+        #将base64加密成为文件名字
+        en_base64 = EncryptString().encrypt_string(base64_str)
+        file_name = en_base64 + '.jpg'
+        store_address = '../static/img/profile_pic/manager' + file_name
+        s_add = UploadImg().create_img(base64_str, store_address)
+
+        #将头像信息更新入数据库
+        condition = {'manager_id=':manager_id}
+        update_item = {'profile_pic_url':s_add}
+        result = Manager().update_manager(condition, update_item)
+
+        if result == -1:
+            reMsg = {'ret':setting.re_code['connect_error']}
+        else:
+            reMsg = {'ret':setting.re_code['success']}
+
+        self.write(reMsg)
+
