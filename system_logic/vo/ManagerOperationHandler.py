@@ -96,5 +96,16 @@ class AddManagerHandler(BaseHandler):
             return
 
         argus = _decode_dict(json.loads(self.request.body))
-        reMsg = {'ret':setting.re_code['success']}
+        manager_id = self.get_secure_cookie('loginuser_id')
+
+        result = Manager().register(argus, manager_id)
+
+        if result == -1:
+            reMsg = {'ret':setting.re_code['connect_error']}
+        elif result == -3:
+            reMsg = {'ret':setting.re_code['verify_error']}
+        elif result == -4:
+            reMsg = {'ret':setting.re_code['username_exist']}
+        else:
+            reMsg = {'ret':setting.re_code['success']}
         self.write(reMsg)

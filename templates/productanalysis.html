@@ -85,7 +85,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -100,7 +100,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -115,7 +115,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -358,7 +358,7 @@
             </div>
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
-                    <canvas id="users" height="200"></canvas>
+                    <canvas id="users" height="500"></canvas>
                 </div>
             </div>
         </div>
@@ -646,7 +646,9 @@
 		var bubbleChart = new Chart(ctx5,{
 			type:"bubble",
 			data:data5,
+
 			options: {
+			    maintainAspectRatio:false,
 				elements: {
 					points: {
 						borderWidth: 1,
