@@ -80,7 +80,7 @@ class UploadManagerProfileImg(BaseHandler):
         condition = {'manager_id=':manager_id}
         update_item = {'profile_pic_url':s_add}
         result = Manager().update_manager(condition, update_item)
-        
+
         self.set_secure_cookie('profile_img', s_add, expires_days=None)
 
         if result == -1:
