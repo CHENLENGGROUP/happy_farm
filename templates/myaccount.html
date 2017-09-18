@@ -161,13 +161,13 @@
 {% end %}
 
 {% block additional_script %}
-<script src="../static/vendors/bower_components/dropify/dist/js/dropify.js"></script>
+<script src="../static/vendors/bower_components/dropify/dist/js/dropify-1.js"></script>
 <script src="../static/addtionalJS/myaccount_addjs.js"></script>
 <script>
     $(document).ready(function () {
         var img_url = "{{manager_info['profile_pic_url']}}";
         if(img_url === ''){
-            img_url = ''
+            img_url = '../static/img/profile_pic/default_profileimg.jpg'
         }
         var background_image_value = 'url("' +img_url + '")';
         $('.dropify-wrapper').css('background-image',background_image_value);

@@ -108,6 +108,7 @@ class Application(tornado.web.Application):
             (r'/manageruploadproductimg', ManagerProductImgUpload.UploadProductImg),
             (r'/managerdeletearticle', ManagerArticleHandler.DeleteArticleHandler),
             (r'/manageruseranalysis', ManagerUserAnalysisHandler.BrowseUserAnalysisHandler),
+            (r'/manageruploadprofileimg', ManagerProductImgUpload.UploadManagerProfileImg),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

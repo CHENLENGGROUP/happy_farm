@@ -73,13 +73,15 @@ class UploadManagerProfileImg(BaseHandler):
         #将base64加密成为文件名字
         en_base64 = EncryptString().encrypt_string(base64_str)
         file_name = en_base64 + '.jpg'
-        store_address = '../static/img/profile_pic/manager' + file_name
+        store_address = '../static/img/profile_pic/manager/' + file_name
         s_add = UploadImg().create_img(base64_str, store_address)
 
         #将头像信息更新入数据库
         condition = {'manager_id=':manager_id}
         update_item = {'profile_pic_url':s_add}
         result = Manager().update_manager(condition, update_item)
+        
+        self.set_secure_cookie('profile_img', s_add, expires_days=None)
 
         if result == -1:
             reMsg = {'ret':setting.re_code['connect_error']}
