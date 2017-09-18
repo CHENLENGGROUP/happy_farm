@@ -25,8 +25,7 @@ class BrowseMyAccountHandler(BaseHandler):
         head_info = self.get_head_info('个人信息')
         manager_id = self.get_secure_cookie('loginuser_id')
 
-        manager_info = Manager().get_login_log({'hf_manager.manager_id=':manager_id}, ' ORDER BY login_time DESC')
-        manager_info = manager_info[0]
+        manager_info = Manager().get_login_log({'hf_manager.manager_id=':manager_id}, ' ORDER BY login_time DESC LIMIT 1')[0]
 
         self.refresh_session()
         self.render('myaccount.html', head_info=head_info,manager_info=manager_info)

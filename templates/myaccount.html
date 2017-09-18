@@ -166,6 +166,9 @@
 <script>
     $(document).ready(function () {
         var img_url = "{{manager_info['profile_pic_url']}}";
+        if(img_url === ''){
+            img_url = ''
+        }
         var background_image_value = 'url("' +img_url + '")';
         $('.dropify-wrapper').css('background-image',background_image_value);
 

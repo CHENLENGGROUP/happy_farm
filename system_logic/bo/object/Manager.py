@@ -127,6 +127,13 @@ class Manager:
         result = de.operate_database(operate_type=operate_type, operate_condition=condition, supstring=supstring)
         return result
 
+    def update_manager(self, condition, update_item):
+
+        de = DataBaseEngine('hf_manager')
+        operate_type = 'update'
+        result = de.operate_database(operate_type=operate_type, operate_item=update_item, operate_condition=condition)
+        return result
+
     def delete_manager(self, condition):
         pass
 
