@@ -12,7 +12,7 @@ from system_logic.vo.BaseHandler import BaseHandler
 from system_logic.bo.object.Manager import Manager
 from system_logic.vo.method.DecodeJson import _decode_dict
 
-class BrowseUserAnalysisHandler(BaseHandler):
+class BrowseManagerAnalysisHandler(BaseHandler):
 
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -22,7 +22,7 @@ class BrowseUserAnalysisHandler(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        head_info = self.get_head_info('用户分析')
+        head_info = self.get_head_info('员工分析')
 
 
-        self.render('useranalysis.html', head_info=head_info)
+        self.render('manageranalysis.html', head_info=head_info)

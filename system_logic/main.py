@@ -39,6 +39,7 @@ from system_logic.vo import ManagerMyAccountHandler
 from system_logic.vo import ManagerModifyPasswordHandler
 from system_logic.vo import ManagerProductImgUpload
 from system_logic.vo import ManagerUserAnalysisHandler
+from system_logic.vo import ManagerAnalysisHandler
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -109,6 +110,7 @@ class Application(tornado.web.Application):
             (r'/managerdeletearticle', ManagerArticleHandler.DeleteArticleHandler),
             (r'/manageruseranalysis', ManagerUserAnalysisHandler.BrowseUserAnalysisHandler),
             (r'/manageruploadprofileimg', ManagerProductImgUpload.UploadManagerProfileImg),
+            (r'/manageranalysis', ManagerAnalysisHandler.BrowseManagerAnalysisHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

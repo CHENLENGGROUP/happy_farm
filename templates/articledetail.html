@@ -3,49 +3,12 @@
 {% block additional_css %}
 <!-- Bootstrap Wysihtml5 css -->
 	<link rel="stylesheet" href="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css" />
+<!-- Bootstrap Dropify CSS -->
+<link href="../static/vendors/bower_components/dropify/dist/css/dropify.css" rel="stylesheet" type="text/css"/>
 {% end %}
 
 {% block additional_css_after_style %}
-<style>
-    .blog-single-content h2 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
-    line-height: 48px;
-    color: #000000;
-    padding-bottom: 10px;
-}
-.blog-single-content h5 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 26px;
-    color: #303030;
-    padding-bottom: 35px;
-}
-.blog-single-content p {
-    padding-bottom: 30px;
-}
-p {
-    font-size: 15px;
-    line-height: 26px;
-    font-family: 'Libre Baskerville', serif;
-    color: #929292;
-    font-weight: 400;
-}
-input:disabled,textarea:disabled
-{
-background-color: #fff;
-border:none;
-}
-input{
-    width:120px;
-}
-.title,textarea{
-    width:100%;
-}
-
-</style>
+<link href="../static/addtionalCSS/articleDetail_addcss.css" rel="stylesheet" type="text/css"/>
 {% end %}
 
 {% block main_part %}
@@ -55,13 +18,14 @@ input{
         <div class="panel panel-default card-view">
             <section id="blog-single" class="pt-50">
                 <div class="blog-single-content" id="articleDetail">
-                    <img id = "detailImg" class="img-responsive" src="{{article_list[0]['thumb_img_url']}}" alt="">
-
-                    <h2 id = "title" class="pt-20"><input class="title" value="{{article_list[0]['title']}}" width="100%" disabled></h2>
-                    <h5>By &nbsp;&nbsp;<a id = "author"><input  value="{{article_list[0]['author']}}" disabled></a> &nbsp;&nbsp;&nbsp;&nbsp; <span id="add_time"><input  value="{{article_list[0]['add_time']}}" disabled></span> &nbsp;&nbsp;&nbsp;&nbsp;<span id="hits_count">阅读次数:&nbsp;{{article_list[0]['hits_count']}}</span></h5>
-                    <textarea class="textarea_editor" id="content" rows="15">123</textarea>
+                    <input type="file" id="input-file-now" class="dropify" />
+                    <div class="blog-detail">
+                        <h2 id = "title" class="pt-20"><input class="title" value="{{article_list[0]['title']}}" width="100%" disabled></h2>
+                        <h5>By &nbsp;&nbsp;<a id = "author"><input  value="{{article_list[0]['author']}}" disabled></a> &nbsp;&nbsp;&nbsp;&nbsp; <span id="add_time"><input  value="{{article_list[0]['add_time']}}" disabled></span> &nbsp;&nbsp;&nbsp;&nbsp;<span id="hits_count">阅读次数:&nbsp;{{article_list[0]['hits_count']}}</span></h5>
+                        <textarea class="textarea_editor" id="content" rows="15">123</textarea>
+                        <button type="submit" id="article_edit" class="btn btn-success btn-anim "><i class="fa fa-pencil-square-o"></i><span class="btn-text">编辑</span><i style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i></button>
+                    </div>
                 </div>
-                <button type="submit" id="article_edit" class="btn btn-success btn-anim "><i class="fa fa-pencil-square-o"></i><span class="btn-text">编辑</span><i style="display: none" class="fa fa-spinner fa-spin fa-3x fa-fw"></i></button>
             </section>
         </div>
     </div>
@@ -73,37 +37,10 @@ input{
 {% block additional_script %}
 <!-- wysuhtml5 Plugin JavaScript -->
 	<script src="../static/vendors/bower_components/wysihtml5x/dist/wysihtml5x.min.js"></script>
-
+    <script src="../static/vendors/bower_components/dropify/dist/js/dropify.js"></script>
 	<script src="../static/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js"></script>
+    <script src="../static/addtionalJS/articleDetail_addjs.js"></script>
 <script>
-$(document).ready(function () {
-    $('#content').attr('disabled',true);
-    var content = "{{article_list[0]['content']}}";
-    content = content.replace(/&lt;/g, "<");
-    content = content.replace(/&gt;/g, ">");
-    <!--var html = "<textarea>"+content+"</textarea>"-->
-	<!--$('#articleDetail').append(html);-->
-
-	$('#article_edit').click(function(){
-	    if($('.btn-text').html() == "编辑"){
-            $('.textarea_editor').wysihtml5({
-                toolbar: {
-                  fa: true,
-                  "link": true,
-                }
-            });
-            $('input').removeAttr('disabled')
-            $('.btn-text').html('保存');
-        }else{
-           $('.wysihtml5-toolbar').css('display','none');
-           $('.btn-text').html('编辑');
-           $('input').attr('disabled',true);
-            alert(123);
-        }
-	});
-
-
-})
 
 </script>
 {% end %}
