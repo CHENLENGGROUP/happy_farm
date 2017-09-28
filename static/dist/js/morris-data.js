@@ -312,7 +312,7 @@ $(function() {
         
     });
 	
-	if($('#morris_extra_bar_chart').length > 0)
+	if($('#morris_extra_bar_chart').length > 0){
 		// Morris bar chart
 		Morris.Bar({
 			element: 'morris_extra_bar_chart',
@@ -362,5 +362,7 @@ $(function() {
 			gridTextColor:'#2f2c2c',
 			gridTextFamily:"Varela Round"
 		});
+	}
+
 
 });

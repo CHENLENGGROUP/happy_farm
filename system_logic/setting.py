@@ -79,7 +79,7 @@ webpage_relationship = {
     '文章管理':{'parent':'主页', 'url':'#'},
     '订单管理':{'parent':'主页', 'url':'#'},
     '添加商品':{'parent':'商品管理','url':'/manageraddproduct'},
-    '商品列表':{'parent':'商品管理','url':'/managerbrowseuserlist'},
+    '商品列表':{'parent':'商品管理','url':'/managerbrowseproductlist'},
     '商品明细':{'parent':'商品列表','url':'/managerbrowseproductdetail'},
     '用户列表':{'parent':'用户管理','url':'/managerbrowseuserlist'},
     '员工列表':{'parent':'员工管理','url':'/managerbrowsemanagerlist'},

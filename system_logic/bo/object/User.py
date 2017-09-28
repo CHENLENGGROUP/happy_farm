@@ -183,9 +183,9 @@ class User:
         product_info = self.up.handle_browse_product_info(result)
         return product_info
 
-    def update_click_count(self, product_id):
+    def update_click_count(self, product_id, product_type):
 
-        operate_item = {'product_id':product_id,
+        operate_item = {'product_id':product_id, 'product_type':product_type,
                    'click_time':time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}
         operate_type = 'insert'
         de = DataBaseEngine('hf_product_click_log')

@@ -640,7 +640,6 @@ class Manager:
         de = DataBaseEngine(table_name)
         operate_type = 'select'
 
-
         for item in date_list:
             count_total = 0
             condition[time_name + ' LIKE '] = item + '%%'
@@ -766,3 +765,49 @@ class Manager:
         operate_type = 'insert'
         result = de.operate_database(operate_type=operate_type, operate_item=article_info)
         return result
+
+    def get_top5_sale(self, condition, group_item='product_id', supstring=''):
+
+        de = DataBaseEngine('hf_order')
+        operate_type = 'select'
+        select_item = {'product_name':0,'SUM(product_quantity)':0, 'product_id':0,'product_type':0}
+        supstring = 'group by '+ group_item +' order by SUM(product_quantity) DESC' + supstring
+
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item, supstring=supstring)
+        return result
+
+    def get_top5_saleStockRadio(self, condition):
+
+        table_name = [{'hf_order-hf_product':'product_id'}]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        select_item = {'hf_order.product_id':0, 'stock':0, 'stock/SUM(product_quantity)':0, 'hf_order.product_name':0}
+        supstring = 'group by product_id order by stock/SUM(product_quantity) ASC'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item, supstring=supstring)
+
+        return result
+
+    def get_group_count(self, condition, group_item, select_item, supstring, table_name, delta_number, right_date, get_type, time_name):
+
+        date_list, delta_date = self.mp.handle_sale_quantity_date(right_date, delta_number, get_type)
+
+        count_msg_list = []
+
+        de = DataBaseEngine(table_name)
+        operate_type = 'select'
+        supstring = ' group by %s '%(group_item) + supstring
+
+        for item in date_list:
+            condition[time_name+' LIKE '] = item + '%%'
+            result = de.operate_database(operate_type=operate_type,operate_item=select_item, operate_condition=condition, supstring=supstring)
+            count_msg_list.append(result)
+
+        return count_msg_list, date_list
+
+    def get_count_order(self, condition, supstring=''):
+
+        select_item = {'COUNT(*)':0}
+        de = DataBaseEngine('hf_order')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=select_item,supstring=supstring)
+        return int(result[0]['COUNT(*)'])

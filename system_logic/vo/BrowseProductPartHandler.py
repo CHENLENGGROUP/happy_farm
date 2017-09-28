@@ -46,12 +46,16 @@ class UserBrowseProductHandler(tornado.web.RequestHandler):
 
         condition, page_number, each_page_products, supstring = BrowseProductInputPO().handle_browse_product_input(arguments)
 
+        product_info = User().browse_product(condition, page_number, each_page_products, supstring=supstring)
+
         if arguments.has_key('product_id'):
             product_id = arguments['product_id'][0]
-            User().update_click_count(product_id)
+            try:
+                product_type = product_info[0]['product_type']
+            except:
+                product_type=0
+            User().update_click_count(product_id, product_type)
 
-
-        product_info = User().browse_product(condition, page_number, each_page_products, supstring=supstring)
         reMsg = {}
         if product_info==-1:
             reMsg['ret'] = setting.re_code['connect_error']
