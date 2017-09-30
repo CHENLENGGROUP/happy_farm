@@ -79,10 +79,10 @@ class User:
             return -3
         self.mc.delete(reg_info['telephone'])
         #判断用户名和电话是否已存在
-        r1 = self.get_user(c1)
+        r1 = self.check_user(c1)
         if r1:
             return 0
-        r2 = self.get_user(c2)
+        r2 = self.check_user(c2)
         if r2:
             return -2
 
@@ -457,6 +457,13 @@ class User:
         user_info = self.up.handle_user_info(result[0])
 
         return user_info
+
+    def check_user(self, condition):
+
+        de = DataBaseEngine('hf_user')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        return result
 
     def update_user(self, update_item, condition):
         '''
