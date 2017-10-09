@@ -811,3 +811,40 @@ class Manager:
         operate_type = 'select'
         result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=select_item,supstring=supstring)
         return int(result[0]['COUNT(*)'])
+
+    def count_user(self, condition):
+
+        de = DataBaseEngine('hf_user')
+        select_item = {'COUNT(*)':0}
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition)
+        return result
+
+    def get_user_active(self):
+
+        table_name = [{'hf_login_log_user-hf_user':'user_id'}]
+        select_item = {'hf_user.user_id':0,'COUNT(*)':0,'register_time':0}
+        condition = {'1=':1}
+        supstring = ' group by user_id'
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type,operate_item=select_item,operate_condition=condition, supstring=supstring)
+        return result
+
+    def get_user_searching(self, condition, supstring=''):
+
+        de = DataBaseEngine('hf_searching_log')
+        operate_type = 'select'
+        select_item = {'COUNT(*)':0,'keyword_content':0}
+        result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition, supstring=supstring)
+        return result
+
+    def count_region_user(self):
+
+        de = DataBaseEngine('hf_login_log_user')
+        select_item = {'COUNT(DISTINCT user_id)':0, 'province':0}
+        operate_type = 'select'
+        condition = {'1=':1}
+        supstring = ' group by province '
+        result = de.operate_database(operate_type=operate_type, operate_item=select_item ,operate_condition=condition, supstring=supstring)
+        return result

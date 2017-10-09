@@ -427,6 +427,7 @@
     <script src="../static/vendors/bower_components/raphael/raphael.min.js"></script>
     <script src="../static/vendors/bower_components/morris.js/morris.min.js"></script>
     <script src="../static/dist/js/morris-data.js"></script>
+    <script src="../static/addtionalJS/general_functions.js"></script>
     <!-- Init JavaScript -->
 	<!--<script src="../static/dist/js/init.js"></script>-->
 	<!--<script src="../static/dist/js/dashboard-data.js"></script>-->
@@ -435,100 +436,20 @@
 
             //销售占比
             if( $('#proportion_of_sales').length > 0 ){
-                var ctx6 = document.getElementById("proportion_of_sales").getContext("2d");
                 var lables_str = '{{label_list}}';
                 var type_sale_str = '{{count_sd_list}}';
                 var lables= eval_str(lables_str);
                 var type_sale_data = eval_str(type_sale_str);
-                var data6 = {
-                     labels: lables,
-                datasets: [
-                    {
-                        data: type_sale_data,
-                        backgroundColor: [
-                            "rgba(234,101,162,.8)",
-                            "rgba(241,91,38,.8)",
-                            "rgba(252,176,59,.8)"
-                        ],
-                        hoverBackgroundColor: [
-                            "rgba(234,101,162,.8)",
-                            "rgba(241,91,38,.8)",
-                            "rgba(252,176,59,.8)"
-                        ]
-                    }]
-                };
-
-                var pieChart  = new Chart(ctx6,{
-                    type: 'pie',
-                    data: data6,
-                    options: {
-                        animation: {
-                            duration:	3000
-                        },
-                        responsive: true,
-                        maintainAspectRatio:false,
-                        legend: {
-                            labels: {
-                            fontFamily: "Varela Round",
-                            fontColor:"#2f2c2c"
-                            }
-                        },
-                        tooltips: {
-                            backgroundColor:'rgba(47,44,44,.9)',
-                            cornerRadius:0,
-                            footerFontFamily:"'Varela Round'"
-                        }
-                    }
-                });
+                draw_pie_chart(lables,type_sale_data,'proportion_of_sales');
             }
 
             //点击占比
             if( $('#proportion_of_click').length > 0 ){
-                var ctx6 = document.getElementById("proportion_of_click").getContext("2d");
                 var lables_str = '{{label_list}}';
                 var type_click_str = '{{count_cd_list}}';
                 var lables= eval_str(lables_str);
                 var type_click_data = eval_str(type_click_str);
-                var data6 = {
-                     labels: lables,
-                datasets: [
-                    {
-                        data: type_click_data,
-                        backgroundColor: [
-                            "rgba(234,101,162,.8)",
-                            "rgba(241,91,38,.8)",
-                            "rgba(252,176,59,.8)"
-                        ],
-                        hoverBackgroundColor: [
-                            "rgba(234,101,162,.8)",
-                            "rgba(241,91,38,.8)",
-                            "rgba(252,176,59,.8)"
-                        ]
-                    }]
-                };
-
-                var pieChart  = new Chart(ctx6,{
-                    type: 'pie',
-                    data: data6,
-                    options: {
-                        animation: {
-                            duration:	3000
-                        },
-                        responsive: true,
-                        maintainAspectRatio:false,
-                        legend: {
-                            labels: {
-                            fontFamily: "Varela Round",
-                            fontColor:"#2f2c2c"
-                            }
-                        },
-                        tooltips: {
-                            backgroundColor:'rgba(47,44,44,.9)',
-                            cornerRadius:0,
-                            footerFontFamily:"'Varela Round'"
-                        }
-                    }
-                });
+                draw_pie_chart(lables,type_click_data,'proportion_of_click');
             }
 
             //总销售量统计
@@ -641,19 +562,8 @@
                 // Morris bar chart
                 var data_str = '{{each_type_click_day}}';
                 var data_list = eval_str(data_str);
-                var chart_click_bar = Morris.Bar({
-                    element: 'each_type_click',
-                    data: data_list,
-                    xkey: 'period',
-                    ykeys: ['normal_click', 'sup_click', 'elec_click'],
-                    labels: ['普通商品', '领养商品', '虚拟商品'],
-                    barColors:['#fcb03b', '#ea65a2', '#566FC9'],
-                    hideHover: 'auto',
-                    gridLineColor: '#eee',
-                    resize: true,
-                    gridTextColor:'#2f2c2c',
-                    gridTextFamily:"Varela Round"
-                });
+                var chart_click_bar = draw_barchart('each_type_click',data_list,'period',
+                    ['normal_click', 'sup_click', 'elec_click'],['普通商品', '领养商品', '虚拟商品'])
 	        }
 	        $("#duration_ul_3 li input").click(function () {
                  if($(this).val()=="day"){
@@ -689,35 +599,7 @@
             })
 
         })
-        function eval_str(input_str){
-            var re = new RegExp("&#39;","g");
-            var re_u = new RegExp("u'","g");
-            input_str = input_str.replace(re,"'");
-            input_str = input_str.replace(re_u, "'")
-            var input = eval(input_str)
-            return input
-        }
-        function draw_linechart(element, data, xkey, ykeys, lable){
-            var chart = Morris.Area({
-                element: element,
-                data: data,
-                xkey: xkey,
-                ykeys: ykeys,
-                labels: lable,
-                pointSize: 2,
-                fillOpacity: 0,
-                lineWidth:2,
-                pointStrokeColors:['#fcb03b', '#ea65a2', '#566FC9'],
-                behaveLikeLine: true,
-                gridLineColor: '#eee',
-                hideHover: 'auto',
-                lineColors: ['#fcb03b', '#ea65a2', '#566FC9'],
-                resize: true,
-                gridTextColor:'#2f2c2c',
-                gridTextFamily:"Varela Round"
-            })
-            return chart;
-        }
+
     </script>
 <script src="../static/addtionalJS/productAnalysis_addjs.js"></script>
 {% end %}
