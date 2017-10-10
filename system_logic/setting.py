@@ -140,6 +140,7 @@ region_code = {
     u'黑龙江':'CN-23',
     u'吉林':'CN-22',
     u'辽宁':'CN-21',
+    u'未知':'WZ-13',
 }
 
 default_region_user = [

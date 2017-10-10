@@ -78,7 +78,7 @@ class WebUserAnalysisPO:
     def handle_region_user(self, region_user):
 
         region_users = setting.default_region_user
-        custom_color = {}
+        custom_data_set = {}
 
         for item in region_user:
 
@@ -93,23 +93,8 @@ class WebUserAnalysisPO:
                     if item2.keys()[0] == item['province']:
                         item2[item['province']] = count
 
-                region_code = setting.region_code[item['province']]
+        for item in region_users:
+            region_code = setting.region_code[item.keys()[0]]
+            custom_data_set[region_code] = int(item[item.keys()[0]])
 
-                if count == 0:
-                    pass
-                elif count>0 and count<50:
-                    custom_color[region_code] = setting.region_color_dict['0-50']
-                elif count>=50 and count < 100:
-                    custom_color[region_code] = setting.region_color_dict['50-100']
-                elif count>=100 and count<150:
-                    custom_color[region_code] = setting.region_color_dict['100-150']
-                elif count>=150 and count<200:
-                    custom_color[region_code] = setting.region_color_dict['150-200']
-                elif count>=200 and count<250:
-                    custom_color[region_code] = setting.region_color_dict['200-250']
-                elif count>=250 and count<300:
-                    custom_color[region_code] = setting.region_color_dict['250-300']
-                else:
-                    custom_color[region_code] = setting.region_color_dict['300']
-
-        return custom_color, region_users
+        return custom_data_set, region_users

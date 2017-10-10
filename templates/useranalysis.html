@@ -13,7 +13,7 @@
         padding: 1px;
     }
 
-    .pull-right ul li{
+    .static_div ul li{
         display: inline-block;
     }
 </style>
@@ -163,7 +163,7 @@
                 <div class="pull-left">
                     <h6 class="panel-title txt-dark"><i class="icon-share mr-10"></i>用户注册</h6>
                 </div>
-                <div class="pull-right" style="height: 20px;">
+                <div class="pull-right static_div" style="height: 20px;">
                     <ul style="" id="duration_ul">
                         <li class="mr-20">
                             <div class="radio">
@@ -192,7 +192,7 @@
                 <div class="pull-left">
                     <h6 class="panel-title txt-dark"><i class="icon-share mr-10"></i>用户访问</h6>
                 </div>
-                <div class="pull-right" style="height: 20px;">
+                <div class="pull-right static_div" style="height: 20px;">
                     <ul style="" id="duration_ul_2">
                         <li class="mr-20">
                             <div class="radio">
@@ -398,9 +398,10 @@
         })
 
         if ($('#cn').length > 0) {
-            var myCustomColors_str = "{{region_custom_color}}"
-            var myCustomColors = eval_str(myCustomColors_str)[0]
-            console.log(myCustomColors)
+            var myCustomColors_str = "{{custom_data_set}}";
+            var myRegion_users = eval_str(myCustomColors_str);
+            console.log(myRegion_users)
+            var data_set = myRegion_users[0]
             var map = new jvm.Map({
                 map: 'cn_mill',
                 backgroundColor: false,
@@ -412,11 +413,19 @@
                 },
                 series: {
                     regions: [{
-                        attribute: 'fill'
+                        attribute: 'fill',
+                        values:{
+                            "CN-33":8
+                        },
+                        scale:['#C8EEFF', '#0071A4'],
+                        normalizeFunction: 'polynomial'
                     }]
+                },
+                onRegionTipShow: function(e, el, code){
+                    el.html(el.html()+' (用户:'+data_set[code]+')');
                 }
             });
-            map.series.regions[0].setValues(myCustomColors);
+//            map.series.regions[0].setValues(myCustomColors);
         }
         <!--区域ID列表-->
         <!--1 	CN-32 	Jiangsu-->

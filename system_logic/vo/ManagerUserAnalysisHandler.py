@@ -105,7 +105,7 @@ class BrowseUserAnalysisHandler(BaseHandler):
 
             #获取各个地域用户数量
             region_user_count = Manager().count_region_user()
-            region_custom_color, region_users = WebUserAnalysisPO().handle_region_user(region_user_count)
+            custom_data_set, region_users = WebUserAnalysisPO().handle_region_user(region_user_count)
 
             self.refresh_session()
             self.render('useranalysis.html', head_info=head_info, new_user_info=new_user_info,
@@ -114,6 +114,6 @@ class BrowseUserAnalysisHandler(BaseHandler):
                         age_lable_list=age_lable_list, user_active_list=user_active_list,active_lable_list=active_lable_list,
                         reg_user_day=reg_user_day, reg_user_mon=reg_user_mon, visit_user_day=visit_user_day,
                         visit_user_mon=visit_user_mon, user_searching_list=user_searching_list, region_users=region_users,
-                        region_custom_color=[region_custom_color])
+                        custom_data_set=[custom_data_set])
         except Exception as e:
             self.render('404.html', error_reason=e)
