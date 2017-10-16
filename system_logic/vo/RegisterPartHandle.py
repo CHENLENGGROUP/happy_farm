@@ -6,6 +6,7 @@ import tornado.web
 import tornado.ioloop
 import tornado.gen
 import types
+from system_logic import setting
 from system_logic.bo.object.User import User
 from system_logic.bo.object.Manager import Manager
 from system_logic.vo.method.DecodeJson import _decode_dict
@@ -38,10 +39,16 @@ class UserRegisterHandler(tornado.web.RequestHandler):
         u = User()
         result = u.register(reg_info)
         reMsg = {'ret':-1}
-        if type(result) is types.IntType:
-            reMsg['ret'] = result
+        if result == 0:
+            reMsg['ret'] = setting.re_code['username_exist']
+        elif result == -1:
+            reMsg['ret'] = setting.re_code['connect_error']
+        elif result == -2:
+            reMsg['ret'] = setting.re_code['telephon_exist']
+        elif result == -3:
+            reMsg['ret'] = setting.re_code['verify_error']
         else:
-            reMsg['ret'] = 1
+            reMsg['ret'] = setting.re_code['success']
             reMsg['session'] = result
 
         self.write(reMsg)
