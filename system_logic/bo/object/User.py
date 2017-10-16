@@ -608,7 +608,7 @@ class User:
 
         #判定旧密码是否正确
         de = DataBaseEngine('hf_user')
-        condition = {'user_id':user_id, 'passwd':old_passwd}
+        condition = {'user_id=':user_id, 'passwd=':old_passwd}
         operate_type = 'select'
         result = de.operate_database(operate_type=operate_type, operate_condition=condition)
 
