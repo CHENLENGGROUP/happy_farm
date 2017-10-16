@@ -72,7 +72,7 @@ class AddAddress(tornado.web.RequestHandler):
         {session_info:{session_id, verify_code}, address_info:{country, province, city, district, address_detail...}}
         :return:
         '''
-        apply_info = json.loads(self.request.body)
+        apply_info = _decode_dict(json.loads(self.request.body))
 
         result = User().add_address(apply_info)
 
