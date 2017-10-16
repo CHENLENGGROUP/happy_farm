@@ -618,7 +618,7 @@ class User:
             return -3
 
         #将新密码写入
-        update_item = {'passwd=':new_passwd}
+        update_item = {'passwd':new_passwd}
         condition = {'user_id=':user_id}
         operate_type = 'update'
         result = de.operate_database(operate_type=operate_type, operate_item=update_item, operate_condition=condition)
