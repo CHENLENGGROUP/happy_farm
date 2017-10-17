@@ -67,6 +67,7 @@ webpage_title = {
     '修改密码':'修改密码-幸福农场后端管理',
     '用户分析':'用户分析-幸福农场后端管理',
     '员工分析':'员工分析-幸福农场后端管理',
+    '订单列表':'订单里表-幸福农场后端管理',
 
 }
 
@@ -95,6 +96,7 @@ webpage_relationship = {
     '修改密码':{'parent':'主页', 'url':'/managerresetpassword'},
     '用户分析':{'parent':'用户管理', 'url':'/manageruseranalysis'},
     '员工分析':{'parent':'员工管理', 'url':'/manageruseranalysis'},
+    '订单列表':{'parent':'订单管理','url':'/managerbrowseorder'},
 }
 
 #---------------颜色代码---------------

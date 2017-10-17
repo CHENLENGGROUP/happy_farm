@@ -885,3 +885,10 @@ class Manager:
         operate_type = 'select'
         result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=select_item,supstring=supstring)
         return result
+
+    def get_order(self,condition):
+
+        de = DataBaseEngine('hf_order')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition)
+        return result
