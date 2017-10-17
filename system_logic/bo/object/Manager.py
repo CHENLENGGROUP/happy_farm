@@ -848,3 +848,28 @@ class Manager:
         supstring = ' group by province '
         result = de.operate_database(operate_type=operate_type, operate_item=select_item ,operate_condition=condition, supstring=supstring)
         return result
+
+    def get_manager_workingload(self, last_mon_date):
+
+        table_name = [{'hf_product_act_log-hf_manager':'manager_id'}]
+        table_name2 = [{'hf_manager_actorder_log-hf_manager':'manager_id'}]
+
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        select_item = {'COUNT(*)':0,'real_name':0}
+        condition = {'act_time LIKE':last_mon_date}
+        product_work_result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition)
+
+        de = DataBaseEngine(table_name2)
+        order_work_result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition)
+
+        return product_work_result, order_work_result
+
+    def get_last_mon_login(self, condition):
+
+        de = DataBaseEngine('hf_login_log_manager')
+        supstring = ' group by login_date '
+        select_item = {'MIN(login_time)':0}
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=select_item,supstring=supstring)
+        return result

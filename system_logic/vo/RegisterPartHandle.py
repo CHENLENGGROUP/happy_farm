@@ -5,7 +5,6 @@ import tornado
 import tornado.web
 import tornado.ioloop
 import tornado.gen
-import types
 from system_logic import setting
 from system_logic.bo.object.User import User
 from system_logic.bo.object.Manager import Manager

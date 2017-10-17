@@ -16,6 +16,7 @@ class ManagerPO:
 
         location_info['manager_id'] = manager_id
         location_info['login_time'] = self.current_time
+        location_info['login_date'] = self.current_date
         return location_info, self.current_time
 
     def hanlde_registerInfo(self, register_info):
