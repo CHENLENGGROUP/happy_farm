@@ -38,6 +38,7 @@ re_code = {
     'verify_error':'000006',
     'parameter_error':'000007',
     'limit_exceeded':'000008',
+    'authority_error':'000009',
     'success':'000000'
 }
 

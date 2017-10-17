@@ -1,0 +1,605 @@
+{% extends 'main.html' %}
+
+{% block additional_css %}
+<!-- Morris Charts CSS -->
+    <link href="../static/vendors/bower_components/morris.js/morris.css" rel="stylesheet" type="text/css"/>
+{% end %}
+
+{% block additional_css_after_style %}
+<style>
+    .pull-right .more-link{
+        color: white;
+    }
+    .pull-right .more-link:hover{
+        opacity: 0.8;
+    }
+    .static_div ul li{
+        display: inline-block;
+    }
+</style>
+{% end %}
+
+{% block main_part %}
+<div class="row">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default card-view pa-0">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body pa-0">
+                    <div class="sm-data-box bg-red" style="min-height: 0">
+                        <div class="row ma-0">
+                            <div class="col-xs-5 text-center pa-0 icon-wrap-left">
+                                <i class="fa fa-shopping-basket txt-light"></i>
+                            </div>
+                            <div class="col-xs-7 text-center data-wrap-right">
+                                <h6 class="txt-light">本月销售量</h6>
+                                <span class="txt-light counter">{{count_sale_total}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default card-view pa-0">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body pa-0">
+                    <div class="sm-data-box bg-red" style="min-height: 0">
+                        <div class="row ma-0">
+                            <div class="col-xs-5 text-center pa-0 icon-wrap-left">
+                                <i class="icon-user-follow txt-light"></i>
+                            </div>
+                            <div class="col-xs-7 text-center data-wrap-right">
+                                <h6 class="txt-light">本月浏览量</h6>
+                                <span class="txt-light counter">{{count_click_total}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default card-view pa-0">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body pa-0">
+                    <div class="sm-data-box bg-red" style="min-height: 0">
+                        <div class="row ma-0">
+                            <div class="col-xs-5 text-center pa-0 icon-wrap-left">
+                                <i class="fa fa-comments-o txt-light"></i>
+                            </div>
+                            <div class="col-xs-7 text-center data-wrap-right">
+                                <h6 class="txt-light">本月评论量</h6>
+                                <span class="txt-light counter">{{count_comment_total}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>各类销售占比</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <canvas id="proportion_of_sales" height="288"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>各类点击占比</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <canvas id="proportion_of_click" height="288"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-share mr-10"></i>产品销售总量</h6>
+                </div>
+                <div class="pull-right static_div" style="height: 20px;">
+                    <ul style="" id="duration_ul">
+                        <li class="mr-20">
+                            <div class="radio">
+                                <input type="radio" name="radio" id="radio1" value="day" checked>
+                                <label for="radio1"> 按日统计 </label>
+                            </div>
+                        </li>
+                        <li class="mr-20">
+                            <div class="radio">
+                                <input type="radio" name="radio" id="radio2" value="mon">
+                                <label for="radio2"> 按月统计 </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in sale_linechart" id="div_total_product_sales">
+                <div id="total_product_sales" class="morris-chart" style="height:318px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="panel panel-primary card-view">
+            <div class="panel-heading mb-20">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-light">top 5 销量产品</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <table  class="table  top-countries" >
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            商品名字
+                                        </td>
+                                        <td>
+                                            总销量
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in top5_sale_products%}
+                                    <tr>
+                                        <td>
+                                            {{item['product_name']}}
+                                        </td>
+                                        <td>
+                                            {{item['SUM(product_quantity)']}}
+                                        </td>
+                                    </tr>
+                                    {% end %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="panel panel-primary card-view">
+            <div class="panel-heading mb-20">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-light">库存预警</h6>
+                </div>
+                {% if len(last_month_stock_radio)>5 %}
+                <div class="pull-right" style="cursor:pointer; color:white;">
+                    <a data-toggle="modal" data-target=".bs-example-modal-lg" class="more-link">查看更多</a>
+                </div>
+                {% end %}
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <table  class="table  top-countries" >
+                                <thead>
+                                    <tr>
+                                        <td>商品名字</td>
+                                        <td>当前库存</td>
+                                        <td>库销比</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in range(0,5) %}
+                                    <tr>
+                                        <td>
+                                            {{last_month_stock_radio[i]['product_name']}}
+                                        </td>
+                                        <td>
+                                            {{last_month_stock_radio[i]['stock']}}
+                                        </td>
+                                        <td>
+                                            {{last_month_stock_radio[i]['stock_radio']}}
+                                        </td>
+                                    </tr>
+                                    {% end %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h5 class="modal-title" id="myLargeModalLabel">库存预警</h5>
+                        </div>
+                        <div class="modal-body">
+                            <table  class="table  top-countries" >
+                                <thead>
+                                    <tr>
+                                        <td>商品名字</td>
+                                        <td>当前库存</td>
+                                        <td>库销比</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in last_month_stock_radio %}
+                                    <tr>
+                                        <td>
+                                            {{item['product_name']}}
+                                        </td>
+                                        <td>
+                                            {{item['stock']}}
+                                        </td>
+                                        <td>
+                                            {{item['stock_radio']}}
+                                        </td>
+                                    </tr>
+                                    {% end %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger text-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </div>
+    </div>
+    <!-- Basic Table -->
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">不知道做什么用的表格</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body" style="height: 382px;">
+                    <p class="text-muted">Add class <code>table</code> in table tag.</p>
+                    <div class="table-wrap mt-40">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>1</td>
+                                    <td>Jens</td>
+                                    <td>Brincker</td>
+                                    <td>Brincker123</td>
+                                    <td><span class="label label-danger">admin</span> </td>
+                                  </tr>
+                                  <tr>
+                                    <td>2</td>
+                                    <td>Mark</td>
+                                    <td>Hay</td>
+                                    <td>Hay123</td>
+                                    <td><span class="label label-info">member</span> </td>
+                                  </tr>
+                                  <tr>
+                                    <td>3</td>
+                                    <td>Anthony</td>
+                                    <td>Davie</td>
+                                    <td>Davie123</td>
+                                    <td><span class="label label-warning">developer</span> </td>
+                                  </tr>
+                                  <tr>
+                                    <td>4</td>
+                                    <td>David</td>
+                                    <td>Perry</td>
+                                    <td>Perry123</td>
+                                    <td><span class="label label-success">supporter</span> </td>
+                                  </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>David</td>
+                                    <td>Perry</td>
+                                    <td>Perry123</td>
+                                    <td><span class="label label-success">supporter</span> </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Basic Table -->
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class=" icon-control-pause mr-10"></i>各类型点击量</h6>
+                </div>
+                <div class="pull-right static_div" style="height: 20px;">
+                    <ul style="" id="duration_ul_3">
+                        <li class="mr-20">
+                            <div class="radio">
+                                <input type="radio" name="radio2" id="radio5" value="day" checked>
+                                <label for="radio5"> 按日统计 </label>
+                            </div>
+                        </li>
+                        <li class="mr-20">
+                            <div class="radio">
+                                <input type="radio" name="radio2" id="radio6" value="mon">
+                                <label for="radio6"> 按月统计 </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div id="each_type_click" class="morris-chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-share mr-10"></i>各类型销售量</h6>
+                </div>
+                <div class="pull-right static_div" style="height: 20px;">
+                    <ul style="" id="duration_ul_2">
+                        <li class="mr-20">
+                            <div class="radio">
+                                <input type="radio" name="radio1" id="radio3" value="day" checked>
+                                <label for="radio3"> 按日统计 </label>
+                            </div>
+                        </li>
+                        <li class="mr-20">
+                            <div class="radio">
+                                <input type="radio" name="radio1" id="radio4" value="mon">
+                                <label for="radio4"> 按月统计 </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div id="each_type_sale" class="morris-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+         <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark"><i class="icon-plus mr-10"></i>销量/价格散点图</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <canvas id="users" height="500"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+{% block additional_script %}
+<!-- ChartJS JavaScript -->
+	<script src="../static/vendors/chart.js/Chart.min.js"></script>
+<!-- Morris Charts JavaScript -->
+    <script src="../static/vendors/bower_components/raphael/raphael.min.js"></script>
+    <script src="../static/vendors/bower_components/morris.js/morris.min.js"></script>
+    <script src="../static/dist/js/morris-data.js"></script>
+    <script src="../static/addtionalJS/general_functions.js"></script>
+    <!-- Init JavaScript -->
+	<!--<script src="../static/dist/js/init.js"></script>-->
+	<!--<script src="../static/dist/js/dashboard-data.js"></script>-->
+    <script>
+        $(document).ready(function () {
+
+            //销售占比
+            if( $('#proportion_of_sales').length > 0 ){
+                var lables_str = '{{label_list}}';
+                var type_sale_str = '{{count_sd_list}}';
+                var lables= eval_str(lables_str);
+                var type_sale_data = eval_str(type_sale_str);
+                draw_pie_chart(lables,type_sale_data,'proportion_of_sales');
+            }
+
+            //点击占比
+            if( $('#proportion_of_click').length > 0 ){
+                var lables_str = '{{label_list}}';
+                var type_click_str = '{{count_cd_list}}';
+                var lables= eval_str(lables_str);
+                var type_click_data = eval_str(type_click_str);
+                draw_pie_chart(lables,type_click_data,'proportion_of_click');
+            }
+
+            //总销售量统计
+            if($('#total_product_sales').length > 0){
+                var data_str = '{{sale_list_day}}';
+                var data_list = eval_str(data_str);
+                var chart_total_sale = draw_linechart('total_product_sales', data_list, 'period', ['sale_data'],['销售量'])
+            };
+            $("#duration_ul li input").click(function () {
+                 if($(this).val()=="day"){
+                     var data_str = '{{sale_list_day}}';
+                    var data_list = eval_str(data_str);
+                    chart_total_sale.setData(data_list);
+                 }
+                 else{
+                     var data_str = '{{sale_list_mon}}';
+                    var data_list = eval_str(data_str);
+                    chart_total_sale.setData(data_list);
+                 }
+             })
+
+            //散点图
+            if( $('#users').length > 0 ){
+                var data_str = '{{scatterplot_nor}}';
+                var data_list_1 = eval_str(data_str);
+                data_str = '{{scatterplot_sup}}';
+                var data_list_2 = eval_str(data_str);
+                data_str = '{{scatterplot_ele}}';
+                var data_list_3 = eval_str(data_str);
+                var ctx5 = document.getElementById("users").getContext("2d");
+                var data5 = {
+                    datasets: [
+                        {
+                            label: '普通商品',
+                            data: data_list_1,
+                            backgroundColor:"rgba(86,111,201,.8)",
+                            hoverBackgroundColor: "rgba(86,111,201,.5)",
+                        },
+                        {
+                            label: '领养商品',
+                            data: data_list_3,
+                            backgroundColor:"rgba(60,184,120,.8)",
+                            hoverBackgroundColor: "rgba(60,184,120,.5)",
+                        },
+                        {
+                            label: '虚拟商品',
+                            data: data_list_2,
+                            backgroundColor:"rgba(234, 101, 162, .8)",
+                            hoverBackgroundColor: "rgba(234, 101, 162, .5)",
+                        }
+                    ]
+                };
+
+                var bubbleChart = new Chart(ctx5,{
+                    type:"bubble",
+                    data:data5,
+
+                    options: {
+                        maintainAspectRatio:false,
+                        elements: {
+                            points: {
+                                borderWidth: 1,
+                                borderColor: 'rgb(0, 0, 0)'
+                            }
+                        },
+                        scales: {
+                            xAxes: [
+                            {
+                                ticks: {
+                                    min: 0,
+                                    fontFamily: "Varela Round",
+                                    fontColor:"#2f2c2c"
+                                },
+                                gridLines: {
+                                    color: "#eee",
+                                }
+                            }],
+                            yAxes: [
+                            {
+                                ticks: {
+                                    fontFamily: "Varela Round",
+                                    fontColor:"#2f2c2c"
+                                },
+                                gridLines: {
+                                    color: "#eee",
+                                }
+                            }]
+                        },
+                        animation: {
+                            duration:	3000
+                        },
+                        responsive: true,
+                        legend: {
+                            labels: {
+                            fontFamily: "Varela Round",
+                            fontColor:"#2f2c2c"
+                            }
+                        },
+                        tooltips: {
+                            backgroundColor:'rgba(47,44,44,.9)',
+                            cornerRadius:0,
+                            footerFontFamily:"'Varela Round'"
+                        }
+                    }
+                });
+            }
+
+            //各类型点击量统计
+            if($('#each_type_click').length > 0){
+                // Morris bar chart
+                var data_str = '{{each_type_click_day}}';
+                var data_list = eval_str(data_str);
+                var chart_click_bar = draw_barchart('each_type_click',data_list,'period',
+                    ['normal_click', 'sup_click', 'elec_click'],['普通商品', '领养商品', '虚拟商品'])
+	        }
+	        $("#duration_ul_3 li input").click(function () {
+                 if($(this).val()=="day"){
+                     var data_str = '{{each_type_click_day}}';
+                     var data_list = eval_str(data_str);
+                     chart_click_bar.setData(data_list);
+                 }
+                 else{
+                     var data_str = '{{each_type_click_mon}}';
+                     var data_list = eval_str(data_str);
+                     chart_click_bar.setData(data_list);
+                 }
+             })
+
+	        //各类型销售量统计
+	        if($("#each_type_sale").length>0){
+                var data_str = '{{each_type_sale_day}}';
+                var data_list = eval_str(data_str);
+                var chart_each_type_sale = draw_linechart("each_type_sale", data_list, "period",
+                    ['normal_sale','sup_sale','elec_sale'],['普通商品','领养商品','虚拟商品']);
+            }
+            $("#duration_ul_2 li input").click(function () {
+                if($(this).val()=="day"){
+                    var data_str = '{{each_type_sale_day}}';
+                    var data_list = eval_str(data_str);
+                    chart_each_type_sale.setData(data_list);
+                 }
+                else{
+                    var data_str = '{{each_type_sale_mon}}';
+                    var data_list = eval_str(data_str);
+                    chart_each_type_sale.setData(data_list);
+                }
+            })
+
+        })
+
+    </script>
+<script src="../static/addtionalJS/productAnalysis_addjs.js"></script>
+{% end %}

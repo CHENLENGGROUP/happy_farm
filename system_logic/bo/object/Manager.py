@@ -134,8 +134,20 @@ class Manager:
         result = de.operate_database(operate_type=operate_type, operate_item=update_item, operate_condition=condition)
         return result
 
-    def delete_manager(self, condition):
-        pass
+    def delete_manager(self, login_manager_id, condition):
+
+        #检测权限
+        manager_info = self.get_manager({'manager_id=':login_manager_id})
+        if manager_info == -1 or len(manager_info) == 0:
+            return -1
+        if manager_info[0]['authority']!=0:
+            return -2
+
+        de = DataBaseEngine('hf_manager')
+        operate_type = 'update'
+        up_item = {'is_delete':1}
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=up_item)
+        return result
 
     def add_product(self, product_info, manager_id):
         '''
