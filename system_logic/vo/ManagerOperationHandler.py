@@ -24,8 +24,8 @@ class BrowseManagerOperationHanlder(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        manager_id = int(self.get_secure_cookie('loginuser_id'))
-        real_name = self.get_secure_cookie('loginuser')
+        manager_id = int(self.get_argument('manager_id'))
+        real_name = Manager().get_manager({'manager_id=':manager_id})[0]['real_name']
         head_info = self.get_head_info('员工明细',add_info=real_name)
 
         #获取登录日志
@@ -96,5 +96,16 @@ class AddManagerHandler(BaseHandler):
             return
 
         argus = _decode_dict(json.loads(self.request.body))
-        reMsg = {'ret':setting.re_code['success']}
+        manager_id = self.get_secure_cookie('loginuser_id')
+
+        result = Manager().register(argus, manager_id)
+
+        if result == -1:
+            reMsg = {'ret':setting.re_code['connect_error']}
+        elif result == -3:
+            reMsg = {'ret':setting.re_code['verify_error']}
+        elif result == -4:
+            reMsg = {'ret':setting.re_code['username_exist']}
+        else:
+            reMsg = {'ret':setting.re_code['success']}
         self.write(reMsg)

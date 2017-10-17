@@ -59,8 +59,8 @@
 										<td>{{item['register_time']}}</td>
 										<td id="operation">
 											<a href="/managerbrowseoperation?manager_id={{item['manager_id']}}"><i class="icon-magnifier"></i></a>
-											<a href="#myModal_editManagerInfo" data-toggle="modal" class="modify-icon"><i class="fa fa-pencil-square-o"></i></a>
-											<a href="#" class="trash-icon"><i class="fa fa-trash-o"></i></a>
+											<a href="#myModal_editManagerInfo{{item['manager_id']}}" data-toggle="modal" class="modify-icon"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="#" class="trash-icon delete_manager" data-content="{{item['manager_id']}}"><i class="fa fa-trash-o"></i></a>
 										</td>
 									</tr>
 									{% end %}
@@ -72,8 +72,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- modal content -->
-	<div aria-hidden="true" role="dialog" tabindex="-1" id="myModal_editManagerInfo" class="modal fade" style="display: none;">
+	{% for item in manager_list %}
+	<div aria-hidden="true" role="dialog" tabindex="-1" id="myModal_editManagerInfo{{item['manager_id']}}" class="modal fade" style="display: none;">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 			<div class="modal-header">
@@ -109,7 +109,7 @@
 					<div class="form-group">
 						<label class="col-lg-2 control-label">管理者权限</label>
 						<div class="col-lg-10">
-							<select name="is_important" class="selectpicker edit_manager_info" data-style="form-control">
+							<select name="is_important" class="selectpicker edit_manager_info" data-style="form-control" data-content="{{item['authority']}}">
 								<option db_id="0">root</option>
 								<option db_id="1">一级管理员</option>
 								<option db_id="2">二级管理员</option>
@@ -128,15 +128,24 @@
 			<!-- /.modal-content -->
 		</div>
 	</div>
+	{% end %}
+	<!-- modal content -->
 </div>
 <!-- /Row -->
 {% end %}
 
 {% block additional_script %}
 <script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="../static/vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script src="../static/addtionalJS/action/ManagerListAction.js"></script>
 <script>
 $(document).ready(function () {
-	$('.edit_manager_info').find("option[db_id={{item['authority']}}]").attr("selected",true);
+    var select_list = $('.edit_manager_info');
+    for(var i=0; i<select_list.length;i++){
+        var authority = $(select_list[i]).attr("data-content");
+        $(select_list[i]).find("option[db_id=authority]").attr("selected",true);
+        $('.edit_manager_info').selectpicker('refresh');
+	}
 });
 </script>
 {% end %}

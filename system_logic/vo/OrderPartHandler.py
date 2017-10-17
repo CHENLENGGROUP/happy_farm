@@ -47,13 +47,14 @@ class BrwoseOrderHandler(tornado.web.RequestHandler):
         if arguments.has_key('payment_status'):
             condition['payment_status='] = int(arguments['payment_status'][0])
 
-        result, count = User().browse_order(session_info, condition, page_number)
+        result = User().browse_order(session_info, condition, page_number)
 
         if result == -1:
             reMsg = {'ret':setting.re_code['connect_error']}
         elif result == -2:
             reMsg = {'ret':setting.re_code['session_error']}
         else:
+            result_1, count = result[0], result[1]
             reMsg = {'ret':setting.re_code['success'], 'order_info':result, 'count':count}
 
         self.write(reMsg)

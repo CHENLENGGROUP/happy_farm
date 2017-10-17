@@ -71,82 +71,54 @@ class Manager:
 
         return result[0]['real_name'], result[0]['profile_pic_url'],result[0]['manager_id']
 
-    def register(self, apply_info):
+    def register(self, register_info, manager_id):
         '''
         此方法用以实现允许高权限管理员添加低权限管理员
             1.判断session有效性
             2.判断登录用户权限
             3.将新增管理员信息写入数据库
-        :param apply_info:                  请求信息
-            :param session_info             session信息
-                :param session_id           session号
-                :param verify_code          验证码
-            :param register_info            注册信息
-                :param username             用户名
-                :param passwd               密码
-                :param real_name            真实姓名
-                :param telephone            电话号码
-                :param authority            权限
-                :param manager_menu         拥有菜单
-        数据结构
-        apply_info = {
-            'session_info':{'session_id','verify_code'},
-            'register_info':{'username','passwd', 'real_name', 'telephone', 'authority', 'manager_menu':[1,2,...]}}
+        :param register_info            注册信息
+            :param username             用户名
+            :param passwd               密码
+            :param real_name            真实姓名
+            :param telephone            电话号码
+            :param authority            权限
+            :param manager_menu         拥有菜单
 
         :return:
             -1                               连接失败
-            -2                               session失效
             -3                               权限不足
             -4                               用户名重复
             1                                成功
         '''
         #处理传入信息
-        session_info, add_manager_info, manager_menu_info = self.mp.hanlde_registerInfo(apply_info)
+        register_info = self.mp.hanlde_registerInfo(register_info)
 
-        #验证session的有效性
-        vs = VerifySession()
-        verify_result = vs.verify_session_manager(session_info)
-
-        #如果无效，返回-2
-        if not verify_result:
-            return -2
-
-        #获取当前用户的id和对应表名
-        gis = GetIdFromSession()
-        manager_id, table_name = gis.get_id_from_session(session_info)
-
-        #获取当前用户的权限
-        condition = {'manager_id = ':manager_id}
-        manager_info = self.get_manager(condition)
-
-        #判断用户权限是否足够
-        if manager_info == -1:
-            return manager_info
-        elif manager_info[0]['authority'] != 1:
+        #判断用户是否具有足够权限
+        de = DataBaseEngine('hf_manager')
+        operate_type = 'select'
+        condition = {'manager_id=':manager_id}
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        if result == -1:
+            return -1
+        authority = result[0]['authority']
+        if authority != 0 :
             return -3
 
-        # 验证用户名是否已经被注册
-        c = {'username=': add_manager_info['username']}
-        manager_if = self.get_manager(c)
-        if manager_if:
-            return -4
-
-        #将管理员信息加密后写入管理员表
-        e = EncryptString()
-        add_manager_info['passwd'] = e.encrypt_string(add_manager_info['passwd'])
-        de = DataBaseEngine('hf_manager')
-        operate_type = 'insert'
-        result = de.operate_database(operate_type=operate_type, operate_item=add_manager_info)
+        #判断用户名是否重复
+        condition = {'username=':register_info['username']}
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
         if result == -1:
             return result
+        if len(result) != 0:
+            return -4
 
-        #将管理员菜单信息存入管理员菜单关系表
-        #处理管理员菜单数据
-        de = DataBaseEngine('hf_manager_menu')
-        manager_menu_list = self.mp.handle_managerMenu(result, manager_menu_info)
-        operate_type = 'insertMany'
-        result = de.operate_database(operate_type=operate_type, operate_item=manager_menu_list)
+        #将管理员信息写入管理员表
+        operate_type = 'insert'
+        result = de.operate_database(operate_type=operate_type, operate_item=register_info)
+
         return result
+
 
     def get_manager(self, condition, supstring=None):
 
@@ -162,8 +134,20 @@ class Manager:
         result = de.operate_database(operate_type=operate_type, operate_item=update_item, operate_condition=condition)
         return result
 
-    def delete_manager(self, condition):
-        pass
+    def delete_manager(self, login_manager_id, condition):
+
+        #检测权限
+        manager_info = self.get_manager({'manager_id=':login_manager_id})
+        if manager_info == -1 or len(manager_info) == 0:
+            return -1
+        if manager_info[0]['authority']!=0:
+            return -2
+
+        de = DataBaseEngine('hf_manager')
+        operate_type = 'update'
+        up_item = {'is_delete':1}
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=up_item)
+        return result
 
     def add_product(self, product_info, manager_id):
         '''
@@ -668,7 +652,6 @@ class Manager:
         de = DataBaseEngine(table_name)
         operate_type = 'select'
 
-
         for item in date_list:
             count_total = 0
             condition[time_name + ' LIKE '] = item + '%%'
@@ -793,4 +776,119 @@ class Manager:
         de = DataBaseEngine('hf_article')
         operate_type = 'insert'
         result = de.operate_database(operate_type=operate_type, operate_item=article_info)
+        return result
+
+    def get_top5_sale(self, condition, group_item='product_id', supstring=''):
+
+        de = DataBaseEngine('hf_order')
+        operate_type = 'select'
+        select_item = {'product_name':0,'SUM(product_quantity)':0, 'product_id':0,'product_type':0}
+        supstring = 'group by '+ group_item +' order by SUM(product_quantity) DESC' + supstring
+
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item, supstring=supstring)
+        return result
+
+    def get_top5_saleStockRadio(self, condition):
+
+        table_name = [{'hf_order-hf_product':'product_id'}]
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        select_item = {'hf_order.product_id':0, 'stock':0, 'stock/SUM(product_quantity)':0, 'hf_order.product_name':0}
+        supstring = 'group by product_id order by stock/SUM(product_quantity) ASC'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition, operate_item=select_item, supstring=supstring)
+
+        return result
+
+    def get_group_count(self, condition, group_item, select_item, supstring, table_name, delta_number, right_date, get_type, time_name):
+
+        date_list, delta_date = self.mp.handle_sale_quantity_date(right_date, delta_number, get_type)
+
+        count_msg_list = []
+
+        de = DataBaseEngine(table_name)
+        operate_type = 'select'
+        supstring = ' group by %s '%(group_item) + supstring
+
+        for item in date_list:
+            condition[time_name+' LIKE '] = item + '%%'
+            result = de.operate_database(operate_type=operate_type,operate_item=select_item, operate_condition=condition, supstring=supstring)
+            count_msg_list.append(result)
+
+        return count_msg_list, date_list
+
+    def get_count_order(self, condition, supstring=''):
+
+        select_item = {'COUNT(*)':0}
+        de = DataBaseEngine('hf_order')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=select_item,supstring=supstring)
+        return int(result[0]['COUNT(*)'])
+
+    def count_user(self, condition):
+
+        de = DataBaseEngine('hf_user')
+        select_item = {'COUNT(*)':0}
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition)
+        return result
+
+    def get_user_active(self):
+
+        table_name = [{'hf_login_log_user-hf_user':'user_id'}]
+        select_item = {'hf_user.user_id':0,'COUNT(*)':0,'register_time':0}
+        condition = {'1=':1}
+        supstring = ' group by user_id'
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        result = de.operate_database(operate_type=operate_type,operate_item=select_item,operate_condition=condition, supstring=supstring)
+        return result
+
+    def get_user_searching(self, condition, supstring=''):
+
+        de = DataBaseEngine('hf_searching_log')
+        operate_type = 'select'
+        select_item = {'COUNT(*)':0,'keyword_content':0}
+        result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition, supstring=supstring)
+        return result
+
+    def count_region_user(self):
+
+        de = DataBaseEngine('hf_login_log_user')
+        select_item = {'COUNT(DISTINCT user_id)':0, 'province':0}
+        operate_type = 'select'
+        condition = {'1=':1}
+        supstring = ' group by province '
+        result = de.operate_database(operate_type=operate_type, operate_item=select_item ,operate_condition=condition, supstring=supstring)
+        return result
+
+    def get_manager_workingload(self, last_mon_date):
+
+        table_name = [{'hf_product_act_log-hf_manager':'manager_id'}]
+        table_name2 = [{'hf_manager_actorder_log-hf_manager':'manager_id'}]
+
+        de = DataBaseEngine(table_name)
+        operate_type = 'selectconnect'
+        select_item = {'COUNT(*)':0,'real_name':0}
+        condition = {'act_time LIKE':last_mon_date}
+        product_work_result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition)
+
+        de = DataBaseEngine(table_name2)
+        order_work_result = de.operate_database(operate_type=operate_type, operate_item=select_item, operate_condition=condition)
+
+        return product_work_result, order_work_result
+
+    def get_last_mon_login(self, condition):
+
+        de = DataBaseEngine('hf_login_log_manager')
+        supstring = ' group by login_date '
+        select_item = {'MIN(login_time)':0}
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition,operate_item=select_item,supstring=supstring)
+        return result
+
+    def get_order(self,condition):
+
+        de = DataBaseEngine('hf_order')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type,operate_condition=condition)
         return result

@@ -79,10 +79,10 @@ class User:
             return -3
         self.mc.delete(reg_info['telephone'])
         #判断用户名和电话是否已存在
-        r1 = self.get_user(c1)
+        r1 = self.check_user(c1)
         if r1:
             return 0
-        r2 = self.get_user(c2)
+        r2 = self.check_user(c2)
         if r2:
             return -2
 
@@ -183,9 +183,9 @@ class User:
         product_info = self.up.handle_browse_product_info(result)
         return product_info
 
-    def update_click_count(self, product_id):
+    def update_click_count(self, product_id, product_type):
 
-        operate_item = {'product_id':product_id,
+        operate_item = {'product_id':product_id, 'product_type':product_type,
                    'click_time':time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}
         operate_type = 'insert'
         de = DataBaseEngine('hf_product_click_log')
@@ -458,6 +458,13 @@ class User:
 
         return user_info
 
+    def check_user(self, condition):
+
+        de = DataBaseEngine('hf_user')
+        operate_type = 'select'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition)
+        return result
+
     def update_user(self, update_item, condition):
         '''
 
@@ -601,7 +608,7 @@ class User:
 
         #判定旧密码是否正确
         de = DataBaseEngine('hf_user')
-        condition = {'user_id':user_id, 'passwd':old_passwd}
+        condition = {'user_id=':user_id, 'passwd=':old_passwd}
         operate_type = 'select'
         result = de.operate_database(operate_type=operate_type, operate_condition=condition)
 
@@ -611,7 +618,7 @@ class User:
             return -3
 
         #将新密码写入
-        update_item = {'passwd=':new_passwd}
+        update_item = {'passwd':new_passwd}
         condition = {'user_id=':user_id}
         operate_type = 'update'
         result = de.operate_database(operate_type=operate_type, operate_item=update_item, operate_condition=condition)

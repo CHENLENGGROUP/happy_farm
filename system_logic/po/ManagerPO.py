@@ -4,6 +4,7 @@ import random
 import time
 import datetime
 from system_logic.po.ProduceRandomStr import ProduceRandomStr
+from system_logic.po.EncryptString import EncryptString
 
 class ManagerPO:
 
@@ -15,38 +16,27 @@ class ManagerPO:
 
         location_info['manager_id'] = manager_id
         location_info['login_time'] = self.current_time
+        location_info['login_date'] = self.current_date
         return location_info, self.current_time
 
-    def hanlde_registerInfo(self, apply_info):
+    def hanlde_registerInfo(self, register_info):
         '''
         处理注册管理员用户的输入信息
-        :param apply_info:                  请求信息
-            :param session_info             session信息
-                :param session_id           session号
-                :param verify_code          验证码
-            :param register_info            注册信息
-                :param username             用户名
-                :param passwd               密码
-                :param real_name            真实姓名
-                :param telephone            电话号码
-                :param authority            权限
-                :param manager_menu         拥有菜单
+
+        :param register_info            注册信息
+            :param username             用户名
+            :param passwd               密码
+            :param real_name            真实姓名
+            :param telephone            电话号码
+            :param authority            权限
 
         :return:
-            session_info                     session信息
             add_manager_info                 管理员信息
-            manager_menu_info                管理员菜单权限信息
         '''
-        session_info = apply_info['session_info']
-        add_manager_info = {}
-        manager_menu_info = []
-        for key in apply_info['register_info']:
-            if key != 'manager_menu':
-                add_manager_info[key] = apply_info['register_info'][key]
-            else:
-                manager_menu_info = apply_info['register_info'][key]
-        add_manager_info['add_time'] = self.current_time
-        return session_info, add_manager_info, manager_menu_info
+        passwd = EncryptString().encrypt_string(register_info['passwd'])
+        register_info['passwd'] = passwd
+        register_info['register_time'] = self.current_time
+        return register_info
 
     def handle_managerMenu(self, manager_id, manager_menu):
         '''

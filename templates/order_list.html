@@ -1,0 +1,120 @@
+{% extends 'main.html' %}
+
+{% block additional_css %}
+<link href="../static/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
+{% end %}
+
+{% block additional_css_after_style %}
+<style>
+.trash-icon{
+	color:red;
+}
+.modify-icon{
+	margin-left:5px;
+	margin-right:5px;
+}
+/*#operation a:hover{*/
+	/*color:#000;*/
+/*}*/
+</style>
+{% end %}
+
+{% block main_part %}
+<!-- Row -->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default card-view">
+			<div class="panel-heading">
+				<div class="pull-left">
+					<h6 class="panel-title txt-dark">员工列表</h6>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="panel-wrapper collapse in">
+				<div class="panel-body">
+					<div class="table-wrap">
+						<div class="table-responsive">
+							<table id="datable_1" class="table table-hover display  pb-30" >
+								<thead>
+									<tr>
+										<th>订单号</th>
+										<th>商品名字</th>
+										<th>商品价格</th>
+										<th>商品数量</th>
+										<th>订单状态</th>
+										<th>发货状态</th>
+										<th>支付状态</th>
+										<th>创建时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for item in order_list %}
+									<tr data-content="{{item['order_id']}}">
+										<td>
+											{{item['order_sn']}}
+										</td>
+										<td>
+											{{item['product_name']}}
+										</td>
+										<td>
+											{{item['product_price']}}
+										</td>
+										<td>
+											{{item['product_quantity']}}
+										</td>
+										<td>
+											{% if item['order_status']==0 %}
+											<span class="label label-warning">未确认</span>
+											{% elif item['order_status']==1 %}
+											<span class="label label-success">确认</span>
+											{% else %}
+											<span class="label lable-danger">取消</span>
+											{% end %}
+										</td>
+										<td>
+											{% if item['shipping_status']==0 %}
+											<span class="label label-warning">未发货</span>
+											{% else %}
+											<span class="label label-success">已发货</span>
+											{% end %}
+										</td>
+										<td>
+											{% if item['payment_status']==0 %}
+											<span class="label label-warning">未付款</span>
+											{% elif item['payment_status']==1 %}
+											<span class="label label-success">已付款</span>
+											{% else %}
+											<span class="label label-danger">退款</span>
+											{% end %}
+										</td>
+										<td>
+											{{item['create_time']}}
+										</td>
+										<td id="operation">
+											<a href="#"><i class="icon-magnifier"></i></a>
+											<a href="#" data-toggle="modal" class="modify-icon"><i class="fa fa-pencil-square-o"></i></a>
+											<a href="#" class="trash-icon delete_manager" data-content=""><i class="fa fa-trash-o"></i></a>
+										</td>
+									</tr>
+									{% end %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<!-- /Row -->
+{% end %}
+
+{% block additional_script %}
+<script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script>
+$(document).ready(function () {
+});
+</script>
+{% end %}
