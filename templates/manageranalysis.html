@@ -9,7 +9,9 @@
 
 {% block additional_css_after_style %}
 <style>
-
+    .static_div ul li{
+        display: inline-block;
+    }
 </style>
 {% end %}
 
@@ -19,7 +21,7 @@
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>工作量占比</h6>
+                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>上月工作量占比</h6>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -34,7 +36,7 @@
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>犯错量占比</h6>
+                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>上月迟到量占比</h6>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -49,13 +51,13 @@
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>？？？</h6>
+                    <h6 class="panel-title txt-dark"><i class="icon-pie-chart mr-10"></i>上月工作错误占比</h6>
                 </div>
                 <div class="clearfix"></div>
             </div>
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
-                    <canvas id="proportion_of_" height="200"></canvas>
+                    <canvas id="proportion_of_fault" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -66,7 +68,7 @@
         <div class="panel panel-primary card-view">
             <div class="panel-heading mb-20">
                 <div class="pull-left">
-                    <h6 class="panel-title txt-light">本月优秀员工 TOP3</h6>
+                    <h6 class="panel-title txt-light">上月优秀员工 TOP3</h6>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -76,21 +78,16 @@
                         <div class="table-responsive">
                             <table  class="table  top-countrie" >
                                 <tbody>
+                                    {% for item in best_top3_career %}
                                     <tr>
                                         <td>
-                                            United Kingdom
+                                            {{item['real_name']}}
                                         </td>
-                                    </tr>
-                                    <tr>
                                         <td>
-                                            Malaysia
+                                            {{round(item['rate'],2)}}
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            Australia
-                                        </td>
-                                    </tr>
+                                    {% end %}
                                 </tbody>
                             </table>
                         </div>
@@ -104,6 +101,22 @@
             <div class="panel-heading">
                 <div class="pull-left">
                     <h6 class="panel-title txt-dark"><i class=" icon-control-pause mr-10"></i>本月处理事件</h6>
+                </div>
+                <div class="pull-right static_div" style="height: 20px;">
+                    <ul style="" id="duration_ul_2">
+                        {% for i in range(0, len(manager_list)) %}
+                        <li class="mr-20">
+                            <div class="radio">
+                                {% if i==0 %}
+                                <input  type="radio" name="radio_1" id="{{i}}" value="{{manager_list[i]['manager_id']}}" checked>
+                                {% else %}
+                                <input  type="radio" name="radio_1" id="{{i}}" value="{{manager_list[i]['manager_id']}}">
+                                {% end %}
+                                <label for="{{i}}">{{manager_list[i]['real_name']}}</label>
+                            </div>
+                        </li>
+                        {% end %}
+                    </ul>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -245,155 +258,47 @@
 <!-- Morris Charts JavaScript -->
     <script src="../static/vendors/bower_components/raphael/raphael.min.js"></script>
     <script src="../static/vendors/bower_components/morris.js/morris.min.js"></script>
-    <script src="../static/dist/js/morris-data.js"></script>
 <!-- Vector Maps JavaScript -->
     <script src="../static/vendors/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="../static/vendors/vectormap/jquery-jvectormap-cn-mill.js"></script>
+    <script src="../static/addtionalJS/general_functions.js"></script>
     <script>
     //工作量占比初始化
-     if( $('#proportion_of_work').length > 0 ){
-            var ctx6 = document.getElementById("proportion_of_work").getContext("2d");
-            var data6 = {
-                 labels: [
-                "lab 1",
-                "lab 2",
-                "lab 3"
-            ],
-            datasets: [
-                {
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        "rgba(234,101,162,.8)",
-                        "rgba(241,91,38,.8)",
-                        "rgba(252,176,59,.8)"
-                    ],
-                    hoverBackgroundColor: [
-                        "rgba(234,101,162,.8)",
-                        "rgba(241,91,38,.8)",
-                        "rgba(252,176,59,.8)"
-                    ]
-                }]
-            };
-
-            var pieChart  = new Chart(ctx6,{
-                type: 'pie',
-                data: data6,
-                options: {
-                    animation: {
-                        duration:	3000
-                    },
-                    responsive: true,
-                    maintainAspectRatio:false,
-                    legend: {
-                        labels: {
-                        fontFamily: "Varela Round",
-                        fontColor:"#2f2c2c"
-                        }
-                    },
-                    tooltips: {
-                        backgroundColor:'rgba(47,44,44,.9)',
-                        cornerRadius:0,
-                        footerFontFamily:"'Varela Round'"
-                    }
-                }
-            });
+    $(document).ready(function () {
+        var manager_name_lables_str = "{{manager_real_name_lable}}";
+        var name_lables = eval_str(manager_name_lables_str);
+        if( $('#proportion_of_work').length > 0 ){
+            var workingload_data = "{{workingload}}";
+            workingload_data = eval_str(workingload_data)
+            draw_pie_chart(name_lables,workingload_data,"proportion_of_work");
         }
-        //犯错量占比初始化
+        //迟到量占比初始化
          if( $('#proportion_of_mistake').length > 0 ){
-            var ctx6 = document.getElementById("proportion_of_mistake").getContext("2d");
-            var data6 = {
-                 labels: [
-                "lab 1",
-                "lab 2",
-                "lab 3"
-            ],
-            datasets: [
-                {
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        "rgba(234,101,162,.8)",
-                        "rgba(241,91,38,.8)",
-                        "rgba(252,176,59,.8)"
-                    ],
-                    hoverBackgroundColor: [
-                        "rgba(234,101,162,.8)",
-                        "rgba(241,91,38,.8)",
-                        "rgba(252,176,59,.8)"
-                    ]
-                }]
-            };
-
-            var pieChart  = new Chart(ctx6,{
-                type: 'pie',
-                data: data6,
-                options: {
-                    animation: {
-                        duration:	3000
-                    },
-                    responsive: true,
-                    maintainAspectRatio:false,
-                    legend: {
-                        labels: {
-                        fontFamily: "Varela Round",
-                        fontColor:"#2f2c2c"
-                        }
-                    },
-                    tooltips: {
-                        backgroundColor:'rgba(47,44,44,.9)',
-                        cornerRadius:0,
-                        footerFontFamily:"'Varela Round'"
-                    }
-                }
-            });
+            var mistake_data = "{{mistake_count_list}}";
+            mistake_data = eval_str(mistake_data);
+            draw_pie_chart(name_lables,mistake_data,"proportion_of_mistake");
         }
-        //???初始化
-         if( $('#proportion_of_').length > 0 ){
-            var ctx6 = document.getElementById("proportion_of_").getContext("2d");
-            var data6 = {
-                 labels: [
-                "lab 1",
-                "lab 2",
-                "lab 3"
-            ],
-            datasets: [
-                {
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        "rgba(234,101,162,.8)",
-                        "rgba(241,91,38,.8)",
-                        "rgba(252,176,59,.8)"
-                    ],
-                    hoverBackgroundColor: [
-                        "rgba(234,101,162,.8)",
-                        "rgba(241,91,38,.8)",
-                        "rgba(252,176,59,.8)"
-                    ]
-                }]
-            };
-
-            var pieChart  = new Chart(ctx6,{
-                type: 'pie',
-                data: data6,
-                options: {
-                    animation: {
-                        duration:	3000
-                    },
-                    responsive: true,
-                    maintainAspectRatio:false,
-                    legend: {
-                        labels: {
-                        fontFamily: "Varela Round",
-                        fontColor:"#2f2c2c"
-                        }
-                    },
-                    tooltips: {
-                        backgroundColor:'rgba(47,44,44,.9)',
-                        cornerRadius:0,
-                        footerFontFamily:"'Varela Round'"
-                    }
-                }
-            });
+        //犯错量初始化
+         if( $('#proportion_of_fault').length > 0 ){
+             draw_pie_chart(name_lables, [300, 50, 100], "proportion_of_fault");
         }
+
+        //本月处理事件
+        var data_set = "{{manager_handle_event_data}}";
+        data_set = eval_str(data_set)[0];
+        if($('#morris_extra_bar_chart').length > 0){
+            // Morris bar chart
+            var manager_event_bar_chart = draw_barchart("morris_extra_bar_chart",data_set[1],'period',
+                ['msg_reply','product_h','order_h'],['消息处理数','商品处理数','订单处理数']);
+	    }
+
+	    $("#duration_ul_2 li input").click(function () {
+            var manager_id = parseInt($(this).attr("value"));
+            var m_data = data_set[manager_id];
+            manager_event_bar_chart.setData(m_data);
+        })
+    })
+
 
     </script>
 {% end %}
