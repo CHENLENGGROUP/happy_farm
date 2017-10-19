@@ -4,6 +4,7 @@
 $(document).ready(function () {
     $("#confirm_btn").click(function () {
 		var order_id = $(this).attr("data-content");
+		console.log(order_id)
     })
 });
 
