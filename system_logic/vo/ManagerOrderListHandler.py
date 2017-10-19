@@ -32,3 +32,19 @@ class BrowseOrderHandler(BaseHandler):
 
         except Exception as e:
             self.render('404.html',error_reason=e)
+
+
+class ConfirmOrderHandler(BaseHandler):
+
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+
+        if not self.get_login_status():
+            self.redirect('/managerlogin')
+            return
+
+        Manager
+        order_id = self.get_argument('order_id')
+        update_item = {''}
+        result = Manager().update_order({'order_id=':order_id}, )

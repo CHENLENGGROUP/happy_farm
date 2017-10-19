@@ -7,7 +7,7 @@
 {% block additional_css_after_style %}
 <style>
 .trash-icon{
-	color:red;
+	/*color:red;*/
 }
 .modify-icon{
 	margin-left:5px;
@@ -39,6 +39,7 @@
 									<tr>
 										<th>订单号</th>
 										<th>商品名字</th>
+										<th>商品类型</th>
 										<th>商品价格</th>
 										<th>商品数量</th>
 										<th>订单状态</th>
@@ -56,6 +57,15 @@
 										</td>
 										<td>
 											{{item['product_name']}}
+										</td>
+										<td>
+											{% if item['product_type'] == 0 %}
+											普通商品
+											{% elif item['product_type'] == 1 %}
+											领养商品
+											{% else %}
+											虚拟商品
+											{% end %}
 										</td>
 										<td>
 											{{item['product_price']}}
@@ -92,9 +102,9 @@
 											{{item['create_time']}}
 										</td>
 										<td id="operation">
-											<a href="#"><i class="icon-magnifier"></i></a>
-											<a href="#" data-toggle="modal" class="modify-icon"><i class="fa fa-pencil-square-o"></i></a>
-											<a href="#" class="trash-icon delete_manager" data-content=""><i class="fa fa-trash-o"></i></a>
+											<a href="#myModal_orderDetailInfo{{item['order_id']}}" data-toggle="modal" class="modify-icon"><i class="icon-magnifier"></i></a>
+											<a href="#" id="confirm_btn" data-content="{{item['order_id']}}"><i class="fa fa-thumb-tack"></i></a>
+											<a href="#" data-content="{{item['order_id']}}"><i class="fa fa-openid"></i></a>
 										</td>
 									</tr>
 									{% end %}
@@ -108,13 +118,237 @@
 	</div>
 
 </div>
+
+{% for item in order_list %}
+<div aria-hidden="true" role="dialog" tabindex="-1" id="myModal_orderDetailInfo{{item['order_id']}}" class="modal fade" style="display: none;">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+			<h4 class="modal-title">订单详细信息</h4>
+		</div>
+		<div class="modal-body ">
+			<form class="form-horizontal" role="form">
+				<div class="form-body">
+					<h6 class="txt-dark capitalize-font"><i class="fa fa-info mr-10"></i>订单详细信息</h6>
+					<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">订单号：</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['order_sn']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">商品名字：</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['product_name']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+					<!-- /Row -->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">商品单价:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['product_price']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">商品数量:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['product_quantity']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+					<!-- /Row -->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">订单总价:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['order_subtotal']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">额外信息:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['addition_info']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+					<!-- /Row -->
+					{% if item['product_type'] == 0 %}
+					<div class="seprator-block"></div>
+					<h6 class="txt-dark capitalize-font"><i class="icon-notebook mr-10"></i>收货地址</h6>
+					<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">详细地址:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['address_detail']}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">区域:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['district']}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">城市:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['city']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">省份:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['province']}}</p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+					<!-- /Row -->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">邮编:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['zipcode']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">国家:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['country']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+					<!-- /Row -->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">联系人名字:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['contact_name']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">联系人电话:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['contact_number']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+					{% end %}
+					<div class="seprator-block"></div>
+					<h6 class="txt-dark capitalize-font"><i class="icon-notebook mr-10"></i>订单日志</h6>
+					<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">下单时间:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['create_time']}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">确认时间:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['confirm_time']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">确认管理员:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> 待定</p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">发货时间:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> {{item['shipping_time']}} </p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-3">发货管理员:</label>
+								<div class="col-md-9">
+									<p class="form-control-static"> 待定</p>
+								</div>
+							</div>
+						</div>
+						<!--/span-->
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+{% end %}
 <!-- /Row -->
 {% end %}
 
 {% block additional_script %}
 <script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="../static/vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script src="../static/addtionalJS/action/OrderListAction.js"></script>
 <script>
-$(document).ready(function () {
-});
+
 </script>
 {% end %}
