@@ -892,3 +892,10 @@ class Manager:
         operate_type = 'select'
         result = de.operate_database(operate_type=operate_type,operate_condition=condition)
         return result
+
+    def update_order(self, condition, update_item):
+
+        de = DataBaseEngine('hf_order')
+        operate_type = 'update'
+        result = de.operate_database(operate_type=operate_type, operate_condition=condition,operate_item=update_item)
+        return result

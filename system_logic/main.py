@@ -114,6 +114,7 @@ class Application(tornado.web.Application):
             (r'/manageranalysis', ManagerAnalysisHandler.BrowseManagerAnalysisHandler),
             (r'/managerdeletemanager',ManagerInfoListHandler.DeleteManagerHandler),
             (r'/managerbrowseorder',ManagerOrderListHandler.BrowseOrderHandler),
+            (r'/managerupdateorder', ManagerOrderListHandler.ConfirmOrderHandler),
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), '../templates'),

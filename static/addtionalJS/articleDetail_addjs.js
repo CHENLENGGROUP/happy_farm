@@ -3,8 +3,8 @@ $(document).ready(function () {
     var content = "{{article_list[0]['content']}}";
     content = content.replace(/&lt;/g, "<");
     content = content.replace(/&gt;/g, ">");
-    <!--var html = "<textarea>"+content+"</textarea>"-->
-	<!--$('#articleDetail').append(html);-->
+    // <!--var html = "<textarea>"+content+"</textarea>"-->
+	// <!--$('#articleDetail').append(html);-->
 
 	$('#article_edit').click(function(){
 	    if($('.btn-text').html() == "编辑"){

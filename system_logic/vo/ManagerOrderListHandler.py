@@ -28,6 +28,7 @@ class BrowseOrderHandler(BaseHandler):
 
             order_list = Manager().get_order({'1=':1})
 
+            self.refresh_session()
             self.render('order_list.html',head_info=head_info, order_list=order_list)
 
         except Exception as e:
@@ -44,7 +45,13 @@ class ConfirmOrderHandler(BaseHandler):
             self.redirect('/managerlogin')
             return
 
-        Manager
         order_id = self.get_argument('order_id')
-        update_item = {''}
-        result = Manager().update_order({'order_id=':order_id}, )
+        update_item = {'order_status':1}
+        result = Manager().update_order({'order_id=':order_id}, update_item)
+
+        if result == -1:
+            reMsg = {'ret':setting.re_code['connect_error']}
+        else:
+            reMsg = {'ret':setting.re_code['success']}
+
+        self.write(reMsg)

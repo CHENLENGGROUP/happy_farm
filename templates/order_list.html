@@ -103,8 +103,12 @@
 										</td>
 										<td id="operation">
 											<a href="#myModal_orderDetailInfo{{item['order_id']}}" data-toggle="modal" class="modify-icon"><i class="icon-magnifier"></i></a>
-											<a href="#" class="modify-icon" id="confirm_btn" data-content="{{item['order_id']}}"><i class="fa fa-thumb-tack"></i></a>
-											<a href="#" class="modify-icon" data-content="{{item['order_id']}}"><i class="fa fa-openid"></i></a>
+											{% if item['order_status']==0 %}
+											<a href="#" class="modify-icon confirm_btn" data-content="{{item['order_id']}}"><i class="fa fa-thumb-tack"></i></a>
+											{% else %}
+											<a href="#" class="modify-icon confirmed_btn" data-content="{{item['order_id']}}"><i class="fa fa-thumb-tack"></i></a>
+											{% end %}
+											<a href="#" class="modify-icon shipping_btn" data-content="{{item['order_id']}}"><i class="fa fa-openid"></i></a>
 										</td>
 									</tr>
 									{% end %}
@@ -307,7 +311,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-3">确认管理员:</label>
 								<div class="col-md-9">
-									<p class="form-control-static"> 待定</p>
+									<p class="form-control-static"> {{item['confirm_name']}}</p>
 								</div>
 							</div>
 						</div>
@@ -327,7 +331,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-3">发货管理员:</label>
 								<div class="col-md-9">
-									<p class="form-control-static"> 待定</p>
+									<p class="form-control-static"> {{item['shipping_name']}}</p>
 								</div>
 							</div>
 						</div>
@@ -347,6 +351,7 @@
 {% block additional_script %}
 <script src="../static/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 <script src="../static/vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script src="../static/addtionalJS/action/recode_global.js"></script>
 <script src="../static/addtionalJS/action/OrderListAction.js"></script>
 <script>
 
